@@ -40,8 +40,8 @@ export default function Home() {
         </div>
       </div>
       <div className={listWrapper}>
-        {STYLE_LIST.map((el) => (
-          <StylePreviewSection key={el.id} id={el.id} name={el.name} columnCount={columnCount} />
+        {STYLE_LIST.map((style) => (
+          <StylePreviewSection key={style.id} styleInfo={style} columnCount={columnCount} />
         ))}
       </div>
     </div>

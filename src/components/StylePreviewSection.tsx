@@ -8,21 +8,25 @@ import { compressImage, fileToBase64 } from '@/utils/imageHelper'
 import { css } from '@styled-system/css'
 
 interface StylePreviewSectionProps {
-  id: string
-  name: string
+  styleInfo: {
+    id: string
+    name: string
+    src: string
+    config: Record<string, any>
+  }
   columnCount: number
 }
 
-export const StylePreviewSection = ({ id, name, columnCount }: StylePreviewSectionProps) => {
+export const StylePreviewSection = ({ styleInfo, columnCount }: StylePreviewSectionProps) => {
   const setUploadedData = useSetRecoilState(uploadedDataState)
   const router = useRouter()
 
-  const onUpload = async (e: ChangeEvent<HTMLInputElement>, styleId: string) => {
+  const onUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files as FileList
     if (!files.length) return
     const file = await compressImage(files[0])
     setUploadedData({
-      styleId,
+      styleId: styleInfo.id,
       base64: await fileToBase64(file),
     })
     router.push('/result')
@@ -30,17 +34,17 @@ export const StylePreviewSection = ({ id, name, columnCount }: StylePreviewSecti
 
   return (
     <div className={container} style={{ width: `${(1 / columnCount) * 100 - 2}%` }}>
-      <div className={imageBox}></div>
+      <div className={imageBox} style={{ backgroundImage: `url('${styleInfo.src}')` }}></div>
       <div className={titleWrapper}>
-        <div className={title}>{name}</div>
+        <div className={title}>{styleInfo.name}</div>
         <input
           type="file"
           accept="image/jpg,image/jpeg,image/png,image/heic"
-          id={`file-input-${id}`}
-          onChange={(e) => onUpload(e, id)}
+          id={`file-input-${styleInfo.id}`}
+          onChange={onUpload}
           className={fileInput}
         />
-        <label htmlFor={`file-input-${id}`} className={tryButton}>
+        <label htmlFor={`file-input-${styleInfo.id}`} className={tryButton}>
           try
         </label>
       </div>
@@ -65,7 +69,7 @@ const imageBox = css({
   w: '100%',
   h: '320px',
   rounded: '25px',
-  bg: 'gray.100',
+  bg: 'no-repeat center / 100% auto',
 })
 
 const titleWrapper = css({
