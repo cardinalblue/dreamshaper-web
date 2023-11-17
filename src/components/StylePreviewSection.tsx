@@ -10,9 +10,10 @@ import { css } from '@styled-system/css'
 interface StylePreviewSectionProps {
   id: string
   name: string
+  columnCount: number
 }
 
-export const StylePreviewSection = ({ id, name }: StylePreviewSectionProps) => {
+export const StylePreviewSection = ({ id, name, columnCount }: StylePreviewSectionProps) => {
   const setUploadedData = useSetRecoilState(uploadedDataState)
   const router = useRouter()
 
@@ -28,7 +29,7 @@ export const StylePreviewSection = ({ id, name }: StylePreviewSectionProps) => {
   }
 
   return (
-    <div className={container}>
+    <div className={container} style={{ width: `${(1 / columnCount) * 100 - 2}%` }}>
       <div className={imageBox}></div>
       <div className={titleWrapper}>
         <div className={title}>{name}</div>
@@ -39,7 +40,7 @@ export const StylePreviewSection = ({ id, name }: StylePreviewSectionProps) => {
           onChange={(e) => onUpload(e, id)}
           className={fileInput}
         />
-        <label htmlFor={`file-input-${id}`} className={fileLabel}>
+        <label htmlFor={`file-input-${id}`} className={tryButton}>
           try
         </label>
       </div>
@@ -48,12 +49,13 @@ export const StylePreviewSection = ({ id, name }: StylePreviewSectionProps) => {
 }
 
 const container = css({
-  w: '357px',
+  maxW: '357px',
   h: '418px',
   p: '4',
   rounded: '3xl',
-  bg: 'rgba(88, 94, 112, 0.40)',
+  bg: 'rgba(220, 212, 203, 0.40)',
   boxShadow: '0px 10px 50px 0px rgba(7, 23, 35, 0.30)',
+  backdropFilter: 'blur(5px)',
   display: 'flex',
   flexDirection: 'column',
   gap: '3',
@@ -76,21 +78,21 @@ const titleWrapper = css({
 })
 
 const title = css({
-  color: '#E4E4E7',
+  color: '#484851',
 })
 
 const fileInput = css({
   display: 'none',
 })
 
-const fileLabel = css({
+const tryButton = css({
   w: '82px',
   h: '50px',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
   rounded: '14px',
-  bg: 'linear-gradient(94deg, #6AD9E8 -48.91%, #576EE5 140.66%)',
+  bg: 'linear-gradient(94deg, #4D6639 -48.91%, #758369 140.64%, #687C57 140.66%)',
   fontSize: '18px',
   textTransform: 'uppercase',
   color: '#FAFAFA',
