@@ -5,4 +5,26 @@ html {
 }
 body {
   background: url(/images/bg.png) no-repeat center / cover fixed;
+  font-family: 'Averta PE', sans-serif;
+}
+
+@font-face {
+  font-family: 'Averta PE';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/AvertaPE-Regular.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Averta PE';
+  font-style: normal;
+  font-weight: 600;
+  src: url('/fonts/AvertaPE-Semibold.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Averta PE';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/fonts/AvertaPE-Bold.otf') format('opentype');
 }

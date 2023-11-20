@@ -1,9 +1,10 @@
 'use client'
 
 import { css } from '@styled-system/css'
-import { StylePreviewSection } from '@/components/StylePreviewSection'
 import { STYLE_LIST } from '@/utils/constants'
 import { useEffect, useState } from 'react'
+import { StylePreviewSection } from '@/components/StylePreviewSection'
+import { TitleDecoIcon } from '@/components/icons/TitleDecoIcon'
 
 export default function Home() {
   const [columnCount, setColumnCount] = useState(3)
@@ -30,7 +31,12 @@ export default function Home() {
       </div>
       <div className={main}>
         <div className={titleWrapper}>
-          <div className={title}>Style Transfer</div>
+          <div className={title}>
+            <div className={titleFirstLine}>
+              Style <TitleDecoIcon />
+            </div>
+            Transfer
+          </div>
           <div className={subtitle}>
             Turn your image into something magical with ease.
             <br />
@@ -96,6 +102,13 @@ const title = css({
   fontWeight: '500',
   lineHeight: '100px',
   letterSpacing: '2px',
+  // fontFamily: 'Recoleta',
+})
+
+const titleFirstLine = css({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '15px',
 })
 
 const subtitle = css({
