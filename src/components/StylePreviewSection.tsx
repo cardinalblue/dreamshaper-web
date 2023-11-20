@@ -23,7 +23,11 @@ export const StylePreviewSection = ({ styleInfo, columnCount }: StylePreviewSect
   const onUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files as FileList
     if (!files.length) return
-    const file = await compressImage(files[0])
+    let file = files[0]
+    // compress image if size > 1MB
+    if (file.size > 1024 * 1024) {
+      file = await compressImage(files[0], 1500)
+    }
     setUserImage({
       styleInfo,
       uploadedImage: await fileToBase64(file),
