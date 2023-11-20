@@ -1,3 +1,5 @@
+const MAX_INPUT_SIZE = 1080
+
 export const STYLE_LIST = [
   {
     id: 'watercolor',
@@ -11,7 +13,7 @@ export const STYLE_LIST = [
       num_inference_steps: 8,
       strength: 0.5,
       guidance_scale: 10,
-      max_dim_of_input: 768,
+      max_dim_of_input: MAX_INPUT_SIZE,
       controlnet_conditioning_scale: 1,
       face_mask_threshold: 0.98,
     },
@@ -27,6 +29,9 @@ export const STYLE_LIST = [
       num_inference_steps: 8,
       strength: 0.9,
       guidance_scale: 10,
+      max_dim_of_input: MAX_INPUT_SIZE,
+      controlnet_conditioning_scale: 1,
+      face_mask_threshold: 0.98,
     },
   },
   {
@@ -40,6 +45,9 @@ export const STYLE_LIST = [
       num_inference_steps: 8,
       strength: 0.9,
       guidance_scale: 10,
+      max_dim_of_input: MAX_INPUT_SIZE,
+      controlnet_conditioning_scale: 1,
+      face_mask_threshold: 0.98,
     },
   },
   {
@@ -54,6 +62,9 @@ export const STYLE_LIST = [
       num_inference_steps: 8,
       strength: 0.9,
       guidance_scale: 10,
+      max_dim_of_input: MAX_INPUT_SIZE,
+      controlnet_conditioning_scale: 1,
+      face_mask_threshold: 0.98,
     },
   },
   {
@@ -67,6 +78,9 @@ export const STYLE_LIST = [
       num_inference_steps: 8,
       strength: 0.9,
       guidance_scale: 10,
+      max_dim_of_input: MAX_INPUT_SIZE,
+      controlnet_conditioning_scale: 1,
+      face_mask_threshold: 0.98,
     },
   },
   {
@@ -81,6 +95,9 @@ export const STYLE_LIST = [
       num_inference_steps: 8,
       strength: 0.9,
       guidance_scale: 10,
+      max_dim_of_input: MAX_INPUT_SIZE,
+      controlnet_conditioning_scale: 1,
+      face_mask_threshold: 0.98,
     },
   },
 ]

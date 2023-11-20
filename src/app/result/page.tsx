@@ -66,7 +66,9 @@ export default function Result() {
         <div className={logo}></div>
       </div>
       <div className={header}>
-        <div className={styleName}>{styleInfo?.name}</div>
+        <div className={styleName} onClick={handleStyleTransfer}>
+          {styleInfo?.name}
+        </div>
         <div onClick={onGoBack} className={button}>
           Try another style
         </div>
