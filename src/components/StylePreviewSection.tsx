@@ -2,10 +2,9 @@
 
 import React, { ChangeEvent } from 'react'
 import { useRouter } from 'next/navigation'
-import { useSetRecoilState } from 'recoil'
-import { uploadedDataState } from '@/app/RecoilProvider'
 import { compressImage, fileToBase64 } from '@/utils/imageHelper'
 import { css } from '@styled-system/css'
+import { useUserImageStore } from '@/store'
 
 interface StylePreviewSectionProps {
   styleInfo: {
@@ -18,16 +17,16 @@ interface StylePreviewSectionProps {
 }
 
 export const StylePreviewSection = ({ styleInfo, columnCount }: StylePreviewSectionProps) => {
-  const setUploadedData = useSetRecoilState(uploadedDataState)
+  const { setUserImage } = useUserImageStore()
   const router = useRouter()
 
   const onUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files as FileList
     if (!files.length) return
     const file = await compressImage(files[0])
-    setUploadedData({
+    setUserImage({
       styleInfo,
-      base64: await fileToBase64(file),
+      uploadedImage: await fileToBase64(file),
     })
     router.push('/result')
   }

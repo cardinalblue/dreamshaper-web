@@ -13,7 +13,7 @@
     "next": "14.0.2",
     "react": "^18",
     "react-dom": "^18",
-    "recoil": "^0.7.7"
+    "zustand": "^4.4.6"
   },
   "devDependencies": {
     "@pandacss/dev": "^0.18.2",

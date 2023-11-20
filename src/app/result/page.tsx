@@ -2,14 +2,13 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useRecoilState } from 'recoil'
-import { uploadedDataState } from '@/app/RecoilProvider'
 import { css } from '@styled-system/css'
 import Image from 'next/image'
 import { getImageDimensions } from '@/utils/imageHelper'
+import { useUserImageStore } from '@/store'
 
 export default function Result() {
-  const [uploadedData, setUploadedData] = useRecoilState(uploadedDataState)
+  const { styleInfo, uploadedImage, resetUserImage } = useUserImageStore()
   const [isLoading, setIsLoading] = useState(false)
   const [resultImage, setResultImage] = useState('')
   const [imageSize, setImageSize] = useState({ width: 0, height: 0 })
@@ -19,8 +18,8 @@ export default function Result() {
   const handleStyleTransfer = async () => {
     try {
       setIsLoading(true)
-      const config = uploadedData?.styleInfo?.config ?? {}
-      const initial_image_b64 = uploadedData?.base64 ?? ''
+      const config = styleInfo?.config ?? {}
+      const initial_image_b64 = uploadedImage ?? ''
       const res = await fetch('/api/style-transfer', {
         method: 'POST',
         body: JSON.stringify({ instances: [{ initial_image_b64, config }] }),
@@ -52,12 +51,12 @@ export default function Result() {
   }
 
   useEffect(() => {
-    if (uploadedData) {
-      initImageSize(uploadedData.base64)
+    if (uploadedImage && styleInfo) {
+      initImageSize(uploadedImage)
       handleStyleTransfer()
     }
     return () => {
-      setUploadedData(null) // reset
+      resetUserImage()
     }
   }, [])
 
@@ -67,16 +66,16 @@ export default function Result() {
         <div className={logo}></div>
       </div>
       <div className={header}>
-        <div className={styleName}>{uploadedData?.styleInfo?.name}</div>
+        <div className={styleName}>{styleInfo?.name}</div>
         <div onClick={onGoBack} className={button}>
           Try another style
         </div>
       </div>
 
-      {uploadedData && imageSize.width && (
+      {uploadedImage && imageSize.width && (
         <div className={resultImageWrapper} style={{ ...imageSize }}>
           <Image
-            src={isLoading ? uploadedData?.base64 ?? '' : resultImage}
+            src={isLoading ? uploadedImage ?? '' : resultImage}
             alt=""
             width={imageSize.width}
             height={imageSize.height}
