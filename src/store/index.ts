@@ -7,20 +7,26 @@ interface UserImageState {
     src: string
     config: Record<string, any>
   } | null
-  file: File | null
-  base64Image: string // base64 string
-  setUserImage: (state: {
-    styleInfo: UserImageState['styleInfo']
-    file: UserImageState['file']
-    base64Image: UserImageState['base64Image']
+  uploadedFile: File | null
+  originalImage: string // base64 string
+  resultImage: string // base64 string
+  setSelectedStyle: (styleInfo: UserImageState['styleInfo']) => void
+  setUploadedImage: (state: {
+    uploadedFile: UserImageState['uploadedFile']
+    originalImage: UserImageState['originalImage']
   }) => void
-  resetUserImage: () => void
+  setResultImage: (resultImage: UserImageState['resultImage']) => void
+  resetUserImageData: () => void
 }
 
 export const useUserImageStore = create<UserImageState>((set) => ({
   styleInfo: null,
-  file: null,
-  base64Image: '',
-  setUserImage: ({ styleInfo, file, base64Image }) => set({ styleInfo, file, base64Image }),
-  resetUserImage: () => set({ styleInfo: null, file: null, base64Image: '' }),
+  uploadedFile: null,
+  originalImage: '',
+  resultImage: '',
+  setSelectedStyle: (styleInfo) => set({ styleInfo }),
+  setUploadedImage: ({ uploadedFile, originalImage }) => set({ uploadedFile, originalImage }),
+  setResultImage: (resultImage) => set({ resultImage }),
+  resetUserImageData: () =>
+    set({ styleInfo: null, uploadedFile: null, originalImage: '', resultImage: '' }),
 }))

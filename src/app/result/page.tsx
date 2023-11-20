@@ -2,22 +2,19 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { css } from '@styled-system/css'
+import { css, cva } from '@styled-system/css'
 import Image from 'next/image'
 import { getImageDimensions } from '@/utils/imageHelper'
 import { useUserImageStore } from '@/store'
+import { HomeIcon } from '@/components/icons/HomeIcon'
+import { DownloadIcon } from '@/components/icons/DownloadIcon'
 
 const MAX_IMAGE_SIZE = 800
 
 export default function Result() {
-  const {
-    styleInfo,
-    base64Image: originalImageSrc,
-    file: originalFile,
-    resetUserImage,
-  } = useUserImageStore()
+  const { styleInfo, originalImage, resultImage, uploadedFile, setResultImage } =
+    useUserImageStore()
   const [isLoading, setIsLoading] = useState(false)
-  const [resultImageSrc, setResultImageSrc] = useState('') // base64 string
   const [imageSize, setImageSize] = useState({ width: 0, height: 0 })
 
   const router = useRouter()
@@ -26,14 +23,14 @@ export default function Result() {
     try {
       setIsLoading(true)
       const config = styleInfo?.config ?? {}
-      const initial_image_b64 = originalImageSrc ?? ''
+      const initial_image_b64 = originalImage ?? ''
       const res = await fetch('/api/style-transfer', {
         method: 'POST',
         body: JSON.stringify({ instances: [{ initial_image_b64, config }] }),
       })
       const data = await res.json()
       const newImage = data.predictions[0].stylized_image_b64
-      setResultImageSrc(newImage)
+      setResultImage(newImage)
     } catch (error) {
       console.debug('error', error)
     } finally {
@@ -46,10 +43,11 @@ export default function Result() {
   }
 
   const onSave = () => {
+    if (isLoading) return
     const link = document.createElement('a')
-    link.href = resultImageSrc
-    const fileName = originalFile?.name.split('.').slice(0, -1).join('.')
-    const type = originalFile?.type.split('/')[1]
+    link.href = resultImage
+    const fileName = uploadedFile?.name.split('.').slice(0, -1).join('.')
+    const type = uploadedFile?.type.split('/')[1]
     link.download = `${fileName}_${styleInfo?.id}.${type}`
     link.click()
   }
@@ -66,12 +64,9 @@ export default function Result() {
   }
 
   useEffect(() => {
-    if (originalImageSrc && styleInfo) {
-      initImageSize(originalImageSrc)
+    if (originalImage && !resultImage) {
+      initImageSize(originalImage)
       handleStyleTransfer()
-    }
-    return () => {
-      // resetUserImage()
     }
   }, [])
 
@@ -80,18 +75,24 @@ export default function Result() {
       <div className={card}>
         <div className={styleName}>{styleInfo?.name}</div>
         <div className={buttonGroup}>
-          <div onClick={onSave} className={button}>
+          <div
+            onClick={onSave}
+            data-disabled={isLoading ? 'true' : null}
+            className={css(buttonRecipe.raw({ theme: 'dark' }))}
+          >
+            <DownloadIcon />
             Download
           </div>
-          <div onClick={onGoBack} className={button}>
+          <div onClick={onGoBack} className={css(buttonRecipe.raw({ theme: 'light' }))}>
+            <HomeIcon />
             Try another style
           </div>
         </div>
 
-        {originalImageSrc && imageSize.width && (
+        {originalImage && imageSize.width && (
           <div className={resultImageWrapper} style={{ ...imageSize }}>
             <Image
-              src={isLoading ? originalImageSrc ?? '' : resultImageSrc}
+              src={isLoading ? originalImage ?? '' : resultImage}
               alt=""
               width={imageSize.width}
               height={imageSize.height}
@@ -113,7 +114,7 @@ const container = css({
 })
 
 const card = css({
-  maxW: '800px',
+  maxW: '848px',
   p: '24px',
   m: '0 auto',
   bgColor: '#F5F1EA',
@@ -138,19 +139,36 @@ const buttonGroup = css({
   gap: '12px',
 })
 
-const button = css({
-  cursor: 'pointer',
-  p: '14px 24px',
-  color: '#484851',
-  bgColor: '#D9D2BF',
-  rounded: '14px',
-  fontSize: '18px',
-  fontWeight: 'bold',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  gap: '8px',
-  transition: 'all 0.3s',
+const buttonRecipe = cva({
+  base: {
+    cursor: 'pointer',
+    p: '14px 24px',
+    rounded: '14px',
+    fontSize: '18px',
+    fontWeight: 'bold',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '8px',
+    transition: 'all 0.3s',
+  },
+  variants: {
+    theme: {
+      light: {
+        color: '#484851',
+        bgColor: '#D9D2BF',
+      },
+      dark: {
+        color: '#FAFAFA',
+        bg: 'linear-gradient(94deg, #4D6639 -48.91%, #758369 140.64%, #687C57 140.66%)',
+        _disabled: {
+          cursor: 'not-allowed',
+          // opacity 0.3
+          bg: 'linear-gradient(94deg, #4D66394d -48.91%, #7583694d 140.64%, #687C574d 140.66%)',
+        },
+      },
+    },
+  },
 })
 
 const resultImageWrapper = css({

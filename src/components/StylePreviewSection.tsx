@@ -17,7 +17,7 @@ interface StylePreviewSectionProps {
 }
 
 export const StylePreviewSection = ({ styleInfo, columnCount }: StylePreviewSectionProps) => {
-  const { setUserImage } = useUserImageStore()
+  const { setUploadedImage, setSelectedStyle } = useUserImageStore()
   const router = useRouter()
 
   const onUpload = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -28,10 +28,10 @@ export const StylePreviewSection = ({ styleInfo, columnCount }: StylePreviewSect
     if (file.size > 1024 * 1024) {
       file = await compressImage(files[0])
     }
-    setUserImage({
-      styleInfo,
-      file,
-      base64Image: await fileToBase64(file),
+    setSelectedStyle(styleInfo)
+    setUploadedImage({
+      uploadedFile: file,
+      originalImage: await fileToBase64(file),
     })
     router.push('/result')
   }
