@@ -26,11 +26,12 @@ export const StylePreviewSection = ({ styleInfo, columnCount }: StylePreviewSect
     let file = files[0]
     // compress image if size > 1MB
     if (file.size > 1024 * 1024) {
-      file = await compressImage(files[0], 1500)
+      file = await compressImage(files[0])
     }
     setUserImage({
       styleInfo,
-      uploadedImage: await fileToBase64(file),
+      file,
+      base64Image: await fileToBase64(file),
     })
     router.push('/result')
   }
@@ -57,15 +58,15 @@ export const StylePreviewSection = ({ styleInfo, columnCount }: StylePreviewSect
 
 const container = css({
   maxW: '357px',
-  h: '418px',
-  p: '4',
-  rounded: '3xl',
+  h: '420px',
+  p: '16px',
+  rounded: '25px',
   bg: 'rgba(220, 212, 203, 0.40)',
   boxShadow: '0px 10px 50px 0px rgba(7, 23, 35, 0.30)',
   backdropFilter: 'blur(5px)',
   display: 'flex',
   flexDirection: 'column',
-  gap: '3',
+  gap: '12px',
 })
 
 const imageBox = css({

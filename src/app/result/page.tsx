@@ -7,10 +7,17 @@ import Image from 'next/image'
 import { getImageDimensions } from '@/utils/imageHelper'
 import { useUserImageStore } from '@/store'
 
+const MAX_IMAGE_SIZE = 800
+
 export default function Result() {
-  const { styleInfo, uploadedImage, resetUserImage } = useUserImageStore()
+  const {
+    styleInfo,
+    base64Image: originalImageSrc,
+    file: originalFile,
+    resetUserImage,
+  } = useUserImageStore()
   const [isLoading, setIsLoading] = useState(false)
-  const [resultImage, setResultImage] = useState('')
+  const [resultImageSrc, setResultImageSrc] = useState('') // base64 string
   const [imageSize, setImageSize] = useState({ width: 0, height: 0 })
 
   const router = useRouter()
@@ -19,14 +26,14 @@ export default function Result() {
     try {
       setIsLoading(true)
       const config = styleInfo?.config ?? {}
-      const initial_image_b64 = uploadedImage ?? ''
+      const initial_image_b64 = originalImageSrc ?? ''
       const res = await fetch('/api/style-transfer', {
         method: 'POST',
         body: JSON.stringify({ instances: [{ initial_image_b64, config }] }),
       })
       const data = await res.json()
       const newImage = data.predictions[0].stylized_image_b64
-      setResultImage(newImage)
+      setResultImageSrc(newImage)
     } catch (error) {
       console.debug('error', error)
     } finally {
@@ -38,12 +45,20 @@ export default function Result() {
     router.push('/')
   }
 
+  const onSave = () => {
+    const link = document.createElement('a')
+    link.href = resultImageSrc
+    const fileName = originalFile?.name.split('.').slice(0, -1).join('.')
+    const type = originalFile?.type.split('/')[1]
+    link.download = `${fileName}_${styleInfo?.id}.${type}`
+    link.click()
+  }
+
   const initImageSize = async (image: string) => {
     const size = await getImageDimensions(image)
     const currentMaxSize = Math.max(size.width, size.height)
-    const maxSize = 500
-    if (currentMaxSize > maxSize) {
-      const ratio = maxSize / currentMaxSize
+    if (currentMaxSize > MAX_IMAGE_SIZE) {
+      const ratio = MAX_IMAGE_SIZE / currentMaxSize
       size.width = size.width * ratio
       size.height = size.height * ratio
     }
@@ -51,93 +66,100 @@ export default function Result() {
   }
 
   useEffect(() => {
-    if (uploadedImage && styleInfo) {
-      initImageSize(uploadedImage)
+    if (originalImageSrc && styleInfo) {
+      initImageSize(originalImageSrc)
       handleStyleTransfer()
     }
     return () => {
-      resetUserImage()
+      // resetUserImage()
     }
   }, [])
 
   return (
     <div className={container}>
-      <div className={navbar}>
-        <div className={logo}></div>
-      </div>
-      <div className={header}>
-        <div className={styleName} onClick={handleStyleTransfer}>
-          {styleInfo?.name}
+      <div className={card}>
+        <div className={styleName}>{styleInfo?.name}</div>
+        <div className={buttonGroup}>
+          <div onClick={onSave} className={button}>
+            Download
+          </div>
+          <div onClick={onGoBack} className={button}>
+            Try another style
+          </div>
         </div>
-        <div onClick={onGoBack} className={button}>
-          Try another style
-        </div>
-      </div>
 
-      {uploadedImage && imageSize.width && (
-        <div className={resultImageWrapper} style={{ ...imageSize }}>
-          <Image
-            src={isLoading ? uploadedImage ?? '' : resultImage}
-            alt=""
-            width={imageSize.width}
-            height={imageSize.height}
-            style={{ transition: 'all 0.3s' }}
-          />
-          {isLoading && <div className={loadingMask} />}
-        </div>
-      )}
+        {originalImageSrc && imageSize.width && (
+          <div className={resultImageWrapper} style={{ ...imageSize }}>
+            <Image
+              src={isLoading ? originalImageSrc ?? '' : resultImageSrc}
+              alt=""
+              width={imageSize.width}
+              height={imageSize.height}
+              style={{ transition: 'all 0.3s' }}
+            />
+            {isLoading && <div className={loadingMask} />}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
 
 const container = css({
   minH: '100vh',
-  maxW: '1136px',
+  maxW: '1280px',
   m: '0 auto',
-  p: '24px 32px 32px 32px',
+  p: '24px 72px 32px 72px',
 })
 
-const navbar = css({
+const card = css({
+  maxW: '800px',
+  p: '24px',
+  m: '0 auto',
+  bgColor: '#F5F1EA',
+  boxShadow: '5px 10px 20px 0px rgba(52, 52, 52, 0.15)',
+  rounded: '25px',
   display: 'flex',
+  flexDirection: 'column',
   alignItems: 'center',
-})
-
-const logo = css({
-  w: '216px',
-  h: '44px',
-  bg: '#9CA991',
-  borderRadius: '10px',
-})
-
-const header = css({
-  mt: '32px',
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
+  gap: '24px',
 })
 
 const styleName = css({
-  fontSize: '36px',
+  fontSize: '32px',
   fontWeight: 'bold',
   color: '#484851',
 })
 
+const buttonGroup = css({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: '12px',
+})
+
 const button = css({
   cursor: 'pointer',
-  p: '12px 32px',
-  color: '#FAFAFA',
-  bg: 'linear-gradient(94deg, #F08A41 -48.91%, #E57748 138.69%)',
-  borderRadius: '14px',
+  p: '14px 24px',
+  color: '#484851',
+  bgColor: '#D9D2BF',
+  rounded: '14px',
+  fontSize: '18px',
   fontWeight: 'bold',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: '8px',
+  transition: 'all 0.3s',
 })
 
 const resultImageWrapper = css({
-  m: '32px auto 0 auto',
+  m: '0 auto',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
   position: 'relative',
-  borderRadius: '14px',
+  rounded: '20px',
   overflow: 'hidden',
 })
 
@@ -156,7 +178,7 @@ const loadingMask = css({
     w: '30px',
     h: '30px',
     border: '3px solid #000',
-    borderRadius: '50%',
+    rounded: '50%',
     borderTopColor: 'transparent',
     animation: 'loadingSpin 0.8s linear infinite',
   },

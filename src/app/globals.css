@@ -1,5 +1,8 @@
 @layer reset, base, tokens, recipes, utilities;
 
+html {
+  background-color: #f3f0e8;
+}
 body {
   background: url(/images/bg.png) no-repeat center / cover fixed;
 }

@@ -49,31 +49,30 @@ export default function Home() {
 }
 
 const container = css({
-  p: '32px',
+  maxW: '1280px',
+  p: '16px 72px 32px',
+  m: '0 auto',
 })
 
 const navbar = css({
-  maxW: '1136px',
   h: '54px',
   m: '0 auto',
   p: '0 44px',
-  bg: 'rgba(239, 236, 224, 0.70)',
-  boxShadow: '0px 10px 25px 0px rgba(7, 23, 35, 0.15)',
-  backdropFilter: 'blur(2.5px)',
-  borderRadius: '12px',
+  bgColor: '#F3F0E8',
+  boxShadow: '0px 10px 25px 0px rgba(7, 23, 35, 0.10)',
+  rounded: '12px',
   display: 'flex',
   alignItems: 'center',
 })
 
 const logo = css({
-  w: '216px',
+  w: '270px',
   h: '44px',
-  bg: '#9CA991',
-  borderRadius: '10px',
+  bg: '#CFCBB7',
+  rounded: '10px',
 })
 
 const main = css({
-  maxW: '1136px',
   h: '550px',
   m: '0 auto',
   display: 'flex',
@@ -88,18 +87,20 @@ const visual = css({
 })
 
 const titleWrapper = css({
-  w: '448px',
+  w: '457px',
   color: '#484851',
 })
 
 const title = css({
-  fontSize: '65px',
-  fontWeight: 'bold',
+  fontSize: '80px',
+  fontWeight: '500',
+  lineHeight: '100px',
+  letterSpacing: '2px',
 })
 
 const subtitle = css({
-  lineHeight: '30px',
   fontSize: '18px',
+  lineHeight: '28px',
 })
 
 const listWrapper = css({
