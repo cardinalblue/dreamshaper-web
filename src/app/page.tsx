@@ -30,12 +30,11 @@ export default function Home() {
       </div>
       <div className={main}>
         <div className={titleWrapper}>
-          <div className={title}>PIC MAGIC</div>
+          <div className={title}>Style Transfer</div>
           <div className={subtitle}>
-            Turn your photos from ordinary to extraordinary with our platform{"'"}s limitless
-            creative options.
+            Turn your image into something magical with ease.
             <br />
-            Easily experiment with various styles in just a few clicks.
+            Just choose the style, upload your photo, and there you go.
           </div>
         </div>
         <div className={visual}></div>
@@ -79,6 +78,7 @@ const main = css({
   m: '0 auto',
   display: 'flex',
   alignItems: 'center',
+  justifyContent: 'space-between',
 })
 
 const visual = css({
@@ -88,16 +88,18 @@ const visual = css({
 })
 
 const titleWrapper = css({
-  w: '457px',
+  w: '448px',
   color: '#484851',
 })
 
 const title = css({
-  fontSize: '80px',
+  fontSize: '65px',
+  fontWeight: 'bold',
 })
 
 const subtitle = css({
-  lineHeight: '28px',
+  lineHeight: '30px',
+  fontSize: '18px',
 })
 
 const listWrapper = css({
