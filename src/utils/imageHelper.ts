@@ -46,3 +46,15 @@ export const fileToBase64 = (file: File): Promise<string> => {
     reader.onabort = (error) => reject(error)
   })
 }
+
+export const getImageDimensions = (base64: string): Promise<{ width: number; height: number }> => {
+  return new Promise((resolve) => {
+    const img = new Image()
+    img.src = base64
+    img.onload = () => {
+      const width = img.naturalWidth || img.width
+      const height = img.naturalHeight || img.height
+      resolve({ width, height })
+    }
+  })
+}

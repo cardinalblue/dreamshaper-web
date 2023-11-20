@@ -4,7 +4,12 @@ import React from 'react'
 import { RecoilRoot, atom } from 'recoil'
 
 export interface UploadedDataType {
-  styleId: string
+  styleInfo: {
+    id: string
+    name: string
+    src: string
+    config: Record<string, any>
+  }
   base64: string
 }
 

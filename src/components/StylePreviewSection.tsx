@@ -26,7 +26,7 @@ export const StylePreviewSection = ({ styleInfo, columnCount }: StylePreviewSect
     if (!files.length) return
     const file = await compressImage(files[0])
     setUploadedData({
-      styleId: styleInfo.id,
+      styleInfo,
       base64: await fileToBase64(file),
     })
     router.push('/result')

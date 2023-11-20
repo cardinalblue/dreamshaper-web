@@ -38,6 +38,7 @@ export default function Home() {
             Easily experiment with various styles in just a few clicks.
           </div>
         </div>
+        <div className={visual}></div>
       </div>
       <div className={listWrapper}>
         {STYLE_LIST.map((style) => (
@@ -80,8 +81,15 @@ const main = css({
   alignItems: 'center',
 })
 
+const visual = css({
+  w: '640px',
+  h: '500px',
+  bg: 'url(/images/hero_visual.png) no-repeat center / contain',
+})
+
 const titleWrapper = css({
   w: '457px',
+  color: '#484851',
 })
 
 const title = css({

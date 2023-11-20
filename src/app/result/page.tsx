@@ -5,19 +5,21 @@ import { useRouter } from 'next/navigation'
 import { useRecoilState } from 'recoil'
 import { uploadedDataState } from '@/app/RecoilProvider'
 import { css } from '@styled-system/css'
-import { STYLE_LIST } from '@/utils/constants'
+import Image from 'next/image'
+import { getImageDimensions } from '@/utils/imageHelper'
 
 export default function Result() {
   const [uploadedData, setUploadedData] = useRecoilState(uploadedDataState)
   const [isLoading, setIsLoading] = useState(false)
   const [resultImage, setResultImage] = useState('')
+  const [imageSize, setImageSize] = useState({ width: 0, height: 0 })
 
   const router = useRouter()
 
   const handleStyleTransfer = async () => {
     try {
       setIsLoading(true)
-      const config = STYLE_LIST.find((el) => el.id === uploadedData?.styleId)?.config ?? {}
+      const config = uploadedData?.styleInfo?.config ?? {}
       const initial_image_b64 = uploadedData?.base64 ?? ''
       const res = await fetch('/api/style-transfer', {
         method: 'POST',
@@ -37,8 +39,21 @@ export default function Result() {
     router.push('/')
   }
 
+  const initImageSize = async (image: string) => {
+    const size = await getImageDimensions(image)
+    const currentMaxSize = Math.max(size.width, size.height)
+    const maxSize = 500
+    if (currentMaxSize > maxSize) {
+      const ratio = maxSize / currentMaxSize
+      size.width = size.width * ratio
+      size.height = size.height * ratio
+    }
+    setImageSize(size)
+  }
+
   useEffect(() => {
     if (uploadedData) {
+      initImageSize(uploadedData.base64)
       handleStyleTransfer()
     }
     return () => {
@@ -48,37 +63,100 @@ export default function Result() {
 
   return (
     <div className={container}>
-      <div onClick={onGoBack} style={{ cursor: 'pointer' }}>
-        Back
+      <div className={navbar}>
+        <div className={logo}></div>
       </div>
-      <div className={resultSection}>
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : (
-          <div className={imageBox} style={{ backgroundImage: `url(${resultImage})` }}></div>
-        )}
+      <div className={header}>
+        <div className={styleName}>{uploadedData?.styleInfo?.name}</div>
+        <div onClick={onGoBack} className={button}>
+          Try another style
+        </div>
       </div>
+
+      {uploadedData && imageSize.width && (
+        <div className={resultImageWrapper} style={{ ...imageSize }}>
+          <Image
+            src={isLoading ? uploadedData?.base64 ?? '' : resultImage}
+            alt=""
+            width={imageSize.width}
+            height={imageSize.height}
+            style={{ transition: 'all 0.3s' }}
+          />
+          {isLoading && <div className={loadingMask} />}
+        </div>
+      )}
     </div>
   )
 }
 
 const container = css({
   minH: '100vh',
-  color: '#FAFAFA',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  gap: '8',
+  maxW: '1136px',
+  m: '0 auto',
+  p: '24px 32px 32px 32px',
 })
 
-const resultSection = css({
+const navbar = css({
+  display: 'flex',
+  alignItems: 'center',
+})
+
+const logo = css({
+  w: '216px',
+  h: '44px',
+  bg: '#9CA991',
+  borderRadius: '10px',
+})
+
+const header = css({
+  mt: '32px',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+})
+
+const styleName = css({
+  fontSize: '36px',
+  fontWeight: 'bold',
+  color: '#484851',
+})
+
+const button = css({
+  cursor: 'pointer',
+  p: '12px 32px',
+  color: '#FAFAFA',
+  bg: 'linear-gradient(94deg, #F08A41 -48.91%, #E57748 138.69%)',
+  borderRadius: '14px',
+  fontWeight: 'bold',
+})
+
+const resultImageWrapper = css({
+  m: '32px auto 0 auto',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
+  position: 'relative',
+  borderRadius: '14px',
+  overflow: 'hidden',
 })
 
-const imageBox = css({
-  width: '500px',
-  height: '500px',
-  bg: 'no-repeat center / contain',
+const loadingMask = css({
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  w: '100%',
+  h: '100%',
+  bg: 'rgba(255, 255, 255, 0.6)',
+  _before: {
+    content: '""',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    w: '30px',
+    h: '30px',
+    border: '3px solid #000',
+    borderRadius: '50%',
+    borderTopColor: 'transparent',
+    animation: 'loadingSpin 0.8s linear infinite',
+  },
 })
