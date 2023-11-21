@@ -94,9 +94,12 @@ export default function Result() {
         {!!(originalImage && imageSize.width) && (
           <div
             className={resultImageWrapper}
-            style={{
-              paddingTop: `${(imageSize.height / imageSize.width) * 100}%`,
-            }}
+            style={
+              {
+                '--image-width': imageSize.width,
+                '--image-height': imageSize.height,
+              } as React.CSSProperties
+            }
           >
             <Image src={isLoading ? originalImage ?? '' : resultImage} alt="" fill={true} />
             {isLoading && <div className={loadingMask} />}
@@ -154,6 +157,7 @@ const buttonRecipe = cva({
     alignItems: 'center',
     gap: '8px',
     transition: 'all 0.3s',
+    userSelect: 'none',
   },
   variants: {
     theme: {
@@ -183,6 +187,11 @@ const resultImageWrapper = css({
   position: 'relative',
   rounded: '20px',
   overflow: 'hidden',
+  // set image dimension
+  aspectRatio: 'var(--image-width) / var(--image-height)',
+  '@supports not (aspect-ratio: 1/1)': {
+    pt: 'calc(100% * var(--image-height) / var(--image-width))',
+  },
 })
 
 const loadingMask = css({
