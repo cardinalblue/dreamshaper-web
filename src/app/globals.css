@@ -4,7 +4,7 @@ html {
   background-color: #f3f0e8;
 }
 body {
-  background: url(/images/bg.png) no-repeat center / cover fixed;
+  background: url(/images/bg.png) repeat 0 0 / 1920px auto;
   font-family: 'Averta PE', sans-serif;
 }
 

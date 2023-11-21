@@ -86,7 +86,7 @@ const imageBox = css({
   w: '100%',
   h: '320px',
   rounded: '25px',
-  bg: 'no-repeat top center / 100% auto',
+  bg: 'no-repeat center / cover',
 })
 
 const titleWrapper = css({
