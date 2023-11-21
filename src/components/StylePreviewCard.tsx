@@ -39,7 +39,7 @@ export const StylePreviewCard = ({ styleInfo, style }: StylePreviewCardProps) =>
     }
     // compress image if size > 1MB
     if (file.size > 1024 * 1024) {
-      file = await compressImage(files[0])
+      file = await compressImage(file)
     }
     setSelectedStyle(styleInfo)
     setUploadedImage({
