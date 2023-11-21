@@ -25,7 +25,8 @@ export const useUserImageStore = create<UserImageState>((set) => ({
   originalImage: '',
   resultImage: '',
   setSelectedStyle: (styleInfo) => set({ styleInfo }),
-  setUploadedImage: ({ uploadedFile, originalImage }) => set({ uploadedFile, originalImage }),
+  setUploadedImage: ({ uploadedFile, originalImage }) =>
+    set({ uploadedFile, originalImage, resultImage: '' }),
   setResultImage: (resultImage) => set({ resultImage }),
   resetUserImageData: () =>
     set({ styleInfo: null, uploadedFile: null, originalImage: '', resultImage: '' }),

@@ -10,6 +10,7 @@
     "prepare": "panda codegen"
   },
   "dependencies": {
+    "heic2any": "^0.0.4",
     "next": "14.0.2",
     "react": "^18",
     "react-dom": "^18",

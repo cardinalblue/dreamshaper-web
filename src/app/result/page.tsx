@@ -64,9 +64,11 @@ export default function Result() {
   }
 
   useEffect(() => {
-    if (originalImage && !resultImage) {
+    if (originalImage) {
       initImageSize(originalImage)
-      handleStyleTransfer()
+      if (!resultImage) {
+        handleStyleTransfer()
+      }
     }
   }, [])
 
@@ -77,7 +79,7 @@ export default function Result() {
         <div className={buttonGroup}>
           <div
             onClick={onSave}
-            data-disabled={isLoading ? 'true' : null}
+            data-disabled={isLoading || !resultImage ? 'true' : null}
             className={css(buttonRecipe.raw({ theme: 'dark' }))}
           >
             <DownloadIcon />
@@ -89,15 +91,14 @@ export default function Result() {
           </div>
         </div>
 
-        {originalImage && imageSize.width && (
-          <div className={resultImageWrapper} style={{ ...imageSize }}>
-            <Image
-              src={isLoading ? originalImage ?? '' : resultImage}
-              alt=""
-              width={imageSize.width}
-              height={imageSize.height}
-              style={{ transition: 'all 0.3s' }}
-            />
+        {!!(originalImage && imageSize.width) && (
+          <div
+            className={resultImageWrapper}
+            style={{
+              paddingTop: `${(imageSize.height / imageSize.width) * 100}%`,
+            }}
+          >
+            <Image src={isLoading ? originalImage ?? '' : resultImage} alt="" fill={true} />
             {isLoading && <div className={loadingMask} />}
           </div>
         )}
@@ -136,6 +137,7 @@ const buttonGroup = css({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
+  flexWrap: 'wrap',
   gap: '12px',
 })
 
@@ -173,6 +175,7 @@ const buttonRecipe = cva({
 })
 
 const resultImageWrapper = css({
+  w: '100%',
   m: '0 auto',
   display: 'flex',
   justifyContent: 'center',

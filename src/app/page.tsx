@@ -3,8 +3,10 @@
 import { css } from '@styled-system/css'
 import { STYLE_LIST } from '@/utils/constants'
 import { useEffect, useState } from 'react'
-import { StylePreviewSection } from '@/components/StylePreviewSection'
+import { StylePreviewCard } from '@/components/StylePreviewCard'
 import { TitleDecoIcon } from '@/components/icons/TitleDecoIcon'
+
+const LIST_GAP = 32
 
 export default function Home() {
   const [columnCount, setColumnCount] = useState(3)
@@ -46,8 +48,12 @@ export default function Home() {
         <div className={visual}></div>
       </div>
       <div className={listWrapper}>
-        {STYLE_LIST.map((style) => (
-          <StylePreviewSection key={style.id} styleInfo={style} columnCount={columnCount} />
+        {STYLE_LIST.map((styleInfo) => (
+          <StylePreviewCard
+            key={styleInfo.id}
+            styleInfo={styleInfo}
+            style={{ width: `calc((100% - ${(columnCount - 1) * LIST_GAP}px) / ${columnCount})` }}
+          />
         ))}
       </div>
     </div>
@@ -120,5 +126,5 @@ const listWrapper = css({
   display: 'flex',
   flexWrap: 'wrap',
   justifyContent: 'center',
-  gap: '32px',
+  gap: `${LIST_GAP}px`,
 })

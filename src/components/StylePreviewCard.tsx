@@ -6,17 +6,17 @@ import { compressImage, fileToBase64 } from '@/utils/imageHelper'
 import { css } from '@styled-system/css'
 import { useUserImageStore } from '@/store'
 
-interface StylePreviewSectionProps {
+interface StylePreviewCardProps {
   styleInfo: {
     id: string
     name: string
     src: string
     config: Record<string, any>
   }
-  columnCount: number
+  style?: React.CSSProperties
 }
 
-export const StylePreviewSection = ({ styleInfo, columnCount }: StylePreviewSectionProps) => {
+export const StylePreviewCard = ({ styleInfo, style }: StylePreviewCardProps) => {
   const { setUploadedImage, setSelectedStyle } = useUserImageStore()
   const router = useRouter()
 
@@ -24,6 +24,19 @@ export const StylePreviewSection = ({ styleInfo, columnCount }: StylePreviewSect
     const files = e.target.files as FileList
     if (!files.length) return
     let file = files[0]
+    if (file.type === 'image/heic') {
+      // convert heic to jpeg
+      const heic2any = require('heic2any') // loaded on client side only
+      const outputBlob = (await heic2any({
+        blob: new Blob([file], { type: file.type }),
+        toType: 'image/jpeg',
+        quality: 1,
+      })) as Blob
+      file = new File([outputBlob], file.name, {
+        type: outputBlob.type,
+        lastModified: Date.now(),
+      })
+    }
     // compress image if size > 1MB
     if (file.size > 1024 * 1024) {
       file = await compressImage(files[0])
@@ -37,7 +50,7 @@ export const StylePreviewSection = ({ styleInfo, columnCount }: StylePreviewSect
   }
 
   return (
-    <div className={container} style={{ width: `${(1 / columnCount) * 100 - 2}%` }}>
+    <div className={container} style={{ ...style }}>
       <div className={imageBox} style={{ backgroundImage: `url('${styleInfo.src}')` }}></div>
       <div className={titleWrapper}>
         <div className={title}>{styleInfo.name}</div>
@@ -73,7 +86,7 @@ const imageBox = css({
   w: '100%',
   h: '320px',
   rounded: '25px',
-  bg: 'no-repeat center / 100% auto',
+  bg: 'no-repeat top center / 100% auto',
 })
 
 const titleWrapper = css({
