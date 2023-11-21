@@ -69,8 +69,12 @@ export default function Result() {
       if (!resultImage) {
         handleStyleTransfer()
       }
+    } else {
+      router.push('/')
     }
   }, [])
+
+  if (!originalImage) return null
 
   return (
     <div className={container}>
@@ -91,7 +95,7 @@ export default function Result() {
           </div>
         </div>
 
-        {!!(originalImage && imageSize.width) && (
+        {!!imageSize.width && (
           <div
             className={resultImageWrapper}
             style={
