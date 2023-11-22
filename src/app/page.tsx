@@ -9,7 +9,7 @@ import { TitleDecoIcon } from '@/components/icons/TitleDecoIcon'
 const LIST_GAP = 32
 
 export default function Home() {
-  const [columnCount, setColumnCount] = useState(3)
+  const [columnCount, setColumnCount] = useState(0)
 
   useEffect(() => {
     const handleResize = () => {
@@ -21,11 +21,13 @@ export default function Home() {
         setColumnCount(3)
       }
     }
+    handleResize()
     window.addEventListener('resize', handleResize)
     return () => {
       window.removeEventListener('resize', handleResize)
     }
   }, [])
+
   return (
     <div className={container}>
       <div className={navbar}>
@@ -62,16 +64,20 @@ export default function Home() {
 
 const container = css({
   maxW: '1280px',
-  p: '16px 72px 32px',
+  p: '16px 24px 32px',
   m: '0 auto',
+  overflow: 'hidden',
+  md: {
+    p: '16px 72px 32px',
+  },
 })
 
 const navbar = css({
   h: '54px',
   m: '0 auto',
   p: '0 44px',
-  bgColor: '#F3F0E8',
-  boxShadow: '0px 10px 25px 0px rgba(7, 23, 35, 0.10)',
+  bgColor: '#F5F4EF',
+  boxShadow: '0px 10px 25px 0px rgba(52, 52, 52, 0.10)',
   rounded: '12px',
   display: 'flex',
   alignItems: 'center',
@@ -93,14 +99,21 @@ const main = css({
 })
 
 const visual = css({
+  display: 'none',
   w: '640px',
   h: '500px',
   bg: 'url(/images/hero_visual.png) no-repeat center / contain',
+  flexShrink: 0,
+  md: {
+    display: 'block',
+  },
 })
 
 const titleWrapper = css({
-  w: '457px',
   color: '#484851',
+  md: {
+    w: '457px',
+  },
 })
 
 const title = css({

@@ -9,7 +9,8 @@ import { useUserImageStore } from '@/store'
 import { HomeIcon } from '@/components/icons/HomeIcon'
 import { DownloadIcon } from '@/components/icons/DownloadIcon'
 
-const MAX_IMAGE_SIZE = 800
+const MAX_IMAGE_WIDTH = 600
+const MAX_IMAGE_HEIGHT = 468
 
 export default function Result() {
   const { styleInfo, originalImage, resultImage, uploadedFile, setResultImage } =
@@ -54,12 +55,9 @@ export default function Result() {
 
   const initImageSize = async (image: string) => {
     const size = await getImageDimensions(image)
-    const currentMaxSize = Math.max(size.width, size.height)
-    if (currentMaxSize > MAX_IMAGE_SIZE) {
-      const ratio = MAX_IMAGE_SIZE / currentMaxSize
-      size.width = size.width * ratio
-      size.height = size.height * ratio
-    }
+    const ratio = Math.min(MAX_IMAGE_WIDTH / size.width, MAX_IMAGE_HEIGHT / size.height, 1)
+    size.width = size.width * ratio
+    size.height = size.height * ratio
     setImageSize(size)
   }
 
@@ -87,17 +85,17 @@ export default function Result() {
             className={css(buttonRecipe.raw({ theme: 'dark' }))}
           >
             <DownloadIcon />
-            Download
+            <div className={buttonText}>Download</div>
           </div>
           <div onClick={onGoBack} className={css(buttonRecipe.raw({ theme: 'light' }))}>
             <HomeIcon />
-            Try another style
+            <div className={buttonText}>Try another style</div>
           </div>
         </div>
 
-        {!!imageSize.width && (
+        <div className={resultWrapper}>
           <div
-            className={resultImageWrapper}
+            className={imageFrame}
             style={
               {
                 '--image-width': imageSize.width,
@@ -105,10 +103,16 @@ export default function Result() {
               } as React.CSSProperties
             }
           >
-            <Image src={isLoading ? originalImage ?? '' : resultImage} alt="" fill={true} />
+            <Image
+              src={isLoading ? originalImage ?? '' : resultImage}
+              alt=""
+              width={imageSize.width}
+              height={imageSize.height}
+              className={imageEl}
+            />
             {isLoading && <div className={loadingMask} />}
           </div>
-        )}
+        </div>
       </div>
     </div>
   )
@@ -116,27 +120,36 @@ export default function Result() {
 
 const container = css({
   minH: '100vh',
-  maxW: '1280px',
-  m: '0 auto',
-  p: '24px 72px 32px 72px',
+  p: '32px 24px',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  md: {
+    p: '32px 72px',
+  },
 })
 
 const card = css({
-  maxW: '848px',
+  w: '100%',
+  h: '471px',
   p: '24px',
-  m: '0 auto',
-  bgColor: '#F5F1EA',
+  bgColor: '#F5F4EF',
   boxShadow: '5px 10px 20px 0px rgba(52, 52, 52, 0.15)',
   rounded: '25px',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   gap: '24px',
+  md: {
+    w: '648px',
+    h: '656px',
+  },
 })
 
 const styleName = css({
   fontSize: '32px',
   fontWeight: 'bold',
+  lineHeight: 'normal',
   color: '#484851',
 })
 
@@ -150,8 +163,10 @@ const buttonGroup = css({
 
 const buttonRecipe = cva({
   base: {
+    w: '48px',
+    h: '48px',
+    p: '12px',
     cursor: 'pointer',
-    p: '14px 24px',
     rounded: '14px',
     fontSize: '18px',
     fontWeight: 'bold',
@@ -162,6 +177,14 @@ const buttonRecipe = cva({
     gap: '8px',
     transition: 'all 0.3s',
     userSelect: 'none',
+    md: {
+      w: 'auto',
+      h: 'auto',
+      p: '14px 24px',
+    },
+    '& > svg': {
+      flexShrink: 0,
+    },
   },
   variants: {
     theme: {
@@ -182,20 +205,34 @@ const buttonRecipe = cva({
   },
 })
 
-const resultImageWrapper = css({
+const buttonText = css({
+  display: 'none',
+  md: {
+    display: 'block',
+  },
+})
+
+const resultWrapper = css({
+  flex: 1,
   w: '100%',
-  m: '0 auto',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  position: 'relative',
-  rounded: '20px',
   overflow: 'hidden',
-  // set image dimension
+})
+
+const imageFrame = css({
+  maxW: '100%',
+  maxH: '100%',
   aspectRatio: 'var(--image-width) / var(--image-height)',
-  '@supports not (aspect-ratio: 1/1)': {
-    pt: 'calc(100% * var(--image-height) / var(--image-width))',
-  },
+  position: 'relative',
+  rounded: '10px',
+  overflow: 'hidden',
+})
+
+const imageEl = css({
+  maxW: '100%',
+  maxH: '100%',
 })
 
 const loadingMask = css({

@@ -70,16 +70,17 @@ export const StylePreviewCard = ({ styleInfo, style }: StylePreviewCardProps) =>
 }
 
 const container = css({
-  maxW: '357px',
   h: '420px',
   p: '16px',
   rounded: '25px',
-  bg: 'rgba(220, 212, 203, 0.40)',
-  boxShadow: '0px 10px 50px 0px rgba(7, 23, 35, 0.30)',
-  backdropFilter: 'blur(5px)',
+  bg: '#ECE9DF',
+  boxShadow: '0px 10px 50px 0px rgba(7, 23, 35, 0.15)',
   display: 'flex',
   flexDirection: 'column',
   gap: '12px',
+  md: {
+    maxW: '357px',
+  },
 })
 
 const imageBox = css({
@@ -99,6 +100,10 @@ const titleWrapper = css({
 })
 
 const title = css({
+  ml: '16px',
+  fontSize: '20px',
+  fontWeight: '600',
+  lineHeight: 'normal',
   color: '#484851',
 })
 
@@ -109,6 +114,7 @@ const fileInput = css({
 const tryButton = css({
   w: '82px',
   h: '50px',
+  flexShrink: 0,
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
