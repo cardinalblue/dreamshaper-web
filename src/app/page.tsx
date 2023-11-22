@@ -36,14 +36,12 @@ export default function Home() {
       <div className={main}>
         <div className={titleWrapper}>
           <div className={title}>
-            <div className={titleFirstLine}>
-              Style <TitleDecoIcon />
+            <div>Turn your image</div>
+            <div>
+              into magical <TitleDecoIcon />
             </div>
-            Transfer
           </div>
           <div className={subtitle}>
-            Turn your image into something magical with ease.
-            <br />
             Just choose the style, upload your photo, and there you go.
           </div>
         </div>
@@ -91,11 +89,14 @@ const logo = css({
 })
 
 const main = css({
-  h: '550px',
+  h: '360px',
   m: '0 auto',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
+  md: {
+    h: '550px',
+  },
 })
 
 const visual = css({
@@ -110,31 +111,38 @@ const visual = css({
 })
 
 const titleWrapper = css({
+  w: '100%',
   color: '#484851',
-  md: {
-    w: '457px',
-  },
 })
 
 const title = css({
-  fontSize: '80px',
+  w: '516px',
+  fontSize: '52px',
   fontFamily: 'Recoleta',
   fontWeight: '500',
-  textTransform: 'uppercase',
+  textTransform: 'capitalize',
   lineHeight: '100px',
-  letterSpacing: '2px',
-})
-
-const titleFirstLine = css({
-  mb: '-15px',
-  display: 'flex',
-  alignItems: 'center',
-  gap: '15px',
+  letterSpacing: '-1px',
+  whiteSpace: 'nowrap',
+  md: {
+    fontSize: '72px',
+  },
+  '& > div:first-child': {
+    mb: '-30px',
+  },
+  '& > div:last-child': {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+  },
 })
 
 const subtitle = css({
-  fontSize: '18px',
+  fontSize: '20px',
   lineHeight: '28px',
+  md: {
+    w: '390px',
+  },
 })
 
 const listWrapper = css({

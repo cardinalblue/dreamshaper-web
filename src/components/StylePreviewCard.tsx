@@ -118,7 +118,7 @@ const tryButton = css({
   justifyContent: 'center',
   alignItems: 'center',
   rounded: '14px',
-  bg: 'linear-gradient(94deg, #4D6639 -48.91%, #758369 140.64%, #687C57 140.66%)',
+  bgColor: '#3C3C44',
   fontSize: '18px',
   textTransform: 'uppercase',
   color: '#FAFAFA',

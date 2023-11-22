@@ -1,10 +1,9 @@
 @layer reset, base, tokens, recipes, utilities;
 
 html {
-  background-color: #f3f0e8;
+  background-color: #e8e4d7;
 }
 body {
-  background: url(/images/bg.png) repeat 0 0 / 1920px auto;
   font-family: 'Averta PE', sans-serif;
 }
 

@@ -175,7 +175,7 @@ const buttonRecipe = cva({
     justifyContent: 'center',
     alignItems: 'center',
     gap: '8px',
-    transition: 'all 0.3s',
+    transition: 'all 0.2s',
     userSelect: 'none',
     md: {
       w: 'auto',
@@ -190,15 +190,20 @@ const buttonRecipe = cva({
     theme: {
       light: {
         color: '#484851',
-        bgColor: '#D9D2BF',
+        bgColor: '#E2DECF',
+        _hover: {
+          bgColor: '#D9D2BF',
+        },
       },
       dark: {
         color: '#FAFAFA',
-        bg: 'linear-gradient(94deg, #4D6639 -48.91%, #758369 140.64%, #687C57 140.66%)',
+        bgColor: '#3C3C44',
+        '&:not([data-disabled]):hover': {
+          bgColor: '#60606C',
+        },
         _disabled: {
           cursor: 'not-allowed',
-          // opacity 0.3
-          bg: 'linear-gradient(94deg, #4D66394d -48.91%, #7583694d 140.64%, #687C574d 140.66%)',
+          bgColor: '#3C3C444D',
         },
       },
     },
