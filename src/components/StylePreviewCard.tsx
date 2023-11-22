@@ -50,7 +50,7 @@ export const StylePreviewCard = ({ styleInfo, style }: StylePreviewCardProps) =>
   }
 
   return (
-    <div className={container} style={{ ...style }}>
+    <label htmlFor={`file-input-${styleInfo.id}`} className={container} style={{ ...style }}>
       <div className={thumbnail} style={{ backgroundImage: `url('${styleInfo.src}')` }}></div>
       <div className={titleWrapper}>
         <div className={title}>{styleInfo.name}</div>
@@ -61,11 +61,9 @@ export const StylePreviewCard = ({ styleInfo, style }: StylePreviewCardProps) =>
           onChange={onUpload}
           className={fileInput}
         />
-        <label htmlFor={`file-input-${styleInfo.id}`} className={tryButton}>
-          try
-        </label>
+        <div className={tryButton}>try</div>
       </div>
-    </div>
+    </label>
   )
 }
 
@@ -78,6 +76,7 @@ const container = css({
   display: 'flex',
   flexDirection: 'column',
   gap: '12px',
+  cursor: 'pointer',
   md: {
     maxW: '357px',
   },
