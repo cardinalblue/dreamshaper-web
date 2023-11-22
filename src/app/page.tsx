@@ -105,13 +105,15 @@ const titleWrapper = css({
 
 const title = css({
   fontSize: '80px',
+  fontFamily: 'Recoleta',
   fontWeight: '500',
+  textTransform: 'uppercase',
   lineHeight: '100px',
   letterSpacing: '2px',
-  // fontFamily: 'Recoleta',
 })
 
 const titleFirstLine = css({
+  mb: '-15px',
   display: 'flex',
   alignItems: 'center',
   gap: '15px',
