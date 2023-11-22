@@ -9,11 +9,8 @@ import { useUserImageStore } from '@/store'
 import { HomeIcon } from '@/components/icons/HomeIcon'
 import { DownloadIcon } from '@/components/icons/DownloadIcon'
 
-const MAX_IMAGE_WIDTH = 600
-const MAX_IMAGE_HEIGHT = 468
-
 export default function Result() {
-  const { styleInfo, originalImage, resultImage, uploadedFile, setResultImage } =
+  const { selectedStyle, originalImage, resultImage, uploadedFile, setResultImage } =
     useUserImageStore()
   const [isLoading, setIsLoading] = useState(false)
   const [imageSize, setImageSize] = useState({ width: 0, height: 0 })
@@ -23,7 +20,7 @@ export default function Result() {
   const handleStyleTransfer = async () => {
     try {
       setIsLoading(true)
-      const config = styleInfo?.config ?? {}
+      const config = selectedStyle?.config ?? {}
       const initial_image_b64 = originalImage ?? ''
       const res = await fetch('/api/style-transfer', {
         method: 'POST',
@@ -49,15 +46,12 @@ export default function Result() {
     link.href = resultImage
     const fileName = uploadedFile?.name.split('.').slice(0, -1).join('.')
     const type = uploadedFile?.type.split('/')[1]
-    link.download = `${fileName}_${styleInfo?.id}.${type}`
+    link.download = `${fileName}_${selectedStyle?.id}.${type}`
     link.click()
   }
 
   const initImageSize = async (image: string) => {
     const size = await getImageDimensions(image)
-    const ratio = Math.min(MAX_IMAGE_WIDTH / size.width, MAX_IMAGE_HEIGHT / size.height, 1)
-    size.width = size.width * ratio
-    size.height = size.height * ratio
     setImageSize(size)
   }
 
@@ -77,7 +71,7 @@ export default function Result() {
   return (
     <div className={container}>
       <div className={card}>
-        <div className={styleName}>{styleInfo?.name}</div>
+        <div className={styleName}>{selectedStyle?.name}</div>
         <div className={buttonGroup}>
           <div
             onClick={onSave}

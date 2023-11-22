@@ -17,36 +17,49 @@ interface StylePreviewCardProps {
 }
 
 export const StylePreviewCard = ({ styleInfo, style }: StylePreviewCardProps) => {
-  const { setUploadedImage, setSelectedStyle } = useUserImageStore()
+  const { setUploadedImage, setSelectedStyle, setUploadStatus, isUploading } = useUserImageStore()
   const router = useRouter()
 
   const onUpload = async (e: ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files as FileList
-    if (!files.length) return
-    let file = files[0]
-    if (file.type === 'image/heic') {
+    if (isUploading) return
+
+    try {
+      setUploadStatus(true)
+      const files = e.target.files as FileList
+      if (!files.length) return
+
+      let file = files[0]
+
       // convert heic to jpeg
-      const heic2any = require('heic2any') // loaded on client side only
-      const outputBlob = (await heic2any({
-        blob: new Blob([file], { type: file.type }),
-        toType: 'image/jpeg',
-        quality: 1,
-      })) as Blob
-      file = new File([outputBlob], file.name, {
-        type: outputBlob.type,
-        lastModified: Date.now(),
+      if (file.type === 'image/heic') {
+        const heic2any = require('heic2any') // loaded on client side only
+        const outputBlob = (await heic2any({
+          blob: new Blob([file], { type: file.type }),
+          toType: 'image/jpeg',
+          quality: 1,
+        })) as Blob
+        file = new File([outputBlob], file.name, {
+          type: outputBlob.type,
+          lastModified: Date.now(),
+        })
+      }
+
+      // compress image if size > 1MB
+      if (file.size > 1024 * 1024) {
+        file = await compressImage(file)
+      }
+
+      setSelectedStyle(styleInfo)
+      setUploadedImage({
+        uploadedFile: file,
+        originalImage: await fileToBase64(file),
       })
+      router.push('/result')
+    } catch (error) {
+      console.debug('Upload error', error)
+    } finally {
+      setUploadStatus(false)
     }
-    // compress image if size > 1MB
-    if (file.size > 1024 * 1024) {
-      file = await compressImage(file)
-    }
-    setSelectedStyle(styleInfo)
-    setUploadedImage({
-      uploadedFile: file,
-      originalImage: await fileToBase64(file),
-    })
-    router.push('/result')
   }
 
   return (
@@ -60,6 +73,7 @@ export const StylePreviewCard = ({ styleInfo, style }: StylePreviewCardProps) =>
           id={`file-input-${styleInfo.id}`}
           onChange={onUpload}
           className={fileInput}
+          disabled={isUploading}
         />
         <div className={tryButton}>try</div>
       </div>
