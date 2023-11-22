@@ -51,7 +51,7 @@ export const StylePreviewCard = ({ styleInfo, style }: StylePreviewCardProps) =>
 
   return (
     <div className={container} style={{ ...style }}>
-      <div className={imageBox} style={{ backgroundImage: `url('${styleInfo.src}')` }}></div>
+      <div className={thumbnail} style={{ backgroundImage: `url('${styleInfo.src}')` }}></div>
       <div className={titleWrapper}>
         <div className={title}>{styleInfo.name}</div>
         <input
@@ -83,7 +83,7 @@ const container = css({
   },
 })
 
-const imageBox = css({
+const thumbnail = css({
   w: '100%',
   h: '320px',
   rounded: '25px',
