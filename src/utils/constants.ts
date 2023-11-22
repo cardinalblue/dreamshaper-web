@@ -1,4 +1,4 @@
-const MAX_INPUT_SIZE = 1080
+const MAX_INPUT_SIZE = 768
 
 export const STYLE_LIST = [
   {
