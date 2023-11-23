@@ -2,8 +2,7 @@
 
 import React, { ChangeEvent } from 'react'
 import { useRouter } from 'next/navigation'
-import { compressImage, processHeicFile } from '@/utils/imageHelper'
-import { css } from '@styled-system/css'
+import { css, cx } from '@styled-system/css'
 import { useUserImageStore } from '@/store'
 
 interface StylePreviewCardProps {
@@ -22,26 +21,13 @@ export const StylePreviewCard = ({ styleInfo, style }: StylePreviewCardProps) =>
 
   const onUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     if (isUploading) return
-
     try {
       setUploadStatus(true)
       const files = e.target.files as FileList
       if (!files.length) return
 
-      let file = files[0]
-
-      // convert heic to jpeg
-      // if (file.type === 'image/heic') {
-      //   file = await processHeicFile(file)
-      // }
-
-      // // compress image if size > 1MB
-      // if (file.size > 1024 * 1024) {
-      //   file = await compressImage(file)
-      // }
-
       setSelectedStyle(styleInfo)
-      setUploadedFile(file)
+      setUploadedFile(files[0])
       router.push('/result')
     } catch (error) {
       console.debug('Upload error', error)
@@ -52,7 +38,10 @@ export const StylePreviewCard = ({ styleInfo, style }: StylePreviewCardProps) =>
 
   return (
     <label htmlFor={`file-input-${styleInfo.id}`} className={container} style={{ ...style }}>
-      <div className={thumbnail} style={{ backgroundImage: `url('${styleInfo.src}')` }}></div>
+      <div
+        className={cx(thumbnail, 'thumbnail')}
+        style={{ backgroundImage: `url('${styleInfo.src}')` }}
+      ></div>
       <div className={titleWrapper}>
         <div className={title}>{styleInfo.name}</div>
         <input
@@ -79,6 +68,11 @@ const container = css({
   flexDirection: 'column',
   gap: '12px',
   cursor: 'pointer',
+  _hover: {
+    '& .thumbnail': {
+      transform: 'scale(1.03)',
+    },
+  },
   md: {
     maxW: '357px',
   },
@@ -89,6 +83,7 @@ const thumbnail = css({
   h: '320px',
   rounded: '25px',
   bg: 'no-repeat center / cover',
+  transition: 'all 0.3s',
 })
 
 const titleWrapper = css({
