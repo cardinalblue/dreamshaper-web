@@ -20,6 +20,9 @@ export const compressImage = (file: File, quality: number = 0.5, maxSize = 1080)
         canvas.width = width
         canvas.height = height
         const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
+        // add white bg to canvas
+        ctx.fillStyle = 'white'
+        ctx.fillRect(0, 0, width, height)
         ctx.drawImage(img, 0, 0, width, height)
         canvas.toBlob(
           (blob) => {
@@ -32,6 +35,36 @@ export const compressImage = (file: File, quality: number = 0.5, maxSize = 1080)
           'image/jpeg',
           quality
         )
+      }
+    }
+  })
+}
+
+export const handlePngImageBackground = (file: File): Promise<File> => {
+  return new Promise((resolve) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => {
+      const img = new Image()
+      img.src = reader.result as string
+      img.onload = () => {
+        const width = img.naturalWidth || img.width
+        const height = img.naturalHeight || img.height
+        const canvas = document.createElement('canvas')
+        canvas.width = width
+        canvas.height = height
+        const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
+        // add white bg to canvas
+        ctx.fillStyle = 'white'
+        ctx.fillRect(0, 0, width, height)
+        ctx.drawImage(img, 0, 0, width, height)
+        canvas.toBlob((blob) => {
+          const newFile = new File([blob as Blob], file.name, {
+            type: 'image/jpeg', // convert to jpeg cause the file size is smaller
+            lastModified: Date.now(),
+          })
+          resolve(newFile)
+        }, 'image/jpeg')
       }
     }
   })

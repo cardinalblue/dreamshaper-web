@@ -9,6 +9,7 @@ import {
   fileToBase64,
   processHeicFile,
   compressImage,
+  handlePngImageBackground,
 } from '@/utils/imageHelper'
 import { useUserImageStore } from '@/store'
 import { HomeIcon } from '@/components/icons/HomeIcon'
@@ -53,7 +54,7 @@ export default function Result() {
   }
 
   const onSave = () => {
-    if (isTransferring) return
+    if (isLoading) return
     const link = document.createElement('a')
     link.href = resultImageSrc
     const fileName = uploadedFile?.name.split('.').slice(0, -1).join('.')
@@ -73,6 +74,9 @@ export default function Result() {
       // compress image if size > 1MB
       if (file.size > 1024 * 1024) {
         file = await compressImage(file)
+      } else if (file.type === 'image/png') {
+        // make sure png image has white background
+        file = await handlePngImageBackground(file)
       }
       const base64Image = await fileToBase64(file)
       const size = await getImageDimensionsFromBase64(base64Image)
