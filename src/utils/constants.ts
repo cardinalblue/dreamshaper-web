@@ -160,7 +160,7 @@ export const STYLE_LIST = [
       negative_prompt:
         'blurry, abstract, disfigured, deformed, cartoon, animated, toy, figure,framed, 3d, badly drawn hands, nude, cartoon, bad art, poorly drawn, extra limb,close up, weird colors, watermark, blur haze, red face, red cheek, white face',
       num_inference_steps: 8,
-      strength: 0.8,
+      strength: 1,
       guidance_scale: 10,
       max_dim_of_input: MAX_INPUT_SIZE,
       controlnet_conditioning_scale: 1,
