@@ -37,6 +37,19 @@ export const compressImage = (file: File, quality: number = 0.5, maxSize = 1080)
   })
 }
 
+export const processHeicFile = async (file: File) => {
+  const heic2any = require('heic2any') // loaded on client side only
+  const outputBlob = (await heic2any({
+    blob: new Blob([file], { type: file.type }),
+    toType: 'image/jpeg',
+    quality: 1,
+  })) as Blob
+  return new File([outputBlob], file.name, {
+    type: outputBlob.type,
+    lastModified: Date.now(),
+  })
+}
+
 export const fileToBase64 = (file: File): Promise<string> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
@@ -47,7 +60,9 @@ export const fileToBase64 = (file: File): Promise<string> => {
   })
 }
 
-export const getImageDimensions = (base64: string): Promise<{ width: number; height: number }> => {
+export const getImageDimensionsFromBase64 = (
+  base64: string
+): Promise<{ width: number; height: number }> => {
   return new Promise((resolve) => {
     const img = new Image()
     img.src = base64

@@ -1,38 +1,50 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { css, cva } from '@styled-system/css'
 import Image from 'next/image'
-import { getImageDimensions } from '@/utils/imageHelper'
+import {
+  getImageDimensionsFromBase64,
+  fileToBase64,
+  processHeicFile,
+  compressImage,
+} from '@/utils/imageHelper'
 import { useUserImageStore } from '@/store'
 import { HomeIcon } from '@/components/icons/HomeIcon'
 import { DownloadIcon } from '@/components/icons/DownloadIcon'
 
 export default function Result() {
-  const { selectedStyle, originalImage, resultImage, uploadedFile, setResultImage } =
-    useUserImageStore()
-  const [isLoading, setIsLoading] = useState(false)
-  const [imageSize, setImageSize] = useState({ width: 0, height: 0 })
+  const {
+    selectedStyle,
+    resultImageSrc,
+    uploadedFile,
+    setResultImageSrc,
+    setOriginalImageData,
+    originalImageSrc,
+    originalImageDimensions,
+  } = useUserImageStore()
+  const [isImageProcessing, setIsImageProcessing] = useState(false)
+  const [isTransferring, setIsTransferring] = useState(false)
 
   const router = useRouter()
 
-  const handleStyleTransfer = async () => {
+  const handleStyleTransfer = async (image: string) => {
     try {
-      setIsLoading(true)
+      setIsTransferring(true)
       const config = selectedStyle?.config ?? {}
-      const initial_image_b64 = originalImage ?? ''
+      const initial_image_b64 = image ?? ''
       const res = await fetch('/api/style-transfer', {
         method: 'POST',
         body: JSON.stringify({ instances: [{ initial_image_b64, config }] }),
       })
       const data = await res.json()
       const newImage = data.predictions[0].stylized_image_b64
-      setResultImage(newImage)
+      setResultImageSrc(newImage)
     } catch (error) {
       console.debug('error', error)
     } finally {
-      setIsLoading(false)
+      setIsTransferring(false)
     }
   }
 
@@ -41,32 +53,64 @@ export default function Result() {
   }
 
   const onSave = () => {
-    if (isLoading) return
+    if (isTransferring) return
     const link = document.createElement('a')
-    link.href = resultImage
+    link.href = resultImageSrc
     const fileName = uploadedFile?.name.split('.').slice(0, -1).join('.')
     const type = uploadedFile?.type.split('/')[1]
     link.download = `${fileName}_${selectedStyle?.id}.${type}`
     link.click()
   }
 
-  const initImageSize = async (image: string) => {
-    const size = await getImageDimensions(image)
-    setImageSize(size)
+  const getImageData = async () => {
+    if (!uploadedFile) return
+    try {
+      setIsImageProcessing(true)
+      let file = uploadedFile
+      if (file.type === 'image/heic') {
+        file = await processHeicFile(file)
+      }
+      // compress image if size > 1MB
+      if (file.size > 1024 * 1024) {
+        file = await compressImage(file)
+      }
+      const base64Image = await fileToBase64(file)
+      const size = await getImageDimensionsFromBase64(base64Image)
+      setOriginalImageData({
+        originalImageSrc: base64Image,
+        originalImageDimensions: size,
+      })
+      return base64Image
+    } catch (error) {
+      console.debug('Image processing error', error)
+    } finally {
+      setIsImageProcessing(false)
+    }
   }
 
-  useEffect(() => {
-    if (originalImage) {
-      initImageSize(originalImage)
-      if (!resultImage) {
-        handleStyleTransfer()
-      }
+  const isLoading = useMemo(() => {
+    return isImageProcessing || isTransferring
+  }, [isImageProcessing, isTransferring])
+
+  const imageSrc = useMemo(() => {
+    if (!originalImageSrc && !resultImageSrc) return null
+    return isTransferring ? originalImageSrc : resultImageSrc
+  }, [isTransferring, originalImageSrc, resultImageSrc])
+
+  const init = async () => {
+    if (uploadedFile && !resultImageSrc) {
+      const image = await getImageData()
+      if (image) handleStyleTransfer(image)
     } else {
       router.push('/')
     }
+  }
+
+  useEffect(() => {
+    init()
   }, [])
 
-  if (!originalImage) return null
+  if (!uploadedFile) return null
 
   return (
     <div className={container}>
@@ -75,7 +119,7 @@ export default function Result() {
         <div className={buttonGroup}>
           <div
             onClick={onSave}
-            data-disabled={isLoading || !resultImage ? 'true' : null}
+            data-disabled={isLoading || !resultImageSrc ? 'true' : null}
             className={css(buttonRecipe.raw({ theme: 'dark' }))}
           >
             <DownloadIcon />
@@ -92,18 +136,25 @@ export default function Result() {
             className={imageFrame}
             style={
               {
-                '--image-width': imageSize.width,
-                '--image-height': imageSize.height,
+                '--image-width': originalImageDimensions.width,
+                '--image-height': originalImageDimensions.height,
+                ...(!originalImageSrc && {
+                  // placeholder
+                  width: '100%',
+                  height: '100%',
+                }),
               } as React.CSSProperties
             }
           >
-            <Image
-              src={isLoading ? originalImage ?? '' : resultImage}
-              alt=""
-              width={imageSize.width}
-              height={imageSize.height}
-              className={imageEl}
-            />
+            {!!imageSrc && (
+              <Image
+                src={imageSrc}
+                alt=""
+                width={originalImageDimensions.width}
+                height={originalImageDimensions.height}
+                className={imageEl}
+              />
+            )}
             {isLoading && <div className={loadingMask} />}
           </div>
         </div>

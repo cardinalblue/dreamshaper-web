@@ -2,7 +2,7 @@
 
 import React, { ChangeEvent } from 'react'
 import { useRouter } from 'next/navigation'
-import { compressImage, fileToBase64 } from '@/utils/imageHelper'
+import { compressImage, processHeicFile } from '@/utils/imageHelper'
 import { css } from '@styled-system/css'
 import { useUserImageStore } from '@/store'
 
@@ -17,7 +17,7 @@ interface StylePreviewCardProps {
 }
 
 export const StylePreviewCard = ({ styleInfo, style }: StylePreviewCardProps) => {
-  const { setUploadedImage, setSelectedStyle, setUploadStatus, isUploading } = useUserImageStore()
+  const { setUploadedFile, setSelectedStyle, setUploadStatus, isUploading } = useUserImageStore()
   const router = useRouter()
 
   const onUpload = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -31,29 +31,17 @@ export const StylePreviewCard = ({ styleInfo, style }: StylePreviewCardProps) =>
       let file = files[0]
 
       // convert heic to jpeg
-      if (file.type === 'image/heic') {
-        const heic2any = require('heic2any') // loaded on client side only
-        const outputBlob = (await heic2any({
-          blob: new Blob([file], { type: file.type }),
-          toType: 'image/jpeg',
-          quality: 1,
-        })) as Blob
-        file = new File([outputBlob], file.name, {
-          type: outputBlob.type,
-          lastModified: Date.now(),
-        })
-      }
+      // if (file.type === 'image/heic') {
+      //   file = await processHeicFile(file)
+      // }
 
-      // compress image if size > 1MB
-      if (file.size > 1024 * 1024) {
-        file = await compressImage(file)
-      }
+      // // compress image if size > 1MB
+      // if (file.size > 1024 * 1024) {
+      //   file = await compressImage(file)
+      // }
 
       setSelectedStyle(styleInfo)
-      setUploadedImage({
-        uploadedFile: file,
-        originalImage: await fileToBase64(file),
-      })
+      setUploadedFile(file)
       router.push('/result')
     } catch (error) {
       console.debug('Upload error', error)
