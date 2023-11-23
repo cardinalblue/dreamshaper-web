@@ -106,7 +106,7 @@ export const STYLE_LIST = [
     name: 'Impressionism',
     src: '/images/christmas_vibes.png',
     config: {
-      prompt: "acrylic painting style,  Van Gogh's painting",
+      prompt: "acrylic painting style, Van Gogh's painting",
       negative_prompt:
         'blurry, abstract, disfigured, deformed, cartoon, animated, toy, figure, framed, 3d, badly drawn hands, nude, cartoon, bad art, poorly drawn, extra limb, close up, weird colors, watermark, blur haze, red face, red cheek, white face',
       num_inference_steps: 8,
@@ -122,7 +122,7 @@ export const STYLE_LIST = [
     name: 'Cartoon',
     src: '/images/christmas_vibes.png',
     config: {
-      prompt: 'cartoon artwork, anime style++, key visual, vibrant, studio anime,  highly detailed',
+      prompt: 'cartoon artwork, anime style++, key visual, vibrant, studio anime, highly detailed',
       negative_prompt:
         'blurry, abstract, disfigured, deformed, toy, figure, framed, 3d, badly drawn hands, nude, bad art, poorly drawn, extra limb, close up, weird colors, watermark, blur haze, white face, red lip, red face, red cheek',
       num_inference_steps: 8,

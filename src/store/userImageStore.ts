@@ -23,6 +23,7 @@ interface UserImageState {
     originalImageDimensions: UserImageState['originalImageDimensions']
   }) => void
   setResultImageSrc: (resultImageSrc: string) => void
+  resetUserImageStates: () => void
 }
 
 export const useUserImageStore = create<UserImageState>((set) => ({
@@ -45,4 +46,12 @@ export const useUserImageStore = create<UserImageState>((set) => ({
   setOriginalImageData: ({ originalImageSrc, originalImageDimensions }) =>
     set({ originalImageSrc, originalImageDimensions }),
   setResultImageSrc: (resultImageSrc) => set({ resultImageSrc }),
+  resetUserImageStates: () =>
+    set({
+      selectedStyle: null,
+      uploadedFile: null,
+      originalImageSrc: '',
+      originalImageDimensions: { width: 0, height: 0 },
+      resultImageSrc: '',
+    }),
 }))

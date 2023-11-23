@@ -24,9 +24,11 @@ export default function Result() {
     setOriginalImageData,
     originalImageSrc,
     originalImageDimensions,
+    resetUserImageStates,
   } = useUserImageStore()
   const [isImageProcessing, setIsImageProcessing] = useState(false)
   const [isTransferring, setIsTransferring] = useState(false)
+  const [isError, setIsError] = useState(false)
 
   const router = useRouter()
 
@@ -44,6 +46,7 @@ export default function Result() {
       setResultImageSrc(newImage)
     } catch (error) {
       console.debug('error', error)
+      setIsError(true)
     } finally {
       setIsTransferring(false)
     }
@@ -54,7 +57,6 @@ export default function Result() {
   }
 
   const onSave = () => {
-    if (isLoading) return
     const link = document.createElement('a')
     link.href = resultImageSrc
     const fileName = uploadedFile?.name.split('.').slice(0, -1).join('.')
@@ -101,6 +103,12 @@ export default function Result() {
     return isTransferring ? originalImageSrc : resultImageSrc
   }, [isTransferring, originalImageSrc, resultImageSrc])
 
+  useEffect(() => {
+    return () => {
+      if (isError) resetUserImageStates()
+    }
+  }, [isError, resetUserImageStates])
+
   const init = async () => {
     if (uploadedFile && !resultImageSrc) {
       const image = await getImageData()
@@ -121,14 +129,19 @@ export default function Result() {
       <div className={card}>
         <div className={styleName}>{selectedStyle?.name}</div>
         <div className={buttonGroup}>
-          <div
-            onClick={onSave}
-            data-disabled={isLoading || !resultImageSrc ? 'true' : null}
-            className={css(buttonRecipe.raw({ theme: 'dark' }))}
-          >
-            <DownloadIcon />
-            <div className={buttonText}>Download</div>
-          </div>
+          {!isError && (
+            <div
+              onClick={() => {
+                if (isLoading || !resultImageSrc) return
+                onSave()
+              }}
+              data-disabled={isLoading || !resultImageSrc ? 'true' : null}
+              className={css(buttonRecipe.raw({ theme: 'dark' }))}
+            >
+              <DownloadIcon />
+              <div className={buttonText}>Download</div>
+            </div>
+          )}
           <div onClick={onGoBack} className={css(buttonRecipe.raw({ theme: 'light' }))}>
             <HomeIcon />
             <div className={buttonText}>Try another style</div>
@@ -136,31 +149,35 @@ export default function Result() {
         </div>
 
         <div className={resultWrapper}>
-          <div
-            className={imageFrame}
-            style={
-              {
-                '--image-width': originalImageDimensions.width,
-                '--image-height': originalImageDimensions.height,
-                ...(!originalImageSrc && {
-                  // placeholder
-                  width: '100%',
-                  height: '100%',
-                }),
-              } as React.CSSProperties
-            }
-          >
-            {!!imageSrc && (
-              <Image
-                src={imageSrc}
-                alt=""
-                width={originalImageDimensions.width}
-                height={originalImageDimensions.height}
-                className={imageEl}
-              />
-            )}
-            {isLoading && <div className={loadingMask} />}
-          </div>
+          {isError ? (
+            <div className={errorText}>Sorry, upload failed, please try again</div>
+          ) : (
+            <div
+              className={imageFrame}
+              style={
+                {
+                  '--image-width': originalImageDimensions.width,
+                  '--image-height': originalImageDimensions.height,
+                  ...(!originalImageSrc && {
+                    // placeholder
+                    width: '100%',
+                    height: '100%',
+                  }),
+                } as React.CSSProperties
+              }
+            >
+              {!!imageSrc && (
+                <Image
+                  src={imageSrc}
+                  alt=""
+                  width={originalImageDimensions.width}
+                  height={originalImageDimensions.height}
+                  className={imageEl}
+                />
+              )}
+              {isLoading && <div className={loadingMask} />}
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -308,4 +325,9 @@ const loadingMask = css({
     borderTopColor: 'transparent',
     animation: 'loadingSpin 0.8s linear infinite',
   },
+})
+
+const errorText = css({
+  fontSize: '18px',
+  fontWeight: '600',
 })
