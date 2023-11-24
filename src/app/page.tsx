@@ -117,7 +117,7 @@ const titleWrapper = css({
 
 const title = css({
   w: '516px',
-  fontSize: '52px',
+  fontSize: '48px',
   fontFamily: 'Recoleta',
   fontWeight: '500',
   textTransform: 'capitalize',

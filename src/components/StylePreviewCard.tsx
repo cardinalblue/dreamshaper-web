@@ -128,4 +128,8 @@ const tryButton = css({
   textTransform: 'uppercase',
   color: '#FAFAFA',
   cursor: 'pointer',
+  transition: 'all 0.2s',
+  _hover: {
+    bgColor: '#60606C',
+  },
 })

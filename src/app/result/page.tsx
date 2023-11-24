@@ -269,7 +269,7 @@ const buttonRecipe = cva({
         },
         _disabled: {
           cursor: 'not-allowed',
-          bgColor: '#3C3C444D',
+          bgColor: '#AEAEB7',
         },
       },
     },
