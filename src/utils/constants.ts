@@ -104,7 +104,7 @@ export const STYLE_LIST = [
   {
     id: 'impressionism',
     name: 'Impressionism',
-    src: '/images/christmas_vibes.png',
+    src: '/images/impressionism.png',
     config: {
       prompt: "acrylic painting style, Van Gogh's painting",
       negative_prompt:
@@ -120,7 +120,7 @@ export const STYLE_LIST = [
   {
     id: 'cartoon',
     name: 'Cartoon',
-    src: '/images/christmas_vibes.png',
+    src: '/images/cartoon.png',
     config: {
       prompt: 'cartoon artwork, anime style++, key visual, vibrant, studio anime, highly detailed',
       negative_prompt:
@@ -136,7 +136,7 @@ export const STYLE_LIST = [
   {
     id: 'celebration',
     name: 'Celebration',
-    src: '/images/christmas_vibes.png',
+    src: '/images/celebration.png',
     config: {
       prompt:
         'glitter, sparkles, confetti, kira kira, shinny spark, celebration, glimmer, glare effect',
@@ -153,7 +153,7 @@ export const STYLE_LIST = [
   {
     id: 'color_festival',
     name: 'Color Festival',
-    src: '/images/christmas_vibes.png',
+    src: '/images/color_festival.png',
     config: {
       prompt:
         'psychedelic color, vibrant color, super colorful tone, beautiful pastel coloring, colorful ink, coloring ink leaks from edge, pastel dreaming coloring',
