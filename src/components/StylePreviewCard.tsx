@@ -38,10 +38,12 @@ export const StylePreviewCard = ({ styleInfo, style }: StylePreviewCardProps) =>
 
   return (
     <label htmlFor={`file-input-${styleInfo.id}`} className={container} style={{ ...style }}>
-      <div
-        className={cx(thumbnail, 'thumbnail')}
-        style={{ backgroundImage: `url('${styleInfo.src}')` }}
-      ></div>
+      <div className={thumbnailWrapper}>
+        <div
+          className={cx(thumbnail, 'thumbnail')}
+          style={{ backgroundImage: `url('${styleInfo.src}')` }}
+        ></div>
+      </div>
       <div className={titleWrapper}>
         <div className={title}>{styleInfo.name}</div>
         <input
@@ -78,10 +80,16 @@ const container = css({
   },
 })
 
-const thumbnail = css({
+const thumbnailWrapper = css({
   w: '100%',
   h: '320px',
   rounded: '25px',
+  overflow: 'hidden',
+})
+
+const thumbnail = css({
+  w: '100%',
+  h: '100%',
   bg: 'no-repeat center / cover',
   transition: 'all 0.3s',
 })
