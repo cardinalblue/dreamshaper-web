@@ -284,8 +284,8 @@ const buttonText = css({
 })
 
 const resultWrapper = css({
-  flex: 1,
   w: '100%',
+  flexGrow: 1,
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
