@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { css } from '@styled-system/css'
 import Image from 'next/image'
@@ -35,6 +35,9 @@ export default function Result() {
   } = useResultImageStore()
   const isImageLoading = useResultImageStore((state) => state.computed.isImageLoading)
 
+  const abortController = useRef<AbortController | null>(null)
+  const isLeaveWithoutResult = useRef(false)
+
   const router = useRouter()
 
   const handleStyleTransfer = async (image: string) => {
@@ -45,12 +48,13 @@ export default function Result() {
       const res = await fetch('/api/style-transfer', {
         method: 'POST',
         body: JSON.stringify({ instances: [{ initial_image_b64, config }] }),
+        signal: abortController.current?.signal,
       })
       const data = await res.json()
       const newImage = data.predictions[0].stylized_image_b64
       setResultImageSrc(newImage)
     } catch (error) {
-      console.debug('error', error)
+      console.debug('transfer error', error)
       setResultFailedStatus(true)
     } finally {
       setImageTransferringStatus(false)
@@ -74,6 +78,7 @@ export default function Result() {
       }
       const base64Image = await fileToBase64(file)
       const size = await getImageDimensionsFromBase64(base64Image)
+
       setOriginalImageData({
         originalImageSrc: base64Image,
         originalImageDimensions: size,
@@ -86,31 +91,34 @@ export default function Result() {
     }
   }
 
+  useEffect(() => {
+    isLeaveWithoutResult.current = !resultImageSrc
+  }, [resultImageSrc])
+
   const imageSrc = useMemo(() => {
     if (!originalImageSrc && !resultImageSrc) return null
     return isImageTransferring ? originalImageSrc : resultImageSrc
   }, [isImageTransferring, originalImageSrc, resultImageSrc])
 
-  useEffect(() => {
-    return () => {
-      if (isResultFailed) {
-        resetUserImageStates()
-        resetResultImageStates()
-      }
-    }
-  }, [isResultFailed, resetUserImageStates, resetResultImageStates])
-
-  const init = async () => {
-    if (uploadedFile && !resultImageSrc) {
-      const image = await getImageData()
-      if (image) handleStyleTransfer(image)
-    } else {
-      router.push('/')
-    }
+  const initProcessImage = async () => {
+    if (resultImageSrc) return // show result directly
+    if (!uploadedFile) return router.push('/') // no uploaded file, go back to homepage
+    // process pending image
+    const image = await getImageData()
+    if (image) handleStyleTransfer(image)
   }
 
   useEffect(() => {
-    init()
+    abortController.current = new AbortController()
+    initProcessImage()
+    return () => {
+      // clear all data if no result, don't let user go back to the error state
+      if (isLeaveWithoutResult.current) {
+        resetUserImageStates()
+        resetResultImageStates()
+      }
+      abortController.current?.abort()
+    }
   }, [])
 
   if (!uploadedFile) return null
