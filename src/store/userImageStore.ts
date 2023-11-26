@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-interface UserImageState {
+type State = {
   selectedStyle: {
     id: string
     name: string
@@ -14,44 +14,40 @@ interface UserImageState {
     width: number
     height: number
   }
-  resultImageSrc: string // base64 string
-  setSelectedStyle: (selectedStyle: UserImageState['selectedStyle']) => void
-  setUploadStatus: (isUploading: boolean) => void
-  setUploadedFile: (file: UserImageState['uploadedFile']) => void
+}
+
+type Actions = {
+  setSelectedStyle: (selectedStyle: State['selectedStyle']) => void
+  setUploadingStatus: (isUploading: boolean) => void
+  setUploadedFile: (file: State['uploadedFile']) => void
   setOriginalImageData: (state: {
     originalImageSrc: string
-    originalImageDimensions: UserImageState['originalImageDimensions']
+    originalImageDimensions: State['originalImageDimensions']
   }) => void
-  setResultImageSrc: (resultImageSrc: string) => void
   resetUserImageStates: () => void
 }
 
-export const useUserImageStore = create<UserImageState>((set) => ({
+const initialState: State = {
   selectedStyle: null,
   uploadedFile: null,
   isUploading: false,
   originalImageSrc: '',
   originalImageDimensions: { width: 0, height: 0 },
-  resultImageSrc: '',
+}
+
+export const useUserImageStore = create<State & Actions>((set) => ({
+  ...initialState,
+
   setSelectedStyle: (selectedStyle) => set({ selectedStyle }),
-  setUploadStatus: (isUploading) => set({ isUploading }),
+  setUploadingStatus: (isUploading) => set({ isUploading }),
   setUploadedFile: (uploadedFile) =>
     set({
       uploadedFile,
       // reset image data
       originalImageSrc: '',
       originalImageDimensions: { width: 0, height: 0 },
-      resultImageSrc: '',
     }),
   setOriginalImageData: ({ originalImageSrc, originalImageDimensions }) =>
     set({ originalImageSrc, originalImageDimensions }),
-  setResultImageSrc: (resultImageSrc) => set({ resultImageSrc }),
-  resetUserImageStates: () =>
-    set({
-      selectedStyle: null,
-      uploadedFile: null,
-      originalImageSrc: '',
-      originalImageDimensions: { width: 0, height: 0 },
-      resultImageSrc: '',
-    }),
+  resetUserImageStates: () => set(initialState),
 }))

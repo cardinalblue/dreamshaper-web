@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { css, cva } from '@styled-system/css'
+import { css } from '@styled-system/css'
 import Image from 'next/image'
 import {
   getImageDimensionsFromBase64,
@@ -11,30 +11,35 @@ import {
   compressImage,
   handlePngImageBackground,
 } from '@/utils/imageHelper'
-import { useUserImageStore } from '@/store'
-import { HomeIcon } from '@/components/icons/HomeIcon'
-import { DownloadIcon } from '@/components/icons/DownloadIcon'
+import { useUserImageStore, useResultImageStore } from '@/store'
+import ResultControls from '@/components/ResultControls'
 
 export default function Result() {
   const {
     selectedStyle,
-    resultImageSrc,
     uploadedFile,
-    setResultImageSrc,
     setOriginalImageData,
     originalImageSrc,
     originalImageDimensions,
     resetUserImageStates,
   } = useUserImageStore()
-  const [isImageProcessing, setIsImageProcessing] = useState(false)
-  const [isTransferring, setIsTransferring] = useState(false)
-  const [isError, setIsError] = useState(false)
+  const {
+    resultImageSrc,
+    isImageTransferring,
+    isResultFailed,
+    setResultImageSrc,
+    setImageFormattingStatus,
+    setImageTransferringStatus,
+    setResultFailedStatus,
+    resetResultImageStates,
+  } = useResultImageStore()
+  const isImageLoading = useResultImageStore((state) => state.computed.isImageLoading)
 
   const router = useRouter()
 
   const handleStyleTransfer = async (image: string) => {
     try {
-      setIsTransferring(true)
+      setImageTransferringStatus(true)
       const config = selectedStyle?.config ?? {}
       const initial_image_b64 = image ?? ''
       const res = await fetch('/api/style-transfer', {
@@ -46,29 +51,16 @@ export default function Result() {
       setResultImageSrc(newImage)
     } catch (error) {
       console.debug('error', error)
-      setIsError(true)
+      setResultFailedStatus(true)
     } finally {
-      setIsTransferring(false)
+      setImageTransferringStatus(false)
     }
-  }
-
-  const onGoBack = () => {
-    router.push('/')
-  }
-
-  const onSave = () => {
-    const link = document.createElement('a')
-    link.href = resultImageSrc
-    const fileName = uploadedFile?.name.split('.').slice(0, -1).join('.')
-    const type = uploadedFile?.type.split('/')[1]
-    link.download = `${fileName}_${selectedStyle?.id}.${type}`
-    link.click()
   }
 
   const getImageData = async () => {
     if (!uploadedFile) return
     try {
-      setIsImageProcessing(true)
+      setImageFormattingStatus(true)
       let file = uploadedFile
       if (file.type === 'image/heic') {
         file = await processHeicFile(file)
@@ -90,24 +82,23 @@ export default function Result() {
     } catch (error) {
       console.debug('Image processing error', error)
     } finally {
-      setIsImageProcessing(false)
+      setImageFormattingStatus(false)
     }
   }
 
-  const isLoading = useMemo(() => {
-    return isImageProcessing || isTransferring
-  }, [isImageProcessing, isTransferring])
-
   const imageSrc = useMemo(() => {
     if (!originalImageSrc && !resultImageSrc) return null
-    return isTransferring ? originalImageSrc : resultImageSrc
-  }, [isTransferring, originalImageSrc, resultImageSrc])
+    return isImageTransferring ? originalImageSrc : resultImageSrc
+  }, [isImageTransferring, originalImageSrc, resultImageSrc])
 
   useEffect(() => {
     return () => {
-      if (isError) resetUserImageStates()
+      if (isResultFailed) {
+        resetUserImageStates()
+        resetResultImageStates()
+      }
     }
-  }, [isError, resetUserImageStates])
+  }, [isResultFailed, resetUserImageStates, resetResultImageStates])
 
   const init = async () => {
     if (uploadedFile && !resultImageSrc) {
@@ -128,28 +119,9 @@ export default function Result() {
     <div className={container}>
       <div className={card}>
         <div className={styleName}>{selectedStyle?.name}</div>
-        <div className={buttonGroup}>
-          {!isError && (
-            <div
-              onClick={() => {
-                if (isLoading || !resultImageSrc) return
-                onSave()
-              }}
-              data-disabled={isLoading || !resultImageSrc ? 'true' : null}
-              className={css(buttonRecipe.raw({ theme: 'dark' }))}
-            >
-              <DownloadIcon />
-              <div className={buttonText}>Download</div>
-            </div>
-          )}
-          <div onClick={onGoBack} className={css(buttonRecipe.raw({ theme: 'light' }))}>
-            <HomeIcon />
-            <div className={buttonText}>Try another style</div>
-          </div>
-        </div>
-
+        <ResultControls />
         <div className={resultWrapper}>
-          {isError ? (
+          {isResultFailed ? (
             <div className={errorText}>Sorry, upload failed, please try again</div>
           ) : (
             <div
@@ -175,7 +147,7 @@ export default function Result() {
                   className={imageEl}
                 />
               )}
-              {isLoading && <div className={loadingMask} />}
+              {isImageLoading && <div className={loadingMask} />}
             </div>
           )}
         </div>
@@ -217,70 +189,6 @@ const styleName = css({
   fontWeight: 'bold',
   lineHeight: 'normal',
   color: '#484851',
-})
-
-const buttonGroup = css({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  flexWrap: 'wrap',
-  gap: '12px',
-})
-
-const buttonRecipe = cva({
-  base: {
-    w: '48px',
-    h: '48px',
-    p: '12px',
-    cursor: 'pointer',
-    rounded: '14px',
-    fontSize: '18px',
-    fontWeight: 'bold',
-    lineHeight: 1,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: '8px',
-    transition: 'all 0.2s',
-    userSelect: 'none',
-    md: {
-      w: 'auto',
-      h: 'auto',
-      p: '14px 24px',
-    },
-    '& > svg': {
-      flexShrink: 0,
-    },
-  },
-  variants: {
-    theme: {
-      light: {
-        color: '#484851',
-        bgColor: '#E2DECF',
-        _hover: {
-          bgColor: '#D9D2BF',
-        },
-      },
-      dark: {
-        color: '#FAFAFA',
-        bgColor: '#3C3C44',
-        '&:not([data-disabled]):hover': {
-          bgColor: '#60606C',
-        },
-        _disabled: {
-          cursor: 'not-allowed',
-          bgColor: '#AEAEB7',
-        },
-      },
-    },
-  },
-})
-
-const buttonText = css({
-  display: 'none',
-  md: {
-    display: 'block',
-  },
 })
 
 const resultWrapper = css({

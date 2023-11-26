@@ -3,7 +3,7 @@
 import React, { ChangeEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { css, cx } from '@styled-system/css'
-import { useUserImageStore } from '@/store'
+import { useUserImageStore, useResultImageStore } from '@/store'
 
 interface StylePreviewCardProps {
   styleInfo: {
@@ -16,23 +16,26 @@ interface StylePreviewCardProps {
 }
 
 export const StylePreviewCard = ({ styleInfo, style }: StylePreviewCardProps) => {
-  const { setUploadedFile, setSelectedStyle, setUploadStatus, isUploading } = useUserImageStore()
+  const { setUploadedFile, setSelectedStyle, setUploadingStatus, isUploading } = useUserImageStore()
+  const { resetResultImageStates } = useResultImageStore()
+
   const router = useRouter()
 
   const onUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     if (isUploading) return
     try {
-      setUploadStatus(true)
+      setUploadingStatus(true)
       const files = e.target.files as FileList
       if (!files.length) return
 
+      resetResultImageStates() // reset previosus result
       setSelectedStyle(styleInfo)
       setUploadedFile(files[0])
       router.push('/result')
     } catch (error) {
       console.debug('Upload error', error)
     } finally {
-      setUploadStatus(false)
+      setUploadingStatus(false)
     }
   }
 
