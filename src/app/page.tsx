@@ -116,8 +116,7 @@ const titleWrapper = css({
 })
 
 const title = css({
-  w: '516px',
-  fontSize: '48px',
+  fontSize: '42px',
   fontFamily: 'Recoleta',
   fontWeight: '500',
   textTransform: 'capitalize',
@@ -125,6 +124,7 @@ const title = css({
   letterSpacing: '-1px',
   whiteSpace: 'nowrap',
   md: {
+    w: '516px',
     fontSize: '72px',
   },
   '& > div:first-child': {
