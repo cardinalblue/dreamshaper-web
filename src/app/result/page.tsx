@@ -137,11 +137,7 @@ export default function Result() {
         <ResultControls />
         <div className={resultWrapper}>
           {isResultFailed ? (
-            <div className={errorText}>
-              Sorry, we were unable to process your image.
-              <br />
-              Please try again with another image.
-            </div>
+            <div className={errorText}>Image processing failed. Please try a different image.</div>
           ) : (
             <div
               className={imageFrame}
