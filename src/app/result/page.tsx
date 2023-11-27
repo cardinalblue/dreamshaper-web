@@ -137,7 +137,11 @@ export default function Result() {
         <ResultControls />
         <div className={resultWrapper}>
           {isResultFailed ? (
-            <div className={errorText}>Sorry, upload failed, please try again</div>
+            <div className={errorText}>
+              Sorry, we were unable to process your image.
+              <br />
+              Please try again with another image.
+            </div>
           ) : (
             <div
               className={imageFrame}
@@ -253,4 +257,5 @@ const loadingMask = css({
 const errorText = css({
   fontSize: '18px',
   fontWeight: '600',
+  textAlign: 'center',
 })
