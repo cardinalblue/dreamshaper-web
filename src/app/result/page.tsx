@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { css } from '@styled-system/css'
 import Image from 'next/image'
@@ -78,7 +78,6 @@ export default function Result() {
       }
       const base64Image = await fileToBase64(file)
       const size = await getImageDimensionsFromBase64(base64Image)
-
       setOriginalImageData({
         originalImageSrc: base64Image,
         originalImageDimensions: size,
@@ -102,22 +101,30 @@ export default function Result() {
 
   const initProcessImage = async () => {
     if (resultImageSrc) return // show result directly
-    if (!uploadedFile) return router.push('/') // no uploaded file, go back to homepage
     // process pending image
+    abortController.current = new AbortController()
     const image = await getImageData()
     if (image) handleStyleTransfer(image)
   }
 
   useEffect(() => {
-    abortController.current = new AbortController()
-    initProcessImage()
+    if (uploadedFile) {
+      initProcessImage()
+    }
+  }, [uploadedFile])
+
+  useEffect(() => {
+    // no uploaded file, go back to homepage
+    if (!uploadedFile) {
+      router.push('/')
+    }
     return () => {
+      abortController.current?.abort()
       // clear all data if no result, don't let user go back to the error state
       if (isLeaveWithoutResult.current) {
         resetUserImageStates()
         resetResultImageStates()
       }
-      abortController.current?.abort()
     }
   }, [])
 

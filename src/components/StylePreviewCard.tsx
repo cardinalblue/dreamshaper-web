@@ -1,9 +1,10 @@
 'use client'
 
-import React, { ChangeEvent } from 'react'
+import React from 'react'
 import { useRouter } from 'next/navigation'
 import { css, cx } from '@styled-system/css'
-import { useUserImageStore, useResultImageStore } from '@/store'
+import { useUserImageStore } from '@/store'
+import { FileInput } from '@/components/FileInput'
 
 interface StylePreviewCardProps {
   styleInfo: {
@@ -16,31 +17,20 @@ interface StylePreviewCardProps {
 }
 
 export const StylePreviewCard = ({ styleInfo, style }: StylePreviewCardProps) => {
-  const { setUploadedFile, setSelectedStyle, setUploadingStatus, isUploading } = useUserImageStore()
-  const { resetResultImageStates } = useResultImageStore()
+  const { setSelectedStyle } = useUserImageStore()
 
   const router = useRouter()
 
-  const onUpload = async (e: ChangeEvent<HTMLInputElement>) => {
-    if (isUploading) return
-    try {
-      setUploadingStatus(true)
-      const files = e.target.files as FileList
-      if (!files.length) return
-
-      resetResultImageStates() // reset previosus result
-      setSelectedStyle(styleInfo)
-      setUploadedFile(files[0])
-      router.push('/result')
-    } catch (error) {
-      console.debug('Upload error', error)
-    } finally {
-      setUploadingStatus(false)
-    }
-  }
-
   return (
-    <label htmlFor={`file-input-${styleInfo.id}`} className={container} style={{ ...style }}>
+    <FileInput
+      inputId={`file-input-${styleInfo.id}`}
+      className={container}
+      style={{ ...style }}
+      onUpload={() => {
+        setSelectedStyle(styleInfo)
+        router.push('/result')
+      }}
+    >
       <div className={thumbnailWrapper}>
         <div
           className={cx(thumbnail, 'thumbnail')}
@@ -49,17 +39,9 @@ export const StylePreviewCard = ({ styleInfo, style }: StylePreviewCardProps) =>
       </div>
       <div className={titleWrapper}>
         <div className={title}>{styleInfo.name}</div>
-        <input
-          type="file"
-          accept="image/jpg,image/jpeg,image/png,image/heic"
-          id={`file-input-${styleInfo.id}`}
-          onChange={onUpload}
-          className={fileInput}
-          disabled={isUploading}
-        />
         <div className={tryButton}>try</div>
       </div>
-    </label>
+    </FileInput>
   )
 }
 
@@ -112,10 +94,6 @@ const title = css({
   fontWeight: '600',
   lineHeight: 'normal',
   color: '#484851',
-})
-
-const fileInput = css({
-  display: 'none',
 })
 
 const tryButton = css({

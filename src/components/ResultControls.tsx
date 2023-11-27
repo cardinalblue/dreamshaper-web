@@ -3,13 +3,14 @@
 import { useRouter } from 'next/navigation'
 import { css, cva } from '@styled-system/css'
 import { useUserImageStore, useResultImageStore } from '@/store'
+import { FileInput } from '@/components/FileInput'
 import { HomeIcon } from '@/components/icons/HomeIcon'
 import { DownloadIcon } from '@/components/icons/DownloadIcon'
+import { TryAgainIcon } from '@/components/icons/TryAgainIcon'
 
 export default function ResultControls() {
   const { selectedStyle, uploadedFile } = useUserImageStore()
   const { resultImageSrc, isResultFailed } = useResultImageStore()
-  const isImageLoading = useResultImageStore((state) => state.computed.isImageLoading)
 
   const router = useRouter()
 
@@ -28,14 +29,19 @@ export default function ResultControls() {
 
   return (
     <div className={buttonGroup}>
-      {!isResultFailed && (
+      {isResultFailed ? (
+        <FileInput className={css(buttonRecipe.raw({ theme: 'dark' }))}>
+          <TryAgainIcon />
+          <div className={buttonText}>Try again</div>
+        </FileInput>
+      ) : (
         <div
+          className={css(buttonRecipe.raw({ theme: 'dark' }))}
+          data-disabled={!resultImageSrc ? 'true' : null}
           onClick={() => {
-            if (isImageLoading || !resultImageSrc) return
+            if (!resultImageSrc) return
             onSave()
           }}
-          data-disabled={isImageLoading || !resultImageSrc ? 'true' : null}
-          className={css(buttonRecipe.raw({ theme: 'dark' }))}
         >
           <DownloadIcon />
           <div className={buttonText}>Download</div>
