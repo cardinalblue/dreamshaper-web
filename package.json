@@ -10,6 +10,7 @@
     "prepare": "panda codegen"
   },
   "dependencies": {
+    "@amplitude/analytics-browser": "^2.3.5",
     "heic2any": "^0.0.4",
     "next": "14.0.2",
     "react": "^18",

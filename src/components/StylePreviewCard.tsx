@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { css, cx } from '@styled-system/css'
 import { useUserImageStore } from '@/store'
 import { FileInput } from '@/components/FileInput'
+import { ampClickStyleButton } from '@/utils/eventTracking'
 
 interface StylePreviewCardProps {
   styleInfo: {
@@ -29,6 +30,9 @@ export const StylePreviewCard = ({ styleInfo, style }: StylePreviewCardProps) =>
       onUpload={() => {
         setSelectedStyle(styleInfo)
         router.push('/result')
+      }}
+      onClick={() => {
+        ampClickStyleButton(styleInfo.id)
       }}
     >
       <div className={thumbnailWrapper}>

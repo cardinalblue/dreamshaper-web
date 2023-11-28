@@ -1,10 +1,11 @@
 'use client'
 
 import { css } from '@styled-system/css'
-import { STYLE_LIST } from '@/utils/constants'
+import { STYLE_LIST } from '@/utils/styleList'
 import { useEffect, useState } from 'react'
 import { StylePreviewCard } from '@/components/StylePreviewCard'
 import { TitleDecoIcon } from '@/components/icons/TitleDecoIcon'
+import { ampEnterStyleListPage } from '@/utils/eventTracking'
 
 const LIST_GAP = 32
 
@@ -12,6 +13,8 @@ export default function Home() {
   const [columnCount, setColumnCount] = useState(0)
 
   useEffect(() => {
+    ampEnterStyleListPage()
+
     const handleResize = () => {
       if (window.innerWidth < 768) {
         setColumnCount(1)

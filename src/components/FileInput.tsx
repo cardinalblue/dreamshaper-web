@@ -9,11 +9,13 @@ interface FileInputProps {
   style?: CSSProperties
   className?: string
   onUpload?: () => void
+  onClick?: () => void
 }
 
 export const FileInput = ({
   inputId = 'image-file-input',
   onUpload,
+  onClick,
   children,
   ...rest
 }: PropsWithChildren<FileInputProps>) => {
@@ -44,6 +46,7 @@ export const FileInput = ({
         accept="image/jpg,image/jpeg,image/png,image/heic"
         id={inputId}
         onChange={onChange}
+        onClick={onClick}
         className={fileInput}
         disabled={isUploading}
       />

@@ -7,6 +7,7 @@ import { FileInput } from '@/components/FileInput'
 import { HomeIcon } from '@/components/icons/HomeIcon'
 import { DownloadIcon } from '@/components/icons/DownloadIcon'
 import { TryAgainIcon } from '@/components/icons/TryAgainIcon'
+import { ampDownloadTransferResult } from '@/utils/eventTracking'
 
 export default function ResultControls() {
   const { selectedStyle, uploadedFile } = useUserImageStore()
@@ -25,6 +26,7 @@ export default function ResultControls() {
     const type = uploadedFile?.type.split('/')[1]
     link.download = `${fileName}_${selectedStyle?.id}.${type}`
     link.click()
+    ampDownloadTransferResult()
   }
 
   return (
