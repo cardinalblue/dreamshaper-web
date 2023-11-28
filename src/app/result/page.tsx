@@ -13,6 +13,7 @@ import {
 } from '@/utils/imageHelper'
 import { useUserImageStore, useResultImageStore } from '@/store'
 import ResultControls from '@/components/ResultControls'
+import { ampEnterTransferResultPage, ampShowTransferResult } from '@/utils/eventTracking'
 
 export default function Result() {
   const {
@@ -41,9 +42,10 @@ export default function Result() {
   const router = useRouter()
 
   const handleStyleTransfer = async (image: string) => {
+    if (!selectedStyle) return
     try {
       setImageTransferringStatus(true)
-      const config = selectedStyle?.config ?? {}
+      const config = selectedStyle.config ?? {}
       const initial_image_b64 = image ?? ''
       const res = await fetch('/api/style-transfer', {
         method: 'POST',
@@ -53,6 +55,7 @@ export default function Result() {
       const data = await res.json()
       const newImage = data.predictions[0].stylized_image_b64
       setResultImageSrc(newImage)
+      ampShowTransferResult(selectedStyle.id)
     } catch (error) {
       console.debug('transfer error', error)
       setResultFailedStatus(true)
@@ -108,16 +111,18 @@ export default function Result() {
   }
 
   useEffect(() => {
-    if (uploadedFile) {
+    if (uploadedFile && selectedStyle) {
       initProcessImage()
     }
-  }, [uploadedFile])
+  }, [uploadedFile, selectedStyle])
 
   useEffect(() => {
     // no uploaded file, go back to homepage
     if (!uploadedFile) {
       router.push('/')
     }
+    ampEnterTransferResultPage()
+
     return () => {
       abortController.current?.abort()
       // clear all data if no result, don't let user go back to the error state
