@@ -21,14 +21,18 @@ export const ampClickStyleButton = (style: string) => {
   amplitude.track('clicked_style_button', { style })
 }
 
-export const ampEnterTransferResultPage = () => {
-  amplitude.track('viewed_style_result_page')
+export const ampEnterTransferResultPage = (style: string) => {
+  amplitude.track('viewed_style_result_page', { style })
 }
 
 export const ampShowTransferResult = (style: string) => {
   amplitude.track('completed_style_result_image', { style })
 }
 
-export const ampDownloadTransferResult = () => {
-  amplitude.track('clicked_style_result_download_button')
+export const ampDownloadTransferResult = (style: string) => {
+  amplitude.track('clicked_style_result_download_button', { style })
+}
+
+export const ampClickTryAnotherStyle = () => {
+  amplitude.track('clicked_try_another_style_button')
 }

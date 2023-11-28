@@ -113,6 +113,7 @@ export default function Result() {
   useEffect(() => {
     if (uploadedFile && selectedStyle) {
       initProcessImage()
+      ampEnterTransferResultPage(selectedStyle.id)
     }
   }, [uploadedFile, selectedStyle])
 
@@ -120,8 +121,8 @@ export default function Result() {
     // no uploaded file, go back to homepage
     if (!uploadedFile) {
       router.push('/')
+      return
     }
-    ampEnterTransferResultPage()
 
     return () => {
       abortController.current?.abort()
