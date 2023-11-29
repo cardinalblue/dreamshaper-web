@@ -29,6 +29,7 @@ export default function Result() {
     resultImageSrc,
     isImageTransferring,
     isResultFailed,
+    mixupStyleList,
     setResultImageSrc,
     setImageFormattingStatus,
     setImageTransferringStatus,
@@ -141,7 +142,13 @@ export default function Result() {
   return (
     <div className={container}>
       <div className={card}>
-        <div className={styleName}>{selectedStyle?.name}</div>
+        <div className={styleName}>
+          <div>{selectedStyle?.name}</div>
+          {!!mixupStyleList.length && (
+            <div className={mixupNames}>+ {mixupStyleList.join(' + ')}</div>
+          )}
+        </div>
+
         <ResultControls />
         <div className={resultWrapper}>
           {isResultFailed ? (
@@ -204,7 +211,7 @@ const card = css({
   gap: '24px',
   md: {
     w: '648px',
-    h: '720px',
+    h: 'auto',
   },
 })
 
@@ -213,11 +220,19 @@ const styleName = css({
   fontWeight: 'bold',
   lineHeight: 'normal',
   color: '#484851',
+  textAlign: 'center',
+})
+
+const mixupNames = css({
+  fontSize: '14px',
+  color: '#484851',
+  opacity: 0.8,
 })
 
 const resultWrapper = css({
   w: '100%',
-  flexGrow: 1,
+  h: '400px',
+  // flexGrow: 1,
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',

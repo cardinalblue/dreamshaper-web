@@ -7,7 +7,7 @@ interface MixUpControlsProps {
 }
 
 export const MixUpControls = ({ handleStyleTransfer }: MixUpControlsProps) => {
-  const { resultImageSrc } = useResultImageStore()
+  const { resultImageSrc, updateMixupStyleList } = useResultImageStore()
 
   return (
     <div className={container}>
@@ -15,7 +15,10 @@ export const MixUpControls = ({ handleStyleTransfer }: MixUpControlsProps) => {
         <div
           key={styleInfo.id}
           className={styleTag}
-          onClick={() => handleStyleTransfer(resultImageSrc, styleInfo)}
+          onClick={() => {
+            handleStyleTransfer(resultImageSrc, styleInfo)
+            updateMixupStyleList(styleInfo.name)
+          }}
         >
           {styleInfo.name}
         </div>
