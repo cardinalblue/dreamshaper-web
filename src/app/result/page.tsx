@@ -13,6 +13,7 @@ import {
 } from '@/utils/imageHelper'
 import { useUserImageStore, useResultImageStore } from '@/store'
 import { ResultControls } from '@/components/ResultControls'
+import { MixUpControls } from '@/components/MixUpControls'
 import { ampEnterTransferResultPage, ampShowTransferResult } from '@/utils/eventTracking'
 
 export default function Result() {
@@ -41,11 +42,11 @@ export default function Result() {
 
   const router = useRouter()
 
-  const handleStyleTransfer = async (image: string) => {
-    if (!selectedStyle) return
+  const handleStyleTransfer = async (image: string, style = selectedStyle) => {
+    if (!style) return
     try {
       setImageTransferringStatus(true)
-      const config = selectedStyle.config ?? {}
+      const config = style.config ?? {}
       const initial_image_b64 = image ?? ''
       const res = await fetch('/api/style-transfer', {
         method: 'POST',
@@ -55,7 +56,7 @@ export default function Result() {
       const data = await res.json()
       const newImage = data.predictions[0].stylized_image_b64
       setResultImageSrc(newImage)
-      ampShowTransferResult(selectedStyle.id)
+      ampShowTransferResult(style.id)
     } catch (error) {
       console.debug('transfer error', error)
       setResultFailedStatus(true)
@@ -98,9 +99,10 @@ export default function Result() {
   }, [resultImageSrc])
 
   const imageSrc = useMemo(() => {
-    if (!originalImageSrc && !resultImageSrc) return null
-    return isImageTransferring ? originalImageSrc : resultImageSrc
-  }, [isImageTransferring, originalImageSrc, resultImageSrc])
+    // if (!originalImageSrc && !resultImageSrc) return null
+    return resultImageSrc || originalImageSrc || null
+    // return isImageTransferring ? originalImageSrc : resultImageSrc
+  }, [originalImageSrc, resultImageSrc])
 
   const initProcessImage = async () => {
     if (resultImageSrc) return // show result directly
@@ -172,6 +174,7 @@ export default function Result() {
             </div>
           )}
         </div>
+        <MixUpControls handleStyleTransfer={handleStyleTransfer} />
       </div>
     </div>
   )
@@ -201,7 +204,7 @@ const card = css({
   gap: '24px',
   md: {
     w: '648px',
-    h: '656px',
+    h: '720px',
   },
 })
 
