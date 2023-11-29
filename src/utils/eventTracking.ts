@@ -1,38 +1,38 @@
 import * as amplitude from '@amplitude/analytics-browser'
-
-export const initAmplitude = () => {
-  const API_KEY =
-    process.env.NEXT_PUBLIC_VERCEL_ENV === 'production'
-      ? process.env.NEXT_PUBLIC_AMPLITUDE_KEY
-      : process.env.NEXT_PUBLIC_TESTING_AMPLITUDE_KEY
-  amplitude.init(API_KEY ?? '', undefined, {
-    logLevel: amplitude.Types.LogLevel.Warn,
-    defaultTracking: {
-      sessions: true,
-    },
-  })
-}
+import * as gtag from './gtag'
 
 export const ampEnterStyleListPage = () => {
-  amplitude.track('viewed_style_list_page')
+  const eventName = 'viewed_style_list_page'
+  amplitude.track(eventName)
+  gtag.event(eventName)
 }
 
 export const ampClickStyleButton = (style: string) => {
-  amplitude.track('clicked_style_button', { style })
+  const eventName = 'clicked_style_button'
+  amplitude.track(eventName, { style })
+  gtag.event(eventName, { style })
 }
 
 export const ampEnterTransferResultPage = (style: string) => {
-  amplitude.track('viewed_style_result_page', { style })
+  const eventName = 'viewed_style_result_page'
+  amplitude.track(eventName, { style })
+  gtag.event(eventName, { style })
 }
 
 export const ampShowTransferResult = (style: string) => {
-  amplitude.track('completed_style_result_image', { style })
+  const eventName = 'completed_style_result_image'
+  amplitude.track(eventName, { style })
+  gtag.event(eventName, { style })
 }
 
 export const ampDownloadTransferResult = (style: string) => {
-  amplitude.track('clicked_style_result_download_button', { style })
+  const eventName = 'clicked_style_result_download_button'
+  amplitude.track(eventName, { style })
+  gtag.event(eventName, { style })
 }
 
 export const ampClickTryAnotherStyle = () => {
-  amplitude.track('clicked_try_another_style_button')
+  const eventName = 'clicked_try_another_style_button'
+  amplitude.track(eventName)
+  gtag.event(eventName)
 }
