@@ -10,7 +10,7 @@ import { DownloadIcon } from '@/components/icons/DownloadIcon'
 import { TryAgainIcon } from '@/components/icons/TryAgainIcon'
 import { ampDownloadTransferResult, ampClickTryAnotherStyle } from '@/utils/eventTracking'
 
-export default function ResultControls() {
+export const ResultControls = () => {
   const { selectedStyle, uploadedFile } = useUserImageStore()
   const { resultImageSrc, isResultFailed } = useResultImageStore()
 

@@ -12,7 +12,7 @@ import {
   handlePngImageBackground,
 } from '@/utils/imageHelper'
 import { useUserImageStore, useResultImageStore } from '@/store'
-import ResultControls from '@/components/ResultControls'
+import { ResultControls } from '@/components/ResultControls'
 import { ampEnterTransferResultPage, ampShowTransferResult } from '@/utils/eventTracking'
 
 export default function Result() {
