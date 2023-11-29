@@ -1,9 +1,10 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { css, cva } from '@styled-system/css'
+import { css } from '@styled-system/css'
 import { useUserImageStore, useResultImageStore } from '@/store'
 import { FileInput } from '@/components/FileInput'
+import { Button } from '@/components/Button'
 import { HomeIcon } from '@/components/icons/HomeIcon'
 import { DownloadIcon } from '@/components/icons/DownloadIcon'
 import { TryAgainIcon } from '@/components/icons/TryAgainIcon'
@@ -32,13 +33,16 @@ export default function ResultControls() {
   return (
     <div className={buttonGroup}>
       {isResultFailed ? (
-        <FileInput className={css(buttonRecipe.raw({ theme: 'dark' }))}>
-          <TryAgainIcon />
-          <div className={buttonText}>Try again</div>
+        <FileInput>
+          <Button theme="dark" content="icon">
+            <TryAgainIcon />
+            <div className="text">Try again</div>
+          </Button>
         </FileInput>
       ) : (
-        <div
-          className={css(buttonRecipe.raw({ theme: 'dark' }))}
+        <Button
+          theme="dark"
+          content="icon"
           data-disabled={!resultImageSrc ? 'true' : null}
           onClick={() => {
             if (!resultImageSrc) return
@@ -46,13 +50,13 @@ export default function ResultControls() {
           }}
         >
           <DownloadIcon />
-          <div className={buttonText}>Download</div>
-        </div>
+          <div className="text">Download</div>
+        </Button>
       )}
-      <div onClick={onGoBack} className={css(buttonRecipe.raw({ theme: 'light' }))}>
+      <Button onClick={onGoBack} theme="light" content="icon">
         <HomeIcon />
-        <div className={buttonText}>Try another style</div>
-      </div>
+        <div className="text">Try another style</div>
+      </Button>
     </div>
   )
 }
@@ -63,60 +67,4 @@ const buttonGroup = css({
   alignItems: 'center',
   flexWrap: 'wrap',
   gap: '12px',
-})
-
-const buttonRecipe = cva({
-  base: {
-    w: '48px',
-    h: '48px',
-    p: '12px',
-    cursor: 'pointer',
-    rounded: '14px',
-    fontSize: '18px',
-    fontWeight: 'bold',
-    lineHeight: 1,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: '8px',
-    transition: 'all 0.2s',
-    userSelect: 'none',
-    md: {
-      w: 'auto',
-      h: 'auto',
-      p: '14px 24px',
-    },
-    '& > svg': {
-      flexShrink: 0,
-    },
-  },
-  variants: {
-    theme: {
-      light: {
-        color: '#484851',
-        bgColor: '#E2DECF',
-        _hover: {
-          bgColor: '#D9D2BF',
-        },
-      },
-      dark: {
-        color: '#FAFAFA',
-        bgColor: '#3C3C44',
-        '&:not([data-disabled]):hover': {
-          bgColor: '#60606C',
-        },
-        _disabled: {
-          cursor: 'not-allowed',
-          bgColor: '#AEAEB7',
-        },
-      },
-    },
-  },
-})
-
-const buttonText = css({
-  display: 'none',
-  md: {
-    display: 'block',
-  },
 })

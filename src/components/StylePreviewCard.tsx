@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { css, cx } from '@styled-system/css'
 import { useUserImageStore } from '@/store'
 import { FileInput } from '@/components/FileInput'
+import { Button } from '@/components/Button'
 import { ampClickStyleButton } from '@/utils/eventTracking'
 
 interface StylePreviewCardProps {
@@ -26,7 +27,7 @@ export const StylePreviewCard = ({ styleInfo, style }: StylePreviewCardProps) =>
     <FileInput
       inputId={`file-input-${styleInfo.id}`}
       className={container}
-      style={{ ...style }}
+      style={style}
       onUpload={() => {
         setSelectedStyle(styleInfo)
         router.push('/result')
@@ -43,7 +44,9 @@ export const StylePreviewCard = ({ styleInfo, style }: StylePreviewCardProps) =>
       </div>
       <div className={titleWrapper}>
         <div className={title}>{styleInfo.name}</div>
-        <div className={tryButton}>try</div>
+        <Button theme="dark" className={tryButton}>
+          try
+        </Button>
       </div>
     </FileInput>
   )
@@ -104,17 +107,5 @@ const tryButton = css({
   w: '82px',
   h: '50px',
   flexShrink: 0,
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  rounded: '14px',
-  bgColor: '#3C3C44',
-  fontSize: '18px',
   textTransform: 'uppercase',
-  color: '#FAFAFA',
-  cursor: 'pointer',
-  transition: 'all 0.2s',
-  _hover: {
-    bgColor: '#60606C',
-  },
 })
