@@ -1,38 +1,25 @@
 import * as amplitude from '@amplitude/analytics-browser'
-import * as gtag from './gtag'
 
 export const ampEnterStyleListPage = () => {
-  const eventName = 'viewed_style_list_page'
-  amplitude.track(eventName)
-  gtag.event(eventName)
+  amplitude.track('viewed_style_list_page')
 }
 
 export const ampClickStyleButton = (style: string) => {
-  const eventName = 'clicked_style_button'
-  amplitude.track(eventName, { style })
-  gtag.event(eventName, { style })
+  amplitude.track('clicked_style_button', { style })
 }
 
 export const ampEnterTransferResultPage = (style: string) => {
-  const eventName = 'viewed_style_result_page'
-  amplitude.track(eventName, { style })
-  gtag.event(eventName, { style })
+  amplitude.track('viewed_style_result_page', { style })
 }
 
 export const ampShowTransferResult = (style: string) => {
-  const eventName = 'completed_style_result_image'
-  amplitude.track(eventName, { style })
-  gtag.event(eventName, { style })
+  amplitude.track('completed_style_result_image', { style })
 }
 
 export const ampDownloadTransferResult = (style: string) => {
-  const eventName = 'clicked_style_result_download_button'
-  amplitude.track(eventName, { style })
-  gtag.event(eventName, { style })
+  amplitude.track('clicked_style_result_download_button', { style })
 }
 
 export const ampClickTryAnotherStyle = () => {
-  const eventName = 'clicked_try_another_style_button'
-  amplitude.track(eventName)
-  gtag.event(eventName)
+  amplitude.track('clicked_try_another_style_button')
 }
