@@ -166,6 +166,7 @@ export default function Result() {
                   width={originalImageDimensions.width}
                   height={originalImageDimensions.height}
                   className={imageEl}
+                  unoptimized
                 />
               )}
               {isImageLoading && <div className={loadingMask} />}
