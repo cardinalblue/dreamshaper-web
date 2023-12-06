@@ -55,6 +55,10 @@ const container = cva({
       '& .thumbnail': {
         transform: 'scale(1.03)',
       },
+      '&:before': {
+        opacity: 1,
+        transform: 'translate(-50%, -50%) scale(1)',
+      },
     },
     _disabled: {
       cursor: 'not-allowed',
@@ -65,13 +69,13 @@ const container = cva({
       position: 'absolute',
       top: '50%',
       left: '50%',
-      transform: 'translate(-50%, -50%)',
+      transform: 'translate(-50%, -50%) scale(1.02)',
       w: 'calc(100% + 8px)',
       h: 'calc(100% + 8px)',
       rounded: '18px',
       border: '2px solid #484851',
       opacity: 0,
-      // transition: 'all 0.2s',
+      transition: 'all 0.2s',
       pointerEvents: 'none',
     },
   },
@@ -81,6 +85,7 @@ const container = cva({
         order: -1,
         '&:before': {
           opacity: 1,
+          transform: 'translate(-50%, -50%) scale(1)',
         },
       },
     },

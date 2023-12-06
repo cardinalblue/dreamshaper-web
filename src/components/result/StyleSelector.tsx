@@ -26,7 +26,7 @@ export const StyleSelector = ({ onApply }: StyleSelectorProps) => {
           active={selectedStyle?.id === styleInfo.id}
           onClick={() => {
             onApply(styleInfo)
-            listRef.current?.scrollTo({ top: 0 })
+            listRef.current?.scrollTo({ top: 0, left: 0 })
           }}
         />
       ))}

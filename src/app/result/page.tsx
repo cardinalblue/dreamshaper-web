@@ -114,12 +114,16 @@ const card = css({
 })
 
 const resultSection = css({
+  h: '471px',
   p: '24px 24px',
   flexGrow: 1,
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   gap: '24px',
+  md: {
+    h: 'auto',
+  },
 })
 
 const styleName = css({
