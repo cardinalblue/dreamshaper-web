@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import '@/app/globals.css'
-import { Providers } from './providers'
+import { Amplitude } from '@/components/providers/Amplitude'
+import { GoogleAnalytics } from '@/components/providers/GoogleAnalytics'
 
 export const metadata: Metadata = {
   title: 'Image Style Transfer',
@@ -10,8 +11,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <GoogleAnalytics />
       <body>
-        <Providers>{children}</Providers>
+        {children}
+        <Amplitude />
       </body>
     </html>
   )
