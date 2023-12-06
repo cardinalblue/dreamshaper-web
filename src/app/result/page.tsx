@@ -232,8 +232,10 @@ const imageFrame = css({
 })
 
 const imageEl = css({
-  maxW: '100%',
-  maxH: '100%',
+  display: 'block',
+  w: '100%',
+  h: '100%',
+  objectFit: 'contain',
 })
 
 const loadingMask = css({
