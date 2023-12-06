@@ -1,18 +1,31 @@
 'use client'
 
 import React from 'react'
-import { css, cx } from '@styled-system/css'
-import { Button } from '@/components/Button'
-import { StyleModelProps } from '@/utils/types'
+import { css, cx, cva } from '@styled-system/css'
+import { StyleModelType } from '@/utils/types'
 
 interface StylePreviewCardProps {
-  styleInfo: StyleModelProps
+  styleInfo: StyleModelType
+  disabled?: boolean
+  active?: boolean
   onClick: () => void
 }
 
-export const StylePreviewCard = ({ styleInfo, onClick }: StylePreviewCardProps) => {
+export const StylePreviewCard = ({
+  styleInfo,
+  disabled,
+  active,
+  onClick,
+}: StylePreviewCardProps) => {
   return (
-    <div className={container} onClick={onClick}>
+    <div
+      className={container({ active })}
+      data-disabled={disabled ? 'true' : null}
+      onClick={() => {
+        if (disabled) return
+        onClick()
+      }}
+    >
       <div className={thumbnailWrapper}>
         <div
           className={cx(thumbnail, 'thumbnail')}
@@ -24,20 +37,52 @@ export const StylePreviewCard = ({ styleInfo, onClick }: StylePreviewCardProps) 
   )
 }
 
-const container = css({
-  w: '166px',
-  h: '186px',
-  p: '8px',
-  flexShrink: 0,
-  rounded: '15px',
-  bg: '#FBFBF9',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '8px',
-  cursor: 'pointer',
-  _hover: {
-    '& .thumbnail': {
-      transform: 'scale(1.03)',
+const container = cva({
+  base: {
+    w: '166px',
+    h: '186px',
+    p: '8px',
+    flexShrink: 0,
+    position: 'relative',
+    rounded: '15px',
+    bg: '#FBFBF9',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '8px',
+    cursor: 'pointer',
+
+    '&:not([data-disabled]):hover': {
+      '& .thumbnail': {
+        transform: 'scale(1.03)',
+      },
+    },
+    _disabled: {
+      cursor: 'not-allowed',
+    },
+    // frame
+    _before: {
+      content: '""',
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      w: 'calc(100% + 8px)',
+      h: 'calc(100% + 8px)',
+      rounded: '18px',
+      border: '2px solid #484851',
+      opacity: 0,
+      // transition: 'all 0.2s',
+      pointerEvents: 'none',
+    },
+  },
+  variants: {
+    active: {
+      true: {
+        order: -1,
+        '&:before': {
+          opacity: 1,
+        },
+      },
     },
   },
 })
@@ -57,8 +102,11 @@ const thumbnail = css({
 
 const title = css({
   p: '0 9px',
+  fontSize: '14px',
   fontWeight: '600',
   lineHeight: 'normal',
   color: '#484851',
   whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
 })

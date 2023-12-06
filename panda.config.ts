@@ -30,6 +30,8 @@ export default defineConfig({
     },
   },
 
+  // hash: { cssVar: false, className: true },
+
   // The output directory for your css system
   outdir: 'styled-system',
 })

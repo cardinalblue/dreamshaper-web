@@ -1,4 +1,14 @@
 import { create } from 'zustand'
+import {
+  getImageDimensionsFromBase64,
+  fileToBase64,
+  processHeicFile,
+  compressImage,
+  handlePngImageBackground,
+} from '@/utils/imageHelper'
+import { useUserImageStore } from './userImageStore'
+import { StyleModelType } from '@/utils/types'
+import { ampShowTransferResult } from '@/utils/eventTracking'
 
 type State = {
   resultImageSrc: string // base64 string
@@ -13,6 +23,9 @@ type Actions = {
   setImageTransferringStatus: (status: boolean) => void
   setResultImageSrc: (resultImageSrc: string) => void
   resetResultImageStates: () => void
+
+  getImageData: (file: File) => Promise<string | undefined>
+  handleStyleTransfer: (image: string, style: StyleModelType, signal?: AbortSignal) => Promise<void>
 }
 
 type Computed = {
@@ -36,6 +49,59 @@ export const useResultImageStore = create<State & Actions & Computed>((set, get)
   setImageTransferringStatus: (isImageTransferring) => set({ isImageTransferring }),
   setResultImageSrc: (resultImageSrc) => set({ resultImageSrc }),
   resetResultImageStates: () => set(initialState),
+
+  getImageData: async (file: File) => {
+    const { setOriginalImageData } = useUserImageStore.getState()
+    if (!file) return
+    try {
+      get().setImageFormattingStatus(true)
+      if (file.type === 'image/heic') {
+        file = await processHeicFile(file)
+      }
+      // compress image if size > 1MB
+      if (file.size > 1024 * 1024) {
+        file = await compressImage(file)
+      } else if (file.type === 'image/png') {
+        // make sure png image has white background
+        file = await handlePngImageBackground(file)
+      }
+      const base64Image = await fileToBase64(file)
+      const size = await getImageDimensionsFromBase64(base64Image)
+      setOriginalImageData({
+        originalImageSrc: base64Image,
+        originalImageDimensions: size,
+      })
+      return base64Image
+    } catch (error) {
+      console.debug('Image processing error', error)
+    } finally {
+      get().setImageFormattingStatus(false)
+    }
+  },
+
+  handleStyleTransfer: async (image: string, style: StyleModelType, signal?: AbortSignal) => {
+    if (!style) return
+    try {
+      get().setImageTransferringStatus(true)
+      const config = style.config
+      const initial_image_b64 = image ?? ''
+      const res = await fetch('/api/style-transfer', {
+        method: 'POST',
+        body: JSON.stringify({ input: { initial_image_b64, config } }),
+        // signal: abortController.current?.signal,
+        signal,
+      })
+      const data = await res.json()
+      const newImage = data.predictions[0].stylized_image_b64
+      get().setResultImageSrc(newImage)
+      ampShowTransferResult(style.id)
+    } catch (error) {
+      console.debug('transfer error', error)
+      get().setResultFailedStatus(true)
+    } finally {
+      get().setImageTransferringStatus(false)
+    }
+  },
 
   computed: {
     get isImageLoading() {

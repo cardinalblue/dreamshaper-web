@@ -3,31 +3,22 @@
 import { useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { css } from '@styled-system/css'
-import {
-  getImageDimensionsFromBase64,
-  fileToBase64,
-  processHeicFile,
-  compressImage,
-  handlePngImageBackground,
-} from '@/utils/imageHelper'
 import { useUserImageStore, useResultImageStore } from '@/store'
 import { ResultControls } from '@/components/result/Controls'
 import { ResultImage } from '@/components/result/Image'
 import { StyleSelector } from '@/components/result/StyleSelector'
-import { ampEnterTransferResultPage, ampShowTransferResult } from '@/utils/eventTracking'
+import { ampEnterTransferResultPage } from '@/utils/eventTracking'
 
 export default function Result() {
-  const { selectedStyle, uploadedFile, setOriginalImageData, resetUserImageStates } =
+  const { selectedStyle, uploadedFile, originalImageSrc, setSelectedStyle, resetUserImageStates } =
     useUserImageStore()
 
   const {
     resultImageSrc,
     isResultFailed,
-    setResultImageSrc,
-    setImageFormattingStatus,
-    setImageTransferringStatus,
-    setResultFailedStatus,
     resetResultImageStates,
+    getImageData,
+    handleStyleTransfer,
   } = useResultImageStore()
 
   const abortController = useRef<AbortController | null>(null)
@@ -35,68 +26,18 @@ export default function Result() {
 
   const router = useRouter()
 
-  const handleStyleTransfer = async (image: string) => {
-    if (!selectedStyle) return
-    try {
-      setImageTransferringStatus(true)
-      const config = selectedStyle.config ?? {}
-      const initial_image_b64 = image ?? ''
-      const res = await fetch('/api/style-transfer', {
-        method: 'POST',
-        body: JSON.stringify({ input: { initial_image_b64, config } }),
-        signal: abortController.current?.signal,
-      })
-      const data = await res.json()
-      const newImage = data.output.stylized_image_b64
-      setResultImageSrc(newImage)
-      ampShowTransferResult(selectedStyle.id)
-    } catch (error) {
-      console.debug('transfer error', error)
-      setResultFailedStatus(true)
-    } finally {
-      setImageTransferringStatus(false)
-    }
+  const applyStyleTransfer = ({ image = originalImageSrc, style = selectedStyle }) => {
+    if (!image || !style) return
+    if (style) setSelectedStyle(style)
+    abortController.current = new AbortController()
+    handleStyleTransfer(image, style, abortController.current.signal)
   }
-
-  const getImageData = async () => {
-    if (!uploadedFile) return
-    try {
-      setImageFormattingStatus(true)
-      let file = uploadedFile
-      if (file.type === 'image/heic') {
-        file = await processHeicFile(file)
-      }
-      // compress image if size > 1MB
-      if (file.size > 1024 * 1024) {
-        file = await compressImage(file)
-      } else if (file.type === 'image/png') {
-        // make sure png image has white background
-        file = await handlePngImageBackground(file)
-      }
-      const base64Image = await fileToBase64(file)
-      const size = await getImageDimensionsFromBase64(base64Image)
-      setOriginalImageData({
-        originalImageSrc: base64Image,
-        originalImageDimensions: size,
-      })
-      return base64Image
-    } catch (error) {
-      console.debug('Image processing error', error)
-    } finally {
-      setImageFormattingStatus(false)
-    }
-  }
-
-  useEffect(() => {
-    isLeaveWithoutResult.current = !resultImageSrc
-  }, [resultImageSrc])
 
   const initProcessImage = async () => {
     if (resultImageSrc) return // show result directly
     // process pending image
-    abortController.current = new AbortController()
-    const image = await getImageData()
-    if (image) handleStyleTransfer(image)
+    const image = await getImageData(uploadedFile!)
+    if (image) applyStyleTransfer({ image })
   }
 
   useEffect(() => {
@@ -105,6 +46,10 @@ export default function Result() {
       ampEnterTransferResultPage(selectedStyle.id)
     }
   }, [uploadedFile, selectedStyle])
+
+  useEffect(() => {
+    isLeaveWithoutResult.current = !resultImageSrc
+  }, [resultImageSrc])
 
   useEffect(() => {
     // no uploaded file, go back to homepage
@@ -128,7 +73,7 @@ export default function Result() {
   return (
     <div className={container}>
       <div className={card}>
-        {/* <StyleSelector /> */}
+        <StyleSelector onApply={(style) => applyStyleTransfer({ style })} />
         <div className={resultSection}>
           <div className={styleName}>{selectedStyle?.name}</div>
           <ResultControls />

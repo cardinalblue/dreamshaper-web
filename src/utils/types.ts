@@ -1,4 +1,4 @@
-export type StyleModelProps = {
+export type StyleModelType = {
   id: string
   name: string
   src: string
