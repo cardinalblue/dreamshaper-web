@@ -5,6 +5,7 @@ type State = {
   isResultFailed: boolean
   isImageFormatting: boolean
   isImageTransferring: boolean
+  mixupStyleList: string[]
 }
 
 type Actions = {
@@ -13,6 +14,7 @@ type Actions = {
   setImageTransferringStatus: (status: boolean) => void
   setResultImageSrc: (resultImageSrc: string) => void
   resetResultImageStates: () => void
+  updateMixupStyleList: (newStyle: string) => void
 }
 
 type Computed = {
@@ -26,6 +28,7 @@ const initialState: State = {
   isResultFailed: false,
   isImageFormatting: false,
   isImageTransferring: false,
+  mixupStyleList: [],
 }
 
 export const useResultImageStore = create<State & Actions & Computed>((set, get) => ({
@@ -36,6 +39,7 @@ export const useResultImageStore = create<State & Actions & Computed>((set, get)
   setImageTransferringStatus: (isImageTransferring) => set({ isImageTransferring }),
   setResultImageSrc: (resultImageSrc) => set({ resultImageSrc }),
   resetResultImageStates: () => set(initialState),
+  updateMixupStyleList: (newStyle) => set({ mixupStyleList: [...get().mixupStyleList, newStyle] }),
 
   computed: {
     get isImageLoading() {
