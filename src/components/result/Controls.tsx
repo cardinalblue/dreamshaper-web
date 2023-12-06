@@ -12,7 +12,8 @@ import { ampDownloadTransferResult, ampClickTryAnotherStyle } from '@/utils/even
 
 export const ResultControls = () => {
   const { selectedStyle, uploadedFile } = useUserImageStore()
-  const { resultImageSrc, isResultFailed } = useResultImageStore()
+  const { isResultFailed } = useResultImageStore()
+  const resultImageSrc = useResultImageStore((state) => state.computed.resultImageSrc)
 
   const router = useRouter()
 

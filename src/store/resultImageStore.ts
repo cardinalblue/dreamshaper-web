@@ -11,7 +11,7 @@ import { StyleModelType } from '@/utils/types'
 import { ampShowTransferResult } from '@/utils/eventTracking'
 
 type State = {
-  resultImageSrc: string // base64 string
+  resultImageSrcList: Record<string, string> // base64 string
   isResultFailed: boolean
   isImageFormatting: boolean
   isImageTransferring: boolean
@@ -21,7 +21,7 @@ type Actions = {
   setResultFailedStatus: (status: boolean) => void
   setImageFormattingStatus: (status: boolean) => void
   setImageTransferringStatus: (status: boolean) => void
-  setResultImageSrc: (resultImageSrc: string) => void
+  setResultImageSrc: (styleId: string, src: string) => void
   resetResultImageStates: () => void
 
   getImageData: (file: File) => Promise<string | undefined>
@@ -31,11 +31,12 @@ type Actions = {
 type Computed = {
   computed: {
     isImageLoading: boolean
+    resultImageSrc: string
   }
 }
 
 const initialState: State = {
-  resultImageSrc: '',
+  resultImageSrcList: {},
   isResultFailed: false,
   isImageFormatting: false,
   isImageTransferring: false,
@@ -47,7 +48,8 @@ export const useResultImageStore = create<State & Actions & Computed>((set, get)
   setResultFailedStatus: (isResultFailed) => set({ isResultFailed }),
   setImageFormattingStatus: (isImageFormatting) => set({ isImageFormatting }),
   setImageTransferringStatus: (isImageTransferring) => set({ isImageTransferring }),
-  setResultImageSrc: (resultImageSrc) => set({ resultImageSrc }),
+  setResultImageSrc: (styleId, src) =>
+    set({ resultImageSrcList: { ...get().resultImageSrcList, [styleId]: src } }),
   resetResultImageStates: () => set(initialState),
 
   getImageData: async (file: File) => {
@@ -80,7 +82,8 @@ export const useResultImageStore = create<State & Actions & Computed>((set, get)
   },
 
   handleStyleTransfer: async (image: string, style: StyleModelType, signal?: AbortSignal) => {
-    if (!style) return
+    if (get().resultImageSrcList[style.id]) return
+
     try {
       get().setImageTransferringStatus(true)
       const config = style.config
@@ -88,12 +91,11 @@ export const useResultImageStore = create<State & Actions & Computed>((set, get)
       const res = await fetch('/api/style-transfer', {
         method: 'POST',
         body: JSON.stringify({ input: { initial_image_b64, config } }),
-        // signal: abortController.current?.signal,
         signal,
       })
       const data = await res.json()
       const newImage = data.predictions[0].stylized_image_b64
-      get().setResultImageSrc(newImage)
+      get().setResultImageSrc(style.id, newImage)
       ampShowTransferResult(style.id)
     } catch (error) {
       console.debug('transfer error', error)
@@ -106,6 +108,11 @@ export const useResultImageStore = create<State & Actions & Computed>((set, get)
   computed: {
     get isImageLoading() {
       return get().isImageFormatting || get().isImageTransferring
+    },
+    get resultImageSrc() {
+      const { selectedStyle } = useUserImageStore.getState()
+      if (!selectedStyle?.id) return ''
+      return get().resultImageSrcList[selectedStyle.id] ?? ''
     },
   },
 }))

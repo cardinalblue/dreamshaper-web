@@ -5,8 +5,7 @@ import { useUserImageStore, useResultImageStore } from '@/store'
 
 export const ResultImage = () => {
   const { originalImageDimensions, originalImageSrc } = useUserImageStore()
-  const { resultImageSrc } = useResultImageStore()
-
+  const resultImageSrc = useResultImageStore((state) => state.computed.resultImageSrc)
   const isImageLoading = useResultImageStore((state) => state.computed.isImageLoading)
 
   const imageSrc = useMemo(() => {
