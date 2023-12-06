@@ -1,34 +1,14 @@
 'use client'
 
 import { css } from '@styled-system/css'
-import { STYLE_LIST } from '@/utils/styleList'
-import { useEffect, useState } from 'react'
-import { StylePreviewCard } from '@/components/StylePreviewCard'
+import { useEffect } from 'react'
+import { HomepageStyleSelector } from '@/components/home/StyleSelector'
 import { TitleDecoIcon } from '@/components/icons/TitleDecoIcon'
 import { ampEnterStyleListPage } from '@/utils/eventTracking'
 
-const LIST_GAP = 32
-
 export default function Home() {
-  const [columnCount, setColumnCount] = useState(0)
-
   useEffect(() => {
     ampEnterStyleListPage()
-
-    const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setColumnCount(1)
-      } else if (window.innerWidth < 1200) {
-        setColumnCount(2)
-      } else {
-        setColumnCount(3)
-      }
-    }
-    handleResize()
-    window.addEventListener('resize', handleResize)
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
   }, [])
 
   return (
@@ -50,15 +30,7 @@ export default function Home() {
         </div>
         <div className={visual}></div>
       </div>
-      <div className={listWrapper}>
-        {STYLE_LIST.map((styleInfo) => (
-          <StylePreviewCard
-            key={styleInfo.id}
-            styleInfo={styleInfo}
-            style={{ width: `calc((100% - ${(columnCount - 1) * LIST_GAP}px) / ${columnCount})` }}
-          />
-        ))}
-      </div>
+      <HomepageStyleSelector />
     </div>
   )
 }
@@ -146,11 +118,4 @@ const subtitle = css({
   md: {
     w: '390px',
   },
-})
-
-const listWrapper = css({
-  display: 'flex',
-  flexWrap: 'wrap',
-  justifyContent: 'center',
-  gap: `${LIST_GAP}px`,
 })

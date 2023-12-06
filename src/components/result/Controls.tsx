@@ -58,7 +58,7 @@ export const ResultControls = () => {
       )}
       <Button onClick={onGoBack} theme="light" content="icon">
         <HomeIcon />
-        <div className="text">Try another style</div>
+        <div className="text">Home</div>
       </Button>
     </div>
   )

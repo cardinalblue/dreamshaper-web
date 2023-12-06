@@ -1,41 +1,17 @@
 'use client'
 
 import React from 'react'
-import { useRouter } from 'next/navigation'
 import { css, cx } from '@styled-system/css'
-import { useUserImageStore } from '@/store'
-import { FileInput } from '@/components/FileInput'
 import { Button } from '@/components/Button'
-import { ampClickStyleButton } from '@/utils/eventTracking'
+import { StyleModelProps } from '@/utils/types'
 
 interface StylePreviewCardProps {
-  styleInfo: {
-    id: string
-    name: string
-    src: string
-    config: Record<string, any>
-  }
-  style?: React.CSSProperties
+  styleInfo: StyleModelProps
 }
 
-export const StylePreviewCard = ({ styleInfo, style }: StylePreviewCardProps) => {
-  const { setSelectedStyle } = useUserImageStore()
-
-  const router = useRouter()
-
+export const StylePreviewCard = ({ styleInfo }: StylePreviewCardProps) => {
   return (
-    <FileInput
-      inputId={`file-input-${styleInfo.id}`}
-      className={container}
-      style={style}
-      onUpload={() => {
-        setSelectedStyle(styleInfo)
-        router.push('/result')
-      }}
-      onClick={() => {
-        ampClickStyleButton(styleInfo.id)
-      }}
-    >
+    <div className={container}>
       <div className={thumbnailWrapper}>
         <div
           className={cx(thumbnail, 'thumbnail')}
@@ -48,11 +24,12 @@ export const StylePreviewCard = ({ styleInfo, style }: StylePreviewCardProps) =>
           try
         </Button>
       </div>
-    </FileInput>
+    </div>
   )
 }
 
 const container = css({
+  w: '100%',
   h: '420px',
   p: '16px',
   rounded: '25px',

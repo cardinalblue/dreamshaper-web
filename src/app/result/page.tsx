@@ -11,8 +11,9 @@ import {
   handlePngImageBackground,
 } from '@/utils/imageHelper'
 import { useUserImageStore, useResultImageStore } from '@/store'
-import { ResultControls } from '@/components/ResultControls'
-import { ResultImage } from '@/components/ResultImage'
+import { ResultControls } from '@/components/result/Controls'
+import { ResultImage } from '@/components/result/Image'
+import { StyleSelector } from '@/components/result/StyleSelector'
 import { ampEnterTransferResultPage, ampShowTransferResult } from '@/utils/eventTracking'
 
 export default function Result() {
@@ -127,14 +128,19 @@ export default function Result() {
   return (
     <div className={container}>
       <div className={card}>
-        <div className={styleName}>{selectedStyle?.name}</div>
-        <ResultControls />
-        <div className={resultWrapper}>
-          {isResultFailed ? (
-            <div className={errorText}>Image processing failed. Please try a different image.</div>
-          ) : (
-            <ResultImage />
-          )}
+        <StyleSelector />
+        <div className={resultSection}>
+          <div className={styleName}>{selectedStyle?.name}</div>
+          <ResultControls />
+          <div className={resultImageWrapper}>
+            {isResultFailed ? (
+              <div className={errorText}>
+                Image processing failed. Please try a different image.
+              </div>
+            ) : (
+              <ResultImage />
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -153,20 +159,26 @@ const container = css({
 })
 
 const card = css({
-  w: '100%',
-  h: '471px',
-  p: '24px',
-  bgColor: '#F5F4EF',
+  bgColor: '#FBFBF9',
   boxShadow: '5px 10px 20px 0px rgba(52, 52, 52, 0.15)',
   rounded: '25px',
+  display: 'flex',
+  flexDirection: 'column-reverse',
+  overflow: 'hidden',
+  md: {
+    w: '870px',
+    h: '656px',
+    flexDirection: 'row',
+  },
+})
+
+const resultSection = css({
+  p: '24px 24px',
+  pr: '32px',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   gap: '24px',
-  md: {
-    w: '648px',
-    h: '656px',
-  },
 })
 
 const styleName = css({
@@ -176,7 +188,7 @@ const styleName = css({
   color: '#484851',
 })
 
-const resultWrapper = css({
+const resultImageWrapper = css({
   w: '100%',
   flexGrow: 1,
   display: 'flex',
