@@ -1,10 +1,10 @@
 import { useMemo } from 'react'
-import { css } from '@styled-system/css'
+import { css, cx } from '@styled-system/css'
 import Image from 'next/image'
 import { useUserImageStore, useResultImageStore } from '@/store'
 
 export const ResultImage = () => {
-  const { originalImageDimensions, originalImageSrc } = useUserImageStore()
+  const { originalImageDimensions, originalImageSrc, selectedStyle } = useUserImageStore()
   const resultImageSrc = useResultImageStore((state) => state.computed.resultImageSrc)
   const isImageLoading = useResultImageStore((state) => state.computed.isImageLoading)
 
@@ -27,14 +27,24 @@ export const ResultImage = () => {
         } as React.CSSProperties
       }
     >
-      {!!imageSrc && (
+      {!!originalImageSrc && (
         <Image
-          src={imageSrc}
+          src={originalImageSrc}
           alt=""
           width={originalImageDimensions.width}
           height={originalImageDimensions.height}
           className={imageEl}
           unoptimized
+        />
+      )}
+      {!!resultImageSrc && (
+        <Image
+          src={resultImageSrc}
+          alt=""
+          fill={true}
+          className={cx(imageEl, resultImageSrc ? 'clip-in' : null)}
+          unoptimized
+          key={selectedStyle?.id}
         />
       )}
       {isImageLoading && <div className={loadingMask} />}
@@ -56,6 +66,9 @@ const imageEl = css({
   w: '100%',
   h: '100%',
   objectFit: 'contain',
+  '&.clip-in': {
+    animation: 'clipIn 0.5s ease-in-out',
+  },
 })
 
 const loadingMask = css({

@@ -26,6 +26,16 @@ export default defineConfig({
         loadingSpin: {
           '100%': { transform: 'rotate(360deg)' },
         },
+        clipIn: {
+          '0%': {
+            opacity: 0.3,
+            clipPath: 'polygon(0 0, 10% 0, 0 10%)',
+          },
+          '100%': {
+            opacity: 1,
+            clipPath: 'polygon(0 0, 200% 0, 0 200%)',
+          },
+        },
       },
     },
   },
