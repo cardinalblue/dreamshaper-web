@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { css, cx, cva } from '@styled-system/css'
 import { StyleModelType } from '@/utils/types'
 
@@ -17,8 +17,17 @@ export const StylePreviewCard = ({
   active,
   onClick,
 }: StylePreviewCardProps) => {
+  const cardRef = React.useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (active) {
+      cardRef.current?.scrollIntoView({ block: 'center' })
+    }
+  }, [active])
+
   return (
     <div
+      ref={cardRef}
       className={container({ active })}
       data-disabled={disabled ? 'true' : null}
       onClick={() => {
@@ -82,7 +91,6 @@ const container = cva({
   variants: {
     active: {
       true: {
-        order: -1,
         '&:before': {
           opacity: 1,
           transform: 'translate(-50%, -50%) scale(1)',
