@@ -175,7 +175,7 @@ const card = css({
 
 const resultSection = css({
   p: '24px 24px',
-  pr: '32px',
+  flexGrow: 1,
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
