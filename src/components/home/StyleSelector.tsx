@@ -11,7 +11,6 @@ import { StylePreviewCard } from './StylePreviewCard'
 
 export const HomepageStyleSelector = () => {
   const { setSelectedStyle } = useUserImageStore()
-
   const router = useRouter()
 
   return (

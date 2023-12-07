@@ -10,7 +10,7 @@ import { StyleSelector } from '@/components/result/StyleSelector'
 import { ampEnterTransferResultPage } from '@/utils/eventTracking'
 
 export default function Result() {
-  const { selectedStyle, uploadedFile, originalImageSrc, setSelectedStyle, resetUserImageStates } =
+  const { selectedStyle, uploadedFile, originalImageSrc, resetUserImageStates } =
     useUserImageStore()
   const { isResultFailed, resetResultImageStates, getImageData, handleStyleTransfer } =
     useResultImageStore()
@@ -21,18 +21,18 @@ export default function Result() {
 
   const router = useRouter()
 
-  const applyStyleTransfer = ({ image = originalImageSrc, style = selectedStyle }) => {
-    if (!image || !style) return
-    if (style) setSelectedStyle(style)
+  const applyStyleTransfer = (image = originalImageSrc) => {
+    if (!image || !selectedStyle) return
     abortController.current = new AbortController()
-    handleStyleTransfer(image, style, abortController.current.signal)
+    handleStyleTransfer(image, selectedStyle, abortController.current.signal)
+    console.log('hi style', selectedStyle)
   }
 
   const initProcessImage = async () => {
     if (resultImageSrc) return // show result directly
     // process pending image
     const image = await getImageData(uploadedFile!)
-    if (image) applyStyleTransfer({ image })
+    if (image) applyStyleTransfer(image)
   }
 
   useEffect(() => {
@@ -68,7 +68,7 @@ export default function Result() {
   return (
     <div className={container}>
       <div className={card}>
-        <StyleSelector onApply={(style) => applyStyleTransfer({ style })} />
+        <StyleSelector />
         <div className={resultSection}>
           <div className={styleName}>{selectedStyle?.name}</div>
           <ResultControls />
