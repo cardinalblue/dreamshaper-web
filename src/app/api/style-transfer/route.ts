@@ -3,10 +3,13 @@ import { NextRequest } from 'next/server'
 export async function POST(request: NextRequest) {
   const body = await request.json()
   const result = await fetch(
-    'https://us-central1-ai-prediction-proxy-ym7mfxvq5a-uc.a.run.app/vertex_ai/630699660901613568',
+    'https://serving.hopter.picc.co/api/v1/services/style-transfer-explorer/predictions',
     {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_HOPTER_API_KEY}`,
+      },
       body: JSON.stringify(body),
     }
   )
