@@ -94,7 +94,7 @@ export const useResultImageStore = create<State & Actions & Computed>((set, get)
         signal,
       })
       const data = await res.json()
-      const newImage = data.predictions[0].stylized_image_b64
+      const newImage = data.output.stylized_image_b64
       get().setResultImageSrc(style.id, newImage)
       ampShowTransferResult(style.id)
     } catch (error) {
