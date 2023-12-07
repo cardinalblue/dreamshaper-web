@@ -49,11 +49,11 @@ export default function Result() {
       const initial_image_b64 = image ?? ''
       const res = await fetch('/api/style-transfer', {
         method: 'POST',
-        body: JSON.stringify({ instances: [{ initial_image_b64, config }] }),
+        body: JSON.stringify({ input: { initial_image_b64, config } }),
         signal: abortController.current?.signal,
       })
       const data = await res.json()
-      const newImage = data.predictions[0].stylized_image_b64
+      const newImage = data.output.stylized_image_b64
       setResultImageSrc(newImage)
       ampShowTransferResult(selectedStyle.id)
     } catch (error) {
