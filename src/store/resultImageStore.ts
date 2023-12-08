@@ -76,6 +76,7 @@ export const useResultImageStore = create<State & Actions & Computed>((set, get)
       return base64Image
     } catch (error) {
       console.debug('Image processing error', error)
+      get().setResultFailedStatus(true)
     } finally {
       get().setImageFormattingStatus(false)
     }

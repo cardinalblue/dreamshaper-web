@@ -7,6 +7,9 @@ import { useUserImageStore, useResultImageStore } from '@/store'
 import { ResultControls } from '@/components/result/Controls'
 import { ResultImage } from '@/components/result/Image'
 import { StyleSelector } from '@/components/result/StyleSelector'
+import { FileInput } from '@/components/FileInput'
+import { TryAgainIcon } from '@/components/icons/TryAgainIcon'
+import { Button } from '@/components/Button'
 import { ampEnterTransferResultPage } from '@/utils/eventTracking'
 
 export default function Result() {
@@ -72,7 +75,17 @@ export default function Result() {
 
         <div className={card}>
           {isResultFailed ? (
-            <div className={errorText}>Image processing failed. Please try a different image.</div>
+            <div className={errorContent}>
+              <FileInput>
+                <Button theme="dark" content="icon">
+                  <TryAgainIcon />
+                  <div className="text">Try again</div>
+                </Button>
+              </FileInput>
+              <div className={errorText}>
+                Image processing failed. Please try a different image.
+              </div>
+            </div>
           ) : (
             <ResultImage />
           )}
@@ -122,8 +135,14 @@ const card = css({
   },
 })
 
+const errorContent = css({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: '24px',
+})
+
 const errorText = css({
   fontSize: '18px',
   fontWeight: '600',
-  textAlign: 'center',
 })

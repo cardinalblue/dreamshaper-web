@@ -3,11 +3,9 @@
 import { useRouter } from 'next/navigation'
 import { css } from '@styled-system/css'
 import { useUserImageStore, useResultImageStore } from '@/store'
-import { FileInput } from '@/components/FileInput'
 import { Button } from '@/components/Button'
 import { HomeIcon } from '@/components/icons/HomeIcon'
 import { DownloadIcon } from '@/components/icons/DownloadIcon'
-import { TryAgainIcon } from '@/components/icons/TryAgainIcon'
 import { ampDownloadTransferResult, ampClickTryAnotherStyle } from '@/utils/eventTracking'
 
 export const ResultControls = () => {
@@ -41,27 +39,18 @@ export const ResultControls = () => {
         <div className="text">Home</div>
       </Button>
 
-      {isResultFailed ? (
-        <FileInput>
-          <Button theme="dark" content="icon">
-            <TryAgainIcon />
-            <div className="text">Try again</div>
-          </Button>
-        </FileInput>
-      ) : (
-        <Button
-          theme="dark"
-          content="icon"
-          data-disabled={!resultImageSrc ? 'true' : null}
-          onClick={() => {
-            if (!resultImageSrc) return
-            onSave()
-          }}
-        >
-          <DownloadIcon />
-          <div className="text">Download</div>
-        </Button>
-      )}
+      <Button
+        theme="dark"
+        content="icon"
+        data-disabled={!resultImageSrc ? 'true' : null}
+        onClick={() => {
+          if (!resultImageSrc) return
+          onSave()
+        }}
+      >
+        <DownloadIcon />
+        <div className="text">Download</div>
+      </Button>
     </div>
   )
 }
