@@ -86,12 +86,13 @@ const container = cva({
       opacity: 0,
       transition: 'all 0.2s',
       pointerEvents: 'none',
+      willChange: 'opacity, transform',
     },
   },
   variants: {
     active: {
       true: {
-        '&:before': {
+        _before: {
           opacity: 1,
           transform: 'translate(-50%, -50%) scale(1)',
         },
@@ -111,6 +112,7 @@ const thumbnail = css({
   h: '100%',
   bg: 'no-repeat center / cover',
   transition: 'all 0.3s',
+  willChange: 'transform',
 })
 
 const title = css({

@@ -61,6 +61,7 @@ const thumbnail = css({
   h: '100%',
   bg: 'no-repeat center / cover',
   transition: 'all 0.3s',
+  willChange: 'transform',
 })
 
 const titleWrapper = css({
