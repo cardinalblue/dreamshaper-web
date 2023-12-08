@@ -25,7 +25,6 @@ export default function Result() {
     if (!image || !selectedStyle) return
     abortController.current = new AbortController()
     handleStyleTransfer(image, selectedStyle, abortController.current.signal)
-    console.log('hi style', selectedStyle)
   }
 
   const initProcessImage = async () => {
@@ -67,20 +66,16 @@ export default function Result() {
 
   return (
     <div className={container}>
-      <div className={card}>
+      <ResultControls />
+      <div className={content}>
         <StyleSelector />
-        <div className={resultSection}>
-          <div className={styleName}>{selectedStyle?.name}</div>
-          <ResultControls />
-          <div className={resultImageWrapper}>
-            {isResultFailed ? (
-              <div className={errorText}>
-                Image processing failed. Please try a different image.
-              </div>
-            ) : (
-              <ResultImage />
-            )}
-          </div>
+
+        <div className={card}>
+          {isResultFailed ? (
+            <div className={errorText}>Image processing failed. Please try a different image.</div>
+          ) : (
+            <ResultImage />
+          )}
         </div>
       </div>
     </div>
@@ -88,58 +83,43 @@ export default function Result() {
 }
 
 const container = css({
-  minH: '100vh',
+  maxW: '1280px',
+  minH: '100dvh',
+  m: '0 auto',
   p: '32px 24px',
   display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
+  flexDirection: 'column',
+  gap: '24px',
   md: {
-    p: '32px 72px',
+    h: '100dvh',
+    p: '24px 72px',
+  },
+})
+
+const content = css({
+  display: 'flex',
+  flexDirection: 'column-reverse',
+  gap: '24px',
+  overflow: 'hidden',
+  md: {
+    flexDirection: 'row',
+    gap: '40px',
   },
 })
 
 const card = css({
-  minH: '471px',
-  bgColor: '#F5F4EF',
-  boxShadow: '5px 10px 20px 0px rgba(52, 52, 52, 0.15)',
-  rounded: '25px',
-  display: 'flex',
-  // flexDirection: 'column-reverse',
-  overflow: 'hidden',
-  md: {
-    w: '648px',
-    h: '656px',
-    // flexDirection: 'row',
-  },
-})
-
-const resultSection = css({
+  w: '100%',
   h: '471px',
-  p: '24px 24px',
-  flexGrow: 1,
+  bgColor: '#FBFBF9',
+  rounded: '25px',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  gap: '24px',
+  justifyContent: 'center',
+  p: '24px 24px',
   md: {
     h: 'auto',
   },
-})
-
-const styleName = css({
-  fontSize: '32px',
-  fontWeight: 'bold',
-  lineHeight: 'normal',
-  color: '#484851',
-})
-
-const resultImageWrapper = css({
-  w: '100%',
-  flexGrow: 1,
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  overflow: 'hidden',
 })
 
 const errorText = css({

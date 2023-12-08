@@ -36,6 +36,11 @@ export const ResultControls = () => {
 
   return (
     <div className={buttonGroup}>
+      <Button onClick={onGoBack} theme="light" content="icon">
+        <HomeIcon />
+        <div className="text">Home</div>
+      </Button>
+
       {isResultFailed ? (
         <FileInput>
           <Button theme="dark" content="icon">
@@ -57,17 +62,14 @@ export const ResultControls = () => {
           <div className="text">Download</div>
         </Button>
       )}
-      <Button onClick={onGoBack} theme="light" content="icon">
-        <HomeIcon />
-        <div className="text">Home</div>
-      </Button>
     </div>
   )
 }
 
 const buttonGroup = css({
+  w: '100%',
   display: 'flex',
-  justifyContent: 'center',
+  justifyContent: 'space-between',
   alignItems: 'center',
   flexWrap: 'wrap',
   gap: '12px',

@@ -25,16 +25,18 @@ export const StyleSelector = () => {
 }
 
 const container = css({
-  p: '24px',
+  p: '4px 4px 16px 4px',
   flexShrink: 0,
   display: 'flex',
   gap: '16px',
-  bgColor: '#ECE9DF',
-  overflow: 'auto',
+  overflowX: 'auto',
+  overflowY: 'hidden',
   scrollBehavior: 'smooth',
   md: {
-    w: '214px',
     h: '100%',
+    p: '4px 16px 4px 4px',
     flexDirection: 'column',
+    overflowX: 'hidden',
+    overflowY: 'auto',
   },
 })
