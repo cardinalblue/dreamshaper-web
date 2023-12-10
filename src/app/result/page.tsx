@@ -132,6 +132,7 @@ const card = css({
   p: '24px 24px',
   md: {
     h: 'auto',
+    maxH: '720px',
   },
 })
 
