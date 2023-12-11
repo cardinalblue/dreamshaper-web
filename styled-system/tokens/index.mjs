@@ -1628,11 +1628,11 @@ const tokens = {
     "variable": "var(--sizes-breakpoint-lg)"
   },
   "sizes.breakpoint-xl": {
-    "value": "1280px",
+    "value": "1200px",
     "variable": "var(--sizes-breakpoint-xl)"
   },
   "sizes.breakpoint-2xl": {
-    "value": "1536px",
+    "value": "1440px",
     "variable": "var(--sizes-breakpoint-2xl)"
   },
   "animations.spin": {
@@ -1664,11 +1664,11 @@ const tokens = {
     "variable": "var(--breakpoints-lg)"
   },
   "breakpoints.xl": {
-    "value": "1280px",
+    "value": "1200px",
     "variable": "var(--breakpoints-xl)"
   },
   "breakpoints.2xl": {
-    "value": "1536px",
+    "value": "1440px",
     "variable": "var(--breakpoints-2xl)"
   },
   "spacing.-1": {

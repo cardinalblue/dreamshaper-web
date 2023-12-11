@@ -15,6 +15,13 @@ export default defineConfig({
   // Useful for theme customization
   theme: {
     extend: {
+      breakpoints: {
+        sm: '640px',
+        md: '768px',
+        lg: '1024px',
+        xl: '1200px',
+        '2xl': '1440px',
+      },
       keyframes: {
         loadingSpin: {
           '100%': { transform: 'rotate(360deg)' },

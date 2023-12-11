@@ -407,8 +407,8 @@
   --sizes-breakpoint-sm: 640px;
   --sizes-breakpoint-md: 768px;
   --sizes-breakpoint-lg: 1024px;
-  --sizes-breakpoint-xl: 1280px;
-  --sizes-breakpoint-2xl: 1536px;
+  --sizes-breakpoint-xl: 1200px;
+  --sizes-breakpoint-2xl: 1440px;
   --animations-spin: spin 1s linear infinite;
   --animations-ping: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
   --animations-pulse: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
@@ -416,8 +416,8 @@
   --breakpoints-sm: 640px;
   --breakpoints-md: 768px;
   --breakpoints-lg: 1024px;
-  --breakpoints-xl: 1280px;
-  --breakpoints-2xl: 1536px
+  --breakpoints-xl: 1200px;
+  --breakpoints-2xl: 1440px
 }
   }
   
