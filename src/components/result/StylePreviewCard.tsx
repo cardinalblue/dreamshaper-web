@@ -21,7 +21,7 @@ export const StylePreviewCard = ({
 
   useEffect(() => {
     if (active) {
-      cardRef.current?.scrollIntoView({ block: 'center' })
+      cardRef.current?.scrollIntoView({ block: 'center', inline: 'center' })
     }
   }, [active])
 

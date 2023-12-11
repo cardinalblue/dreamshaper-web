@@ -115,7 +115,7 @@ const container = cva({
 
 const listWrapper = css({
   p: '4px 4px 16px 4px',
-
+  display: 'flex',
   overflowX: 'auto',
   overflowY: 'hidden',
   scrollBehavior: 'smooth',
@@ -124,6 +124,7 @@ const listWrapper = css({
     p: '4px 16px 4px 4px',
     overflowX: 'hidden',
     overflowY: 'auto',
+    flexDirection: 'column',
   },
 })
 
