@@ -128,7 +128,7 @@ export default function Result() {
   return (
     <div className={container}>
       <div className={card}>
-        <StyleSelector />
+        {/* <StyleSelector /> */}
         <div className={resultSection}>
           <div className={styleName}>{selectedStyle?.name}</div>
           <ResultControls />
@@ -159,16 +159,17 @@ const container = css({
 })
 
 const card = css({
-  bgColor: '#FBFBF9',
+  minH: '471px',
+  bgColor: '#F5F4EF',
   boxShadow: '5px 10px 20px 0px rgba(52, 52, 52, 0.15)',
   rounded: '25px',
   display: 'flex',
-  flexDirection: 'column-reverse',
+  // flexDirection: 'column-reverse',
   overflow: 'hidden',
   md: {
-    w: '870px',
+    w: '648px',
     h: '656px',
-    flexDirection: 'row',
+    // flexDirection: 'row',
   },
 })
 
