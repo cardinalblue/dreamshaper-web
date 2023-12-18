@@ -9,6 +9,7 @@ import {
 import { useUserImageStore } from './userImageStore'
 import { StyleModelType } from '@/utils/types'
 import { ampShowTransferResult } from '@/utils/eventTracking'
+import { IMAGE_MAX_SIZE } from '@/utils/constants'
 
 type State = {
   resultImageSrcList: Record<string, string> // base64 string
@@ -49,7 +50,7 @@ export const useResultImageStore = create<State & Actions & Computed>((set, get)
   setImageFormattingStatus: (isImageFormatting) => set({ isImageFormatting }),
   setImageTransferringStatus: (isImageTransferring) => set({ isImageTransferring }),
   setResultImageSrc: (styleId, src) =>
-    set({ resultImageSrcList: { ...get().resultImageSrcList, [styleId]: src } }),
+    set((state) => ({ resultImageSrcList: { ...state.resultImageSrcList, [styleId]: src } })),
   resetResultImageStates: () => set(initialState),
 
   getImageData: async (file: File) => {
@@ -61,7 +62,7 @@ export const useResultImageStore = create<State & Actions & Computed>((set, get)
         file = await processHeicFile(file)
       }
       // compress image if size > 1MB
-      if (file.size > 1024 * 1024) {
+      if (file.size > IMAGE_MAX_SIZE) {
         file = await compressImage(file)
       } else if (file.type === 'image/png') {
         // make sure png image has white background
