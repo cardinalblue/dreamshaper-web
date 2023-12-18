@@ -25,16 +25,22 @@ export default function Result() {
   const router = useRouter()
 
   const applyStyleTransfer = (image = originalImageSrc) => {
-    if (!image || !selectedStyle) return
+    if (!image || !selectedStyle) {
+      return
+    }
     abortController.current = new AbortController()
     handleStyleTransfer(image, selectedStyle, abortController.current.signal)
   }
 
   const initProcessImage = async () => {
-    if (resultImageSrc) return // show result directly
+    if (resultImageSrc) {
+      return // show result directly
+    }
     // process pending image
     const image = await getImageData(uploadedFile!)
-    if (image) applyStyleTransfer(image)
+    if (image) {
+      applyStyleTransfer(image)
+    }
   }
 
   useEffect(() => {
@@ -65,7 +71,9 @@ export default function Result() {
     }
   }, [])
 
-  if (!uploadedFile) return null
+  if (!uploadedFile) {
+    return null
+  }
 
   return (
     <div className={container}>

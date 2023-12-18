@@ -31,7 +31,9 @@ export const StylePreviewCard = ({
       className={container({ active })}
       data-disabled={disabled ? 'true' : null}
       onClick={() => {
-        if (disabled) return
+        if (disabled) {
+          return
+        }
         onClick()
       }}
     >

@@ -55,12 +55,16 @@ export const useResultImageStore = create<State & Actions & Computed>((set, get)
 
   getImageData: async (file: File) => {
     const { setOriginalImageData } = useUserImageStore.getState()
-    if (!file) return
+    if (!file) {
+      return
+    }
     try {
       get().setImageFormattingStatus(true)
+
       if (file.type === 'image/heic') {
         file = await processHeicFile(file)
       }
+
       // compress image if size > 1MB
       if (file.size > IMAGE_MAX_SIZE) {
         file = await compressImage(file)
@@ -68,6 +72,7 @@ export const useResultImageStore = create<State & Actions & Computed>((set, get)
         // make sure png image has white background
         file = await handlePngImageBackground(file)
       }
+
       const base64Image = await fileToBase64(file)
       const size = await getImageDimensionsFromBase64(base64Image)
       setOriginalImageData({
@@ -84,10 +89,13 @@ export const useResultImageStore = create<State & Actions & Computed>((set, get)
   },
 
   handleStyleTransfer: async (image: string, style: StyleModelType, signal?: AbortSignal) => {
-    if (get().resultImageSrcList[style.id]) return
+    if (get().resultImageSrcList[style.id]) {
+      return
+    }
 
     try {
       get().setImageTransferringStatus(true)
+
       const config = style.config
       const initial_image_b64 = image ?? ''
       const res = await fetch('/api/style-transfer', {
@@ -95,6 +103,7 @@ export const useResultImageStore = create<State & Actions & Computed>((set, get)
         body: JSON.stringify({ input: { initial_image_b64, config } }),
         signal,
       })
+
       const data = await res.json()
       const newImage = data.output.stylized_image_b64
       get().setResultImageSrc(style.id, newImage)
@@ -113,7 +122,9 @@ export const useResultImageStore = create<State & Actions & Computed>((set, get)
     },
     get resultImageSrc() {
       const { selectedStyle } = useUserImageStore.getState()
-      if (!selectedStyle?.id) return ''
+      if (!selectedStyle?.id) {
+        return ''
+      }
       return get().resultImageSrcList[selectedStyle.id] ?? ''
     },
   },

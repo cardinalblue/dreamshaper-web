@@ -23,12 +23,16 @@ export const FileInput = ({
   const { resetResultImageStates } = useResultImageStore()
 
   const onChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    if (isUploading) return
+    if (isUploading) {
+      return
+    }
+
     try {
       setUploadingStatus(true)
       const files = e.target.files as FileList
-      if (!files.length) return
-
+      if (!files.length) {
+        return
+      }
       resetResultImageStates() // reset previosus result
       setUploadedFile(files[0])
       onUpload?.()

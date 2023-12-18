@@ -8,10 +8,6 @@ export const ResultImage = () => {
   const resultImageSrc = useResultImageStore((state) => state.computed.resultImageSrc)
   const isImageLoading = useResultImageStore((state) => state.computed.isImageLoading)
 
-  const imageSrc = useMemo(() => {
-    return resultImageSrc || originalImageSrc || null
-  }, [originalImageSrc, resultImageSrc])
-
   return (
     <div
       className={imageFrame}

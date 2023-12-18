@@ -10,7 +10,6 @@ import { ampDownloadTransferResult, ampClickTryAnotherStyle } from '@/utils/even
 
 export const ResultControls = () => {
   const { selectedStyle, uploadedFile } = useUserImageStore()
-  const { isResultFailed } = useResultImageStore()
   const resultImageSrc = useResultImageStore((state) => state.computed.resultImageSrc)
 
   const router = useRouter()
@@ -21,7 +20,9 @@ export const ResultControls = () => {
   }
 
   const onSave = () => {
-    if (!resultImageSrc || !uploadedFile || !selectedStyle) return
+    if (!resultImageSrc || !uploadedFile || !selectedStyle) {
+      return
+    }
 
     const link = document.createElement('a')
     link.href = resultImageSrc
@@ -29,6 +30,7 @@ export const ResultControls = () => {
     const type = uploadedFile.type.split('/')[1]
     link.download = `${fileName}_${selectedStyle.id}.${type}`
     link.click()
+
     ampDownloadTransferResult(selectedStyle.id)
   }
 
@@ -44,8 +46,9 @@ export const ResultControls = () => {
         content="icon"
         data-disabled={!resultImageSrc ? 'true' : null}
         onClick={() => {
-          if (!resultImageSrc) return
-          onSave()
+          if (resultImageSrc) {
+            onSave()
+          }
         }}
       >
         <DownloadIcon />
