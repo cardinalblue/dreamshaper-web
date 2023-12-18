@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { STYLE_LIST } from '@/utils/styleList'
 import { StylePreviewCard } from './StylePreviewCard'
 import { css, cva } from '@styled-system/css'
@@ -8,7 +8,9 @@ import { useResultImageStore, useUserImageStore } from '@/store'
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 
 export const StyleSelector = () => {
-  const isImageLoading = useResultImageStore((state) => state.computed.isImageLoading)
+  const {
+    computed: { isImageLoading },
+  } = useResultImageStore()
   const { selectedStyle, setSelectedStyle } = useUserImageStore()
 
   // handling scroll shadow

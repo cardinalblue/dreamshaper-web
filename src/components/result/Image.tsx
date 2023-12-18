@@ -1,12 +1,12 @@
-import { useMemo } from 'react'
 import { css, cx } from '@styled-system/css'
 import Image from 'next/image'
 import { useUserImageStore, useResultImageStore } from '@/store'
 
 export const ResultImage = () => {
   const { originalImageDimensions, originalImageSrc, selectedStyle } = useUserImageStore()
-  const resultImageSrc = useResultImageStore((state) => state.computed.resultImageSrc)
-  const isImageLoading = useResultImageStore((state) => state.computed.isImageLoading)
+  const {
+    computed: { resultImageSrc, isImageLoading },
+  } = useResultImageStore()
 
   return (
     <div

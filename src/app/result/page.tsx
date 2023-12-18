@@ -15,9 +15,13 @@ import { ampEnterTransferResultPage } from '@/utils/eventTracking'
 export default function Result() {
   const { selectedStyle, uploadedFile, originalImageSrc, resetUserImageStates } =
     useUserImageStore()
-  const { isResultFailed, resetResultImageStates, getImageData, handleStyleTransfer } =
-    useResultImageStore()
-  const resultImageSrc = useResultImageStore((state) => state.computed.resultImageSrc)
+  const {
+    isResultFailed,
+    resetResultImageStates,
+    getImageData,
+    handleStyleTransfer,
+    computed: { resultImageSrc },
+  } = useResultImageStore()
 
   const abortController = useRef<AbortController | null>(null)
   const isLeaveWithoutResult = useRef(false)
