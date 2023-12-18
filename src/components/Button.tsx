@@ -21,7 +21,7 @@ const buttonRecipe = cva({
     theme: {
       light: {
         color: '#484851',
-        bgColor: '#E2DECF',
+        bgColor: '#FBFBF9',
         _hover: {
           bgColor: '#D9D2BF',
         },

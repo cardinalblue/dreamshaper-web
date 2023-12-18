@@ -3,16 +3,16 @@
 import { useRouter } from 'next/navigation'
 import { css } from '@styled-system/css'
 import { useUserImageStore, useResultImageStore } from '@/store'
-import { FileInput } from '@/components/FileInput'
 import { Button } from '@/components/Button'
 import { HomeIcon } from '@/components/icons/HomeIcon'
 import { DownloadIcon } from '@/components/icons/DownloadIcon'
-import { TryAgainIcon } from '@/components/icons/TryAgainIcon'
 import { ampDownloadTransferResult, ampClickTryAnotherStyle } from '@/utils/eventTracking'
 
 export const ResultControls = () => {
   const { selectedStyle, uploadedFile } = useUserImageStore()
-  const { resultImageSrc, isResultFailed } = useResultImageStore()
+  const {
+    computed: { resultImageSrc },
+  } = useResultImageStore()
 
   const router = useRouter()
 
@@ -22,7 +22,9 @@ export const ResultControls = () => {
   }
 
   const onSave = () => {
-    if (!resultImageSrc || !uploadedFile || !selectedStyle) return
+    if (!resultImageSrc || !uploadedFile || !selectedStyle) {
+      return
+    }
 
     const link = document.createElement('a')
     link.href = resultImageSrc
@@ -30,43 +32,38 @@ export const ResultControls = () => {
     const type = uploadedFile.type.split('/')[1]
     link.download = `${fileName}_${selectedStyle.id}.${type}`
     link.click()
+
     ampDownloadTransferResult(selectedStyle.id)
   }
 
   return (
     <div className={buttonGroup}>
-      {isResultFailed ? (
-        <FileInput>
-          <Button theme="dark" content="icon">
-            <TryAgainIcon />
-            <div className="text">Try again</div>
-          </Button>
-        </FileInput>
-      ) : (
-        <Button
-          theme="dark"
-          content="icon"
-          data-disabled={!resultImageSrc ? 'true' : null}
-          onClick={() => {
-            if (!resultImageSrc) return
-            onSave()
-          }}
-        >
-          <DownloadIcon />
-          <div className="text">Download</div>
-        </Button>
-      )}
       <Button onClick={onGoBack} theme="light" content="icon">
         <HomeIcon />
         <div className="text">Home</div>
+      </Button>
+
+      <Button
+        theme="dark"
+        content="icon"
+        data-disabled={!resultImageSrc ? 'true' : null}
+        onClick={() => {
+          if (resultImageSrc) {
+            onSave()
+          }
+        }}
+      >
+        <DownloadIcon />
+        <div className="text">Download</div>
       </Button>
     </div>
   )
 }
 
 const buttonGroup = css({
+  w: '100%',
   display: 'flex',
-  justifyContent: 'center',
+  justifyContent: 'space-between',
   alignItems: 'center',
   flexWrap: 'wrap',
   gap: '12px',

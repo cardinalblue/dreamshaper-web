@@ -3,31 +3,24 @@
 import { useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { css } from '@styled-system/css'
-import {
-  getImageDimensionsFromBase64,
-  fileToBase64,
-  processHeicFile,
-  compressImage,
-  handlePngImageBackground,
-} from '@/utils/imageHelper'
 import { useUserImageStore, useResultImageStore } from '@/store'
 import { ResultControls } from '@/components/result/Controls'
 import { ResultImage } from '@/components/result/Image'
 import { StyleSelector } from '@/components/result/StyleSelector'
-import { ampEnterTransferResultPage, ampShowTransferResult } from '@/utils/eventTracking'
+import { FileInput } from '@/components/FileInput'
+import { TryAgainIcon } from '@/components/icons/TryAgainIcon'
+import { Button } from '@/components/Button'
+import { ampEnterTransferResultPage } from '@/utils/eventTracking'
 
 export default function Result() {
-  const { selectedStyle, uploadedFile, setOriginalImageData, resetUserImageStates } =
+  const { selectedStyle, uploadedFile, originalImageSrc, resetUserImageStates } =
     useUserImageStore()
-
   const {
-    resultImageSrc,
     isResultFailed,
-    setResultImageSrc,
-    setImageFormattingStatus,
-    setImageTransferringStatus,
-    setResultFailedStatus,
     resetResultImageStates,
+    getImageData,
+    handleStyleTransfer,
+    computed: { resultImageSrc },
   } = useResultImageStore()
 
   const abortController = useRef<AbortController | null>(null)
@@ -35,68 +28,23 @@ export default function Result() {
 
   const router = useRouter()
 
-  const handleStyleTransfer = async (image: string) => {
-    if (!selectedStyle) return
-    try {
-      setImageTransferringStatus(true)
-      const config = selectedStyle.config ?? {}
-      const initial_image_b64 = image ?? ''
-      const res = await fetch('/api/style-transfer', {
-        method: 'POST',
-        body: JSON.stringify({ input: { initial_image_b64, config } }),
-        signal: abortController.current?.signal,
-      })
-      const data = await res.json()
-      const newImage = data.output.stylized_image_b64
-      setResultImageSrc(newImage)
-      ampShowTransferResult(selectedStyle.id)
-    } catch (error) {
-      console.debug('transfer error', error)
-      setResultFailedStatus(true)
-    } finally {
-      setImageTransferringStatus(false)
+  const applyStyleTransfer = (image = originalImageSrc) => {
+    if (!image || !selectedStyle) {
+      return
     }
+    abortController.current = new AbortController()
+    handleStyleTransfer(image, selectedStyle, abortController.current.signal)
   }
-
-  const getImageData = async () => {
-    if (!uploadedFile) return
-    try {
-      setImageFormattingStatus(true)
-      let file = uploadedFile
-      if (file.type === 'image/heic') {
-        file = await processHeicFile(file)
-      }
-      // compress image if size > 1MB
-      if (file.size > 1024 * 1024) {
-        file = await compressImage(file)
-      } else if (file.type === 'image/png') {
-        // make sure png image has white background
-        file = await handlePngImageBackground(file)
-      }
-      const base64Image = await fileToBase64(file)
-      const size = await getImageDimensionsFromBase64(base64Image)
-      setOriginalImageData({
-        originalImageSrc: base64Image,
-        originalImageDimensions: size,
-      })
-      return base64Image
-    } catch (error) {
-      console.debug('Image processing error', error)
-    } finally {
-      setImageFormattingStatus(false)
-    }
-  }
-
-  useEffect(() => {
-    isLeaveWithoutResult.current = !resultImageSrc
-  }, [resultImageSrc])
 
   const initProcessImage = async () => {
-    if (resultImageSrc) return // show result directly
+    if (resultImageSrc) {
+      return // show result directly
+    }
     // process pending image
-    abortController.current = new AbortController()
-    const image = await getImageData()
-    if (image) handleStyleTransfer(image)
+    const image = await getImageData(uploadedFile!)
+    if (image) {
+      applyStyleTransfer(image)
+    }
   }
 
   useEffect(() => {
@@ -105,6 +53,10 @@ export default function Result() {
       ampEnterTransferResultPage(selectedStyle.id)
     }
   }, [uploadedFile, selectedStyle])
+
+  useEffect(() => {
+    isLeaveWithoutResult.current = !resultImageSrc
+  }, [resultImageSrc])
 
   useEffect(() => {
     // no uploaded file, go back to homepage
@@ -123,24 +75,32 @@ export default function Result() {
     }
   }, [])
 
-  if (!uploadedFile) return null
+  if (!uploadedFile) {
+    return null
+  }
 
   return (
     <div className={container}>
-      <div className={card}>
-        {/* <StyleSelector /> */}
-        <div className={resultSection}>
-          <div className={styleName}>{selectedStyle?.name}</div>
-          <ResultControls />
-          <div className={resultImageWrapper}>
-            {isResultFailed ? (
+      <ResultControls />
+      <div className={content}>
+        <StyleSelector />
+
+        <div className={card}>
+          {isResultFailed ? (
+            <div className={errorContent}>
+              <FileInput>
+                <Button theme="dark" content="icon">
+                  <TryAgainIcon />
+                  <div className="text">Try again</div>
+                </Button>
+              </FileInput>
               <div className={errorText}>
                 Image processing failed. Please try a different image.
               </div>
-            ) : (
-              <ResultImage />
-            )}
-          </div>
+            </div>
+          ) : (
+            <ResultImage />
+          )}
         </div>
       </div>
     </div>
@@ -148,58 +108,54 @@ export default function Result() {
 }
 
 const container = css({
-  minH: '100vh',
+  maxW: '1280px',
+  minH: '100dvh',
+  m: '0 auto',
   p: '32px 24px',
   display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
+  flexDirection: 'column',
+  gap: '24px',
   md: {
-    p: '32px 72px',
+    h: '100dvh',
+    p: '24px 72px',
+  },
+})
+
+const content = css({
+  display: 'flex',
+  flexDirection: 'column-reverse',
+  gap: '24px',
+  overflow: 'hidden',
+  md: {
+    flexDirection: 'row',
+    gap: '40px',
   },
 })
 
 const card = css({
-  minH: '471px',
-  bgColor: '#F5F4EF',
-  boxShadow: '5px 10px 20px 0px rgba(52, 52, 52, 0.15)',
+  w: '100%',
+  h: '471px',
+  bgColor: '#FBFBF9',
   rounded: '25px',
   display: 'flex',
-  // flexDirection: 'column-reverse',
-  overflow: 'hidden',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  p: '24px 24px',
   md: {
-    w: '648px',
-    h: '656px',
-    // flexDirection: 'row',
+    h: 'auto',
+    maxH: '720px',
   },
 })
 
-const resultSection = css({
-  p: '24px 24px',
-  flexGrow: 1,
+const errorContent = css({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   gap: '24px',
 })
 
-const styleName = css({
-  fontSize: '32px',
-  fontWeight: 'bold',
-  lineHeight: 'normal',
-  color: '#484851',
-})
-
-const resultImageWrapper = css({
-  w: '100%',
-  flexGrow: 1,
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  overflow: 'hidden',
-})
-
 const errorText = css({
   fontSize: '18px',
   fontWeight: '600',
-  textAlign: 'center',
 })
