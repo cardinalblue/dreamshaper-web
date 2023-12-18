@@ -3,10 +3,10 @@
 import React from 'react'
 import { css, cx } from '@styled-system/css'
 import { Button } from '@/components/Button'
-import { StyleModelProps } from '@/utils/types'
+import { StyleModelType } from '@/utils/types'
 
 interface StylePreviewCardProps {
-  styleInfo: StyleModelProps
+  styleInfo: StyleModelType
 }
 
 export const StylePreviewCard = ({ styleInfo }: StylePreviewCardProps) => {
@@ -61,6 +61,7 @@ const thumbnail = css({
   h: '100%',
   bg: 'no-repeat center / cover',
   transition: 'all 0.3s',
+  willChange: 'transform',
 })
 
 const titleWrapper = css({

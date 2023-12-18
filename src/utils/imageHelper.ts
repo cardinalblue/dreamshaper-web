@@ -1,5 +1,5 @@
 export const compressImage = (file: File, quality: number = 0.5, maxSize = 1080): Promise<File> => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.readAsDataURL(file)
     reader.onload = () => {
@@ -36,11 +36,14 @@ export const compressImage = (file: File, quality: number = 0.5, maxSize = 1080)
           quality
         )
       }
+      img.onerror = (error) => {
+        reject(error)
+      }
     }
   })
 }
 
-export const handlePngImageBackground = (file: File): Promise<File> => {
+export const addWhiteBgToPngImage = (file: File): Promise<File> => {
   return new Promise((resolve) => {
     const reader = new FileReader()
     reader.readAsDataURL(file)

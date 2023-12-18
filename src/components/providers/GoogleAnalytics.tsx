@@ -12,7 +12,9 @@ export const GoogleAnalytics = () => {
 
   // WORKAROUND: router.events is removed in Next.js app router, so we can't use that to track route changes
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') return
+    if (process.env.NODE_ENV === 'development') {
+      return
+    }
 
     const handleRouteChange = (url: URL) => {
       gtag.pageview(url)
