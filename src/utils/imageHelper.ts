@@ -43,7 +43,7 @@ export const compressImage = (file: File, quality: number = 0.5, maxSize = 1080)
   })
 }
 
-export const handlePngImageBackground = (file: File): Promise<File> => {
+export const addWhiteBgToPngImage = (file: File): Promise<File> => {
   return new Promise((resolve) => {
     const reader = new FileReader()
     reader.readAsDataURL(file)

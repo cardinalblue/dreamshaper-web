@@ -4,7 +4,7 @@ import {
   fileToBase64,
   processHeicFile,
   compressImage,
-  handlePngImageBackground,
+  addWhiteBgToPngImage,
 } from '@/utils/imageHelper'
 import { useUserImageStore } from './userImageStore'
 import { StyleModelType } from '@/utils/types'
@@ -70,7 +70,7 @@ export const useResultImageStore = create<State & Actions & Computed>((set, get)
         file = await compressImage(file)
       } else if (file.type === 'image/png') {
         // make sure png image has white background
-        file = await handlePngImageBackground(file)
+        file = await addWhiteBgToPngImage(file)
       }
 
       const base64Image = await fileToBase64(file)
