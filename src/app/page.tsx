@@ -1,95 +1,121 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+'use client'
+
+import { css } from '@styled-system/css'
+import { useEffect } from 'react'
+import { HomepageStyleSelector } from '@/components/home/StyleSelector'
+import { TitleDecoIcon } from '@/components/icons/TitleDecoIcon'
+import { ampEnterStyleListPage } from '@/utils/eventTracking'
 
 export default function Home() {
+  useEffect(() => {
+    ampEnterStyleListPage()
+  }, [])
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className={container}>
+      <div className={navbar}>
+        <div className={logo}></div>
+      </div>
+      <div className={main}>
+        <div className={titleWrapper}>
+          <div className={title}>
+            <div>Turn your image</div>
+            <div>
+              into magical <TitleDecoIcon />
+            </div>
+          </div>
+          <div className={subtitle}>
+            Just choose the style, upload your photo, and there you go.
+          </div>
         </div>
+        <div className={visual}></div>
       </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      <HomepageStyleSelector />
+    </div>
   )
 }
+
+const container = css({
+  maxW: '1280px',
+  p: '16px 24px 32px',
+  m: '0 auto',
+  overflow: 'hidden',
+  md: {
+    p: '16px 72px 32px',
+  },
+})
+
+const navbar = css({
+  h: '54px',
+  m: '0 auto',
+  p: '0 44px',
+  bgColor: '#F5F4EF',
+  boxShadow: '0px 10px 25px 0px rgba(52, 52, 52, 0.10)',
+  rounded: '12px',
+  display: 'flex',
+  alignItems: 'center',
+})
+
+const logo = css({
+  w: '270px',
+  h: '44px',
+  bg: '#CFCBB7',
+  rounded: '10px',
+})
+
+const main = css({
+  h: '360px',
+  m: '0 auto',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  md: {
+    h: '550px',
+  },
+})
+
+const visual = css({
+  display: 'none',
+  w: '640px',
+  h: '500px',
+  bg: 'url(/images/hero_visual.png) no-repeat center / contain',
+  flexShrink: 0,
+  md: {
+    display: 'block',
+  },
+})
+
+const titleWrapper = css({
+  w: '100%',
+  color: '#484851',
+})
+
+const title = css({
+  fontSize: '42px',
+  fontFamily: 'Recoleta',
+  fontWeight: '500',
+  textTransform: 'capitalize',
+  lineHeight: '100px',
+  letterSpacing: '-1px',
+  whiteSpace: 'nowrap',
+  md: {
+    w: '516px',
+    fontSize: '72px',
+  },
+  '& > div:first-child': {
+    mb: '-30px',
+  },
+  '& > div:last-child': {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+  },
+})
+
+const subtitle = css({
+  fontSize: '20px',
+  lineHeight: '28px',
+  md: {
+    w: '390px',
+  },
+})
