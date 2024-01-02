@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
-import { STYLE_LIST } from '@/utils/styleList'
+import { STYLE_LIST_HIGHLIGHT, STYLE_LIST_REST } from '@/utils/styleList'
 import { StylePreviewCard } from './StylePreviewCard'
 import { css, cva } from '@styled-system/css'
 import { useResultImageStore, useUserImageStore } from '@/store'
@@ -29,7 +29,7 @@ export const StyleSelector = () => {
       <div className={listWrapper}>
         <div data-list-start ref={listStartRef}></div>
         <div className={listInner}>
-          {STYLE_LIST.map((styleInfo) => (
+          {[...STYLE_LIST_HIGHLIGHT, ...STYLE_LIST_REST].map((styleInfo) => (
             <StylePreviewCard
               key={styleInfo.id}
               styleInfo={styleInfo}

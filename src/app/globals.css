@@ -1,11 +1,12 @@
 @layer reset, base, tokens, recipes, utilities;
 
 html {
-  background-color: #e8e4d7;
+  background-color: #faf6ec;
   scroll-behavior: smooth;
 }
 body {
   font-family: 'Averta PE', sans-serif;
+  overflow-x: hidden;
 }
 
 /* FONTS */

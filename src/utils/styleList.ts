@@ -1,6 +1,26 @@
 const MAX_INPUT_SIZE = 768
 
-export const STYLE_LIST = [
+export const STYLE_LIST_HIGHLIGHT = [
+  {
+    id: 'watercolor',
+    name: 'Watercolor',
+    src: '/images/effects/watercolor.png',
+    config: {
+      prompt:
+        'highly detailed watercolor painting, clean brush stroke in beautiful colors, illustration, digital art, concept art, paint on canvas, masterpiece, extreme high quality, sharp focus, professional, 4k, max detail, highres, high detail, smooth, aesthetic, extremely detailed, 8k, uhd',
+      negative_prompt:
+        'blurry, abstract, disfigured, deformed, cartoon, animated, toy, figure, framed, 3d, badly drawn hands, nude, cartoon, bad art, poorly drawn, extra limb, close up, b&w, weird colors, watermark, blur haze',
+      num_inference_steps: 8,
+      strength: 0.8,
+      guidance_scale: 10,
+      max_dim_of_input: MAX_INPUT_SIZE,
+      controlnet_conditioning_scale: 1,
+      face_mask_threshold: 0.98,
+    },
+  },
+]
+
+export const STYLE_LIST_REST = [
   {
     id: 'glowing-lights',
     name: 'Glowing Lights',
@@ -94,23 +114,6 @@ export const STYLE_LIST = [
         'glitter, sparkles, confetti, kira kira, shinny spark, celebration, glimmer, glare effect',
       negative_prompt:
         'blurry, abstract, disfigured, deformed, cartoon, animated, toy, figure,framed, 3d, badly drawn hands, nude, cartoon, bad art, poorly drawn, extra limb,close up, weird colors, watermark, blur haze, red face, red cheek, white face',
-      num_inference_steps: 8,
-      strength: 0.8,
-      guidance_scale: 10,
-      max_dim_of_input: MAX_INPUT_SIZE,
-      controlnet_conditioning_scale: 1,
-      face_mask_threshold: 0.98,
-    },
-  },
-  {
-    id: 'watercolor',
-    name: 'Watercolor',
-    src: '/images/effects/watercolor.png',
-    config: {
-      prompt:
-        'highly detailed watercolor painting, clean brush stroke in beautiful colors, illustration, digital art, concept art, paint on canvas, masterpiece, extreme high quality, sharp focus, professional, 4k, max detail, highres, high detail, smooth, aesthetic, extremely detailed, 8k, uhd',
-      negative_prompt:
-        'blurry, abstract, disfigured, deformed, cartoon, animated, toy, figure, framed, 3d, badly drawn hands, nude, cartoon, bad art, poorly drawn, extra limb, close up, b&w, weird colors, watermark, blur haze',
       num_inference_steps: 8,
       strength: 0.8,
       guidance_scale: 10,

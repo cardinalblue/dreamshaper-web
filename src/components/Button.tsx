@@ -37,6 +37,10 @@ const buttonRecipe = cva({
           bgColor: '#AEAEB7',
         },
       },
+      highlight: {
+        color: '#FAFAFA',
+        bgColor: '#CFA258',
+      },
     },
     content: {
       icon: {

@@ -5,34 +5,63 @@ import { useRouter } from 'next/navigation'
 import { css } from '@styled-system/css'
 import { useUserImageStore } from '@/store'
 import { ampClickStyleButton } from '@/utils/eventTracking'
-import { STYLE_LIST } from '@/utils/styleList'
-import { FileInput } from '@/components/FileInput'
+import { STYLE_LIST_HIGHLIGHT, STYLE_LIST_REST } from '@/utils/styleList'
 import { StylePreviewCard } from './StylePreviewCard'
+import { StylePreviewSection } from './StylePreviewSection'
+import { StyleModelType } from '@/utils/types'
 
 export const HomepageStyleSelector = () => {
   const { setSelectedStyle } = useUserImageStore()
   const router = useRouter()
 
+  const onUpload = (styleInfo: StyleModelType) => {
+    setSelectedStyle(styleInfo)
+    router.push('/result')
+  }
+
+  const onTryButtonClick = (id: string) => {
+    ampClickStyleButton(id)
+  }
+
   return (
-    <div className={listWrapper}>
-      {STYLE_LIST.map((styleInfo) => (
-        <FileInput
-          key={styleInfo.id}
-          inputId={`file-input-${styleInfo.id}`}
-          onUpload={() => {
-            setSelectedStyle(styleInfo)
-            router.push('/result')
-          }}
-          onClick={() => {
-            ampClickStyleButton(styleInfo.id)
-          }}
-        >
-          <StylePreviewCard styleInfo={styleInfo} />
-        </FileInput>
-      ))}
+    <div className={container}>
+      <div className={promotionWrapper}>
+        {STYLE_LIST_HIGHLIGHT.map((styleInfo) => (
+          <StylePreviewSection
+            key={styleInfo.id}
+            styleInfo={styleInfo}
+            onUpload={onUpload}
+            onClick={onTryButtonClick}
+          />
+        ))}
+      </div>
+      <div className={listWrapper}>
+        {STYLE_LIST_REST.map((styleInfo) => (
+          <StylePreviewCard
+            key={styleInfo.id}
+            styleInfo={styleInfo}
+            onUpload={onUpload}
+            onClick={onTryButtonClick}
+          />
+        ))}
+      </div>
     </div>
   )
 }
+
+const container = css({
+  py: '44px',
+  px: '32px',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'stretch',
+  gap: '24px',
+  md: {
+    px: '72px',
+  },
+})
+
+const promotionWrapper = css({})
 
 const listWrapper = css({
   display: 'grid',
@@ -40,9 +69,9 @@ const listWrapper = css({
   gap: '32px',
   justifyContent: 'center',
   md: {
-    gridTemplateColumns: 'repeat(2, minmax(0, 357px))',
+    gridTemplateColumns: 'repeat(2, minmax(0, 100%))',
   },
   xl: {
-    gridTemplateColumns: 'repeat(3, minmax(0, 357px))',
+    gridTemplateColumns: 'repeat(3, minmax(0, 350px))',
   },
 })
