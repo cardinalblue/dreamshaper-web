@@ -77,11 +77,11 @@ const container = cva({
       content: '""',
       ...scrollHintStyle,
       left: 0,
-      bgImage: 'linear-gradient(90deg, #e8e4d7, #fff0)',
+      bgImage: 'linear-gradient(90deg, #faf6ec, #fff0)',
       md: {
         ...scrollHintMdStyle,
         top: 0,
-        bgImage: 'linear-gradient(#e8e4d7, #fff0)',
+        bgImage: 'linear-gradient(#faf6ec, #fff0)',
       },
     },
     // end shadow
@@ -89,11 +89,11 @@ const container = cva({
       content: '""',
       ...scrollHintStyle,
       right: 0,
-      bgImage: 'linear-gradient(270deg, #e8e4d7, #fff0)',
+      bgImage: 'linear-gradient(270deg, #faf6ec, #fff0)',
       md: {
         ...scrollHintMdStyle,
         bottom: 0,
-        bgImage: 'linear-gradient(0deg, #e8e4d7, #fff0)',
+        bgImage: 'linear-gradient(0deg, #faf6ec, #fff0)',
       },
     },
   },
