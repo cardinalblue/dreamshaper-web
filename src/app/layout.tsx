@@ -6,8 +6,8 @@ import { GoogleAnalytics } from '@/components/providers/GoogleAnalytics'
 const TITLE = 'AI Photo Style Transformer | Free & Easy-to-Use'
 const DESCRIPTION =
   'Instantly elevate your photos with our AI style transfer - a free online tool for magical image transformations. Experience the art of AI-driven photo styling in seconds.'
-const SITE_URL = 'https://photostyle.ai'
-const IMAGE_URL = '/images/og_image.png'
+const SITE_URL = `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+const IMAGE_URL = `${SITE_URL}/images/og_image.png`
 
 export const metadata: Metadata = {
   title: TITLE,
