@@ -12,7 +12,7 @@ export const HeroSection = () => {
           <div className={magicalText}>magical</div>
         </div>
         <div className={subtitle}>Just choose the style, upload your photo, and there you go.</div>
-        <Button theme="highlight" className={tryButton}>
+        <Button theme="light" className={tryButton}>
           TRY NOW
         </Button>
       </div>

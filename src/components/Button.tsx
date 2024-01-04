@@ -20,10 +20,10 @@ const buttonRecipe = cva({
   variants: {
     theme: {
       light: {
-        color: '#484851',
-        bgColor: '#FBFBF9',
+        color: '#FAFAFA',
+        bgColor: '#CFA258',
         _hover: {
-          bgColor: '#D9D2BF',
+          bgColor: '#C58C2F',
         },
       },
       dark: {
@@ -36,10 +36,6 @@ const buttonRecipe = cva({
           cursor: 'not-allowed',
           bgColor: '#AEAEB7',
         },
-      },
-      highlight: {
-        color: '#FAFAFA',
-        bgColor: '#CFA258',
       },
     },
     content: {

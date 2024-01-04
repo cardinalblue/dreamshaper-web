@@ -31,7 +31,7 @@ export const Footer = () => {
                 <FooterTextStar />
               </div>
             </div>
-            <Button theme="highlight" className={startButton}>
+            <Button theme="light" className={startButton}>
               <FooterStartedButtonIcon />
               Get Started
             </Button>
