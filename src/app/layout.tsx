@@ -35,6 +35,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:title" content={TITLE} />
+      <meta name="twitter:description" content={DESCRIPTION} />
+      <meta name="twitter:image" content={IMAGE_URL} />
+
       <meta property="og:title" content={TITLE} />
       <meta property="og:description" content={DESCRIPTION} />
       <meta property="og:url" content={SITE_URL} />
@@ -42,11 +47,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <meta property="og:locale" content="en_US" />
       <meta property="og:image" content={IMAGE_URL} />
       <meta property="og:type" content="website" />
-
-      {/* <meta name="twitter:card" content="summary" />
-      <meta name="twitter:title" content={TITLE} />
-      <meta name="twitter:description" content={DESCRIPTION} />
-      <meta name="twitter:image" content={IMAGE_URL} /> */}
 
       <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
       <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
