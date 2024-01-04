@@ -38,24 +38,13 @@ export const Footer = () => {
           </div>
 
           <div className={linkWrapper}>
-            <div className={linkGroup}>
-              <div className={linkTitle}>Get Started</div>
-              <a href="" className={linkItem}>
-                SnapJoy
-              </a>
-              <a href="" className={linkItem}>
-                AI Effects
-              </a>
-            </div>
-            <div className={linkGroup}>
-              <div className={linkTitle}>Get Out App</div>
-              <a
-                href="https://apps.apple.com/tw/app/snapjoy-ai-christmas-camera/id6474116921?l=en-GB"
-                target="_blank"
-              >
-                <Image src="/images/ios_app_button.png" width={120} height={40} alt="snapjoy_app" />
-              </a>
-            </div>
+            <div className={linkTitle}>Get Out App</div>
+            <a
+              href="https://apps.apple.com/tw/app/snapjoy-ai-christmas-camera/id6474116921?l=en-GB"
+              target="_blank"
+            >
+              <Image src="/images/ios_app_button.png" width={120} height={40} alt="snapjoy_app" />
+            </a>
           </div>
         </div>
         <div className={divider}></div>
@@ -94,10 +83,11 @@ const content = css({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
-  alignItems: 'flex-start',
+  alignItems: 'center',
   gap: '80px',
   md: {
     flexDirection: 'row',
+    alignItems: 'flex-start',
     gap: '24px',
   },
 })
@@ -140,14 +130,12 @@ const starIconWrapper = css({
 
 const linkWrapper = css({
   display: 'flex',
-  alignItems: 'flex-start',
-  gap: '72px',
-})
-
-const linkGroup = css({
-  display: 'flex',
   flexDirection: 'column',
   gap: '16px',
+  alignItems: 'center',
+  md: {
+    alignItems: 'flex-start',
+  },
 })
 
 const linkTitle = css({
@@ -155,8 +143,6 @@ const linkTitle = css({
   lineHeight: '1.2',
   fontWeight: '600',
 })
-
-const linkItem = css({})
 
 const startButton = css({
   w: '221px',
