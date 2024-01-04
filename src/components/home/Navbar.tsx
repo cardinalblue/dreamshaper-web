@@ -45,8 +45,7 @@ const navbar = cva({
 })
 
 const logo = css({
-  w: '221px',
-  h: '33px',
-  mt: '2px',
+  w: '220px',
+  h: '32px',
   bg: 'url(/images/logo.png) no-repeat center / contain',
 })

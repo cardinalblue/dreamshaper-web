@@ -67,14 +67,13 @@ const inner = css({
   flexDirection: 'column',
   alignItems: 'center',
   md: {
-    height: '500px',
     alignItems: 'stretch',
   },
 })
 
 const logo = css({
-  w: '221px',
-  h: '33px',
+  w: '220px',
+  h: '32px',
   mb: '58px',
   bg: 'url(/images/logo_light.png) no-repeat center / contain',
 })
