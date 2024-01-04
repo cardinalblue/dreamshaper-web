@@ -22,7 +22,8 @@ export const HeroSection = () => {
 }
 
 const container = css({
-  h: '360px',
+  position: 'relative',
+  h: '645px',
   px: '24px',
   display: 'flex',
   alignItems: 'center',
@@ -35,32 +36,84 @@ const container = css({
 })
 
 const visual = css({
-  display: 'none',
-  w: '1009px',
-  h: '500px',
-  marginLeft: '-50px',
-  bg: 'url(/images/hero_visual.png) no-repeat center / contain',
+  position: 'absolute',
+  top: '25px',
+  left: '50%',
+  transform: 'translateX(-50%)',
+  w: '679px',
+  h: '333px',
+  bg: 'url(/images/hero_visual_mobile_1.png) no-repeat center / contain',
   flexShrink: 0,
-  maskImage: 'linear-gradient(to right, transparent 7%, black 27%)',
+  zIndex: -1,
+  // mask
+  _before: {
+    content: '""',
+    position: 'absolute',
+    left: 0,
+    bottom: 0,
+    w: '100%',
+    h: '60%',
+    bgImage: 'linear-gradient(to top, #faf6ec 20%, transparent)',
+    pointerEvents: 'none',
+  },
+  // deco image
+  _after: {
+    content: '""',
+    position: 'absolute',
+    bottom: '-30px',
+    right: 0,
+    w: '161px',
+    h: '161px',
+    bg: 'url(/images/hero_visual_mobile_2.png) no-repeat center / contain',
+    pointerEvents: 'none',
+  },
   md: {
-    display: 'block',
+    w: '1009px',
+    h: '500px',
+    top: 'auto',
+    left: '500px',
+    marginLeft: '-50px',
+    transform: 'none',
+    bg: 'url(/images/hero_visual.png) no-repeat center / contain',
+    _before: {
+      w: '30%',
+      h: '100%',
+      bgImage: 'linear-gradient(to right, #faf6ec 30%, transparent)',
+    },
+    _after: {
+      display: 'none',
+    },
   },
 })
 
 const titleWrapper = css({
   w: '100%',
+  mt: 'auto',
+  mb: '65px',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
   color: '#171314',
+  md: {
+    m: '0',
+    alignItems: 'flex-start',
+  },
 })
 
 const title = css({
-  fontSize: '40px',
+  fontSize: '28px',
   fontWeight: '600',
   textTransform: 'capitalize',
   lineHeight: '104%',
   letterSpacing: '1.2px',
   whiteSpace: 'nowrap',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
   md: {
     w: '430px',
+    alignItems: 'flex-start',
+    fontSize: '40px',
   },
 })
 
@@ -73,17 +126,21 @@ const magicalText = css({
 })
 
 const subtitle = css({
-  mt: '20px',
+  maxW: '292px',
+  mt: '12px',
   fontSize: '20px',
   lineHeight: '28px',
   color: '#484851',
   md: {
-    w: '292px',
+    mt: '20px',
   },
 })
 
 const tryButton = css({
   w: '148px',
   h: '50px',
-  mt: '30px',
+  mt: '27px',
+  md: {
+    mt: '30px',
+  },
 })

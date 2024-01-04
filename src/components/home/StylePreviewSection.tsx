@@ -64,11 +64,13 @@ const thumbnail = css({
 })
 
 const titleWrapper = css({
-  p: '16px 44px',
   flex: 1,
   display: 'flex',
   flexDirection: 'column',
   gap: '16px',
+  md: {
+    p: '16px 44px',
+  },
 })
 
 const title = css({
