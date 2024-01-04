@@ -12,7 +12,7 @@ const SITE_URL = `https://${
 }`
 const IMAGE_URL = `${SITE_URL}/og_image.png`
 
-const PROD_IMAGE_URL = `https://www.photostyle.ai/og_image.png`
+const PROD_IMAGE_URL = `https://dreamshaper-hix4qaru7-piccollage.vercel.app/og_image.png`
 
 export const metadata: Metadata = {
   title: TITLE,
