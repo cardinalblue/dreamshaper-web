@@ -24,12 +24,12 @@ export const metadata: Metadata = {
     locale: 'en_US',
     type: 'website',
   },
-  // twitter: {
-  //   card: 'summary',
-  //   title: TITLE,
-  //   description: DESCRIPTION,
-  //   images: [IMAGE_URL],
-  // },
+  twitter: {
+    card: 'summary_large_image',
+    title: TITLE,
+    description: DESCRIPTION,
+    images: [IMAGE_URL],
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
