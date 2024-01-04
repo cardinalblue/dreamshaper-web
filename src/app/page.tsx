@@ -30,4 +30,5 @@ export default function Home() {
 const container = css({
   maxW: '1280px',
   mx: 'auto',
+  pt: '64px', // navbar height
 })
