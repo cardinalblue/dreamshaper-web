@@ -6,7 +6,7 @@ const buttonRecipe = cva({
     rounded: '14px',
     fontSize: '18px',
     fontWeight: 'bold',
-    lineHeight: 1,
+    lineHeight: '1',
 
     display: 'flex',
     justifyContent: 'center',
