@@ -15,15 +15,15 @@ const IMAGE_URL = `${SITE_URL}/og_image.png`
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  // openGraph: {
-  //   title: TITLE,
-  //   description: DESCRIPTION,
-  //   url: SITE_URL,
-  //   siteName: TITLE,
-  //   images: [{ url: IMAGE_URL }],
-  //   locale: 'en_US',
-  //   type: 'website',
-  // },
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    url: SITE_URL,
+    siteName: TITLE,
+    images: [{ url: IMAGE_URL }],
+    locale: 'en_US',
+    type: 'website',
+  },
   // twitter: {
   //   card: 'summary',
   //   title: TITLE,
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <meta name="twitter:card" content="summary" />
+      {/* <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={TITLE} />
       <meta name="twitter:description" content={DESCRIPTION} />
       <meta name="twitter:image" content={IMAGE_URL} />
@@ -46,7 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <meta property="og:site_name" content={TITLE} />
       <meta property="og:locale" content="en_US" />
       <meta property="og:image" content={IMAGE_URL} />
-      <meta property="og:type" content="website" />
+      <meta property="og:type" content="website" /> */}
 
       <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
       <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
