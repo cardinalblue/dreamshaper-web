@@ -15,26 +15,40 @@ const IMAGE_URL = `${SITE_URL}/og_image.png`
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  openGraph: {
-    title: TITLE,
-    description: DESCRIPTION,
-    url: SITE_URL,
-    siteName: TITLE,
-    images: [{ url: IMAGE_URL }],
-    locale: 'en_US',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary',
-    title: TITLE,
-    description: DESCRIPTION,
-    images: [IMAGE_URL],
-  },
+  // openGraph: {
+  //   title: TITLE,
+  //   description: DESCRIPTION,
+  //   url: SITE_URL,
+  //   siteName: TITLE,
+  //   images: [{ url: IMAGE_URL }],
+  //   locale: 'en_US',
+  //   type: 'website',
+  // },
+  // twitter: {
+  //   card: 'summary',
+  //   title: TITLE,
+  //   description: DESCRIPTION,
+  //   images: [IMAGE_URL],
+  // },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <meta property="og:title" content="AI Photo Style Transformer | Free &amp; Easy-to-Use" />
+      <meta
+        property="og:description"
+        content="Instantly elevate your photos with our AI style transfer - a free online tool for magical image transformations. Experience the art of AI-driven photo styling in seconds."
+      />
+      <meta property="og:url" content="https://dreamshaper-hix4qaru7-piccollage.vercel.app" />
+      <meta property="og:site_name" content="AI Photo Style Transformer | Free &amp; Easy-to-Use" />
+      <meta property="og:locale" content="en_US" />
+      <meta
+        property="og:image"
+        content="https://dreamshaper-hix4qaru7-piccollage.vercel.app/og_image.png"
+      />
+      <meta property="og:type" content="website" />
+
       <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
       <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
       <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
