@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { css, cx } from '@styled-system/css'
-import { Button } from '@/components/Button'
+import { buttonRecipe } from '@/components/Button'
 import { FileInput } from '@/components/FileInput'
 import { StyleModelType } from '@/utils/types'
 
@@ -30,9 +30,7 @@ export const StylePreviewSection = ({ styleInfo, onUpload, onClick }: StylePrevi
           onUpload={() => onUpload(styleInfo)}
           onClick={() => onClick(styleInfo.id)}
         >
-          <Button theme="dark" className={tryButton}>
-            TRY THIS STYLE
-          </Button>
+          <div className={cx(buttonRecipe({ theme: 'dark' }), tryButton)}>TRY THIS STYLE</div>
         </FileInput>
       </div>
     </div>
@@ -69,7 +67,7 @@ const titleWrapper = css({
   flexDirection: 'column',
   gap: '16px',
   md: {
-    p: '16px 44px',
+    py: '16px',
   },
 })
 

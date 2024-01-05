@@ -1,11 +1,12 @@
 'use client'
 
 import Image from 'next/image'
-import { css } from '@styled-system/css'
-import { Button } from '@/components/Button'
+import { css, cx } from '@styled-system/css'
+import { buttonRecipe } from '@/components/Button'
 import { FooterTextStar } from '@/components/icons/FooterTextStar'
 import { FooterTextUnderline } from '@/components/icons/FooterTextUnderline'
 import { FooterStartedButtonIcon } from '@/components/icons/FooterStartedButtonIcon'
+import { IOS_APP_LINK } from '@/utils/constants'
 
 export const Footer = () => {
   return (
@@ -31,19 +32,22 @@ export const Footer = () => {
                 <FooterTextStar />
               </div>
             </div>
-            <Button theme="light" className={startButton}>
+            <div className={cx(buttonRecipe({ theme: 'light' }), startButton)}>
               <FooterStartedButtonIcon />
               Get Started
-            </Button>
+            </div>
           </div>
 
           <div className={linkWrapper}>
             <div className={linkTitle}>Get Out App</div>
-            <a
-              href="https://apps.apple.com/tw/app/snapjoy-ai-christmas-camera/id6474116921?l=en-GB"
-              target="_blank"
-            >
-              <Image src="/images/ios_app_button.png" width={120} height={40} alt="snapjoy_app" />
+            <a href={IOS_APP_LINK} target="_blank">
+              <Image
+                src="/images/ios_app_button.png"
+                width={120}
+                height={40}
+                alt="snapjoy_app"
+                unoptimized
+              />
             </a>
           </div>
         </div>
@@ -144,8 +148,7 @@ const linkTitle = css({
 })
 
 const startButton = css({
-  w: '221px',
-  h: '48px',
+  p: '12px 44px',
   bgColor: '#D29D44',
   gap: '12px',
 })

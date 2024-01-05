@@ -29,9 +29,7 @@ export const StylePreviewCard = ({ styleInfo, onUpload, onClick }: StylePreviewC
         </div>
         <div className={titleWrapper}>
           <div className={title}>{styleInfo.name}</div>
-          <Button theme="dark" className={tryButton}>
-            TRY
-          </Button>
+          <Button theme="dark">TRY</Button>
         </div>
       </div>
     </FileInput>
@@ -88,9 +86,4 @@ const title = css({
   fontWeight: '600',
   lineHeight: '1.2',
   color: '#484851',
-})
-
-const tryButton = css({
-  p: '14px 24px',
-  flexShrink: 0,
 })

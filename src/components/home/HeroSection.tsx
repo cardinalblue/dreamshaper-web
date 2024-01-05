@@ -1,7 +1,9 @@
 'use client'
 
-import { css } from '@styled-system/css'
-import { Button } from '@/components/Button'
+import Image from 'next/image'
+import { css, cx } from '@styled-system/css'
+import { buttonRecipe } from '@/components/Button'
+import { IOS_APP_LINK } from '@/utils/constants'
 
 export const HeroSection = () => {
   return (
@@ -12,9 +14,18 @@ export const HeroSection = () => {
           <div className={magicalText}>magical</div>
         </div>
         <div className={subtitle}>Just choose the style, upload your photo, and there you go.</div>
-        <Button theme="light" className={tryButton}>
-          TRY NOW
-        </Button>
+        <div className={buttonGroup}>
+          <div className={cx(buttonRecipe({ theme: 'light' }), tryButton)}>TRY NOW</div>
+          <a href={IOS_APP_LINK} target="_blank">
+            <Image
+              src="/images/hero_ios_button.png"
+              width={203}
+              height={54}
+              alt="snapjoy_app"
+              unoptimized
+            />
+          </a>
+        </div>
       </div>
       <div className={visual}></div>
     </div>
@@ -76,9 +87,7 @@ const visual = css({
     transform: 'none',
     bg: 'url(/images/hero_visual.png) no-repeat center / contain',
     _before: {
-      w: '30%',
-      h: '100%',
-      bgImage: 'linear-gradient(to right, #faf6ec 30%, transparent)',
+      display: 'none',
     },
     _after: {
       display: 'none',
@@ -136,11 +145,16 @@ const subtitle = css({
   },
 })
 
-const tryButton = css({
-  w: '148px',
-  h: '50px',
+const buttonGroup = css({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '16px',
   mt: '27px',
   md: {
     mt: '30px',
   },
+})
+
+const tryButton = css({
+  p: '16px 32px',
 })
