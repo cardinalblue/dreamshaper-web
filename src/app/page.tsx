@@ -6,6 +6,7 @@ import { HomepageStyleSelector } from '@/components/home/StyleSelector'
 import { ampEnterStyleListPage } from '@/utils/eventTracking'
 import { Navbar } from '@/components/home/Navbar'
 import { HeroSection } from '@/components/home/HeroSection'
+import { AppPromotionSm } from '@/components/home/AppPromotionSm'
 import { HintSection } from '@/components/home/HintSection'
 import { Footer } from '@/components/home/Footer'
 
@@ -19,6 +20,7 @@ export default function Home() {
       <Navbar />
       <div className={container}>
         <HeroSection />
+        <AppPromotionSm />
         <HintSection />
         <HomepageStyleSelector />
       </div>
