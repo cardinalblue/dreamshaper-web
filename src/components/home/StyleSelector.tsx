@@ -67,7 +67,7 @@ const container = css({
     bottom: '-45px',
     left: 0,
     right: 0,
-    height: '1016px',
+    height: '626px',
     bg: 'url(/images/wave_bg.png) no-repeat bottom center / contain',
     pointerEvents: 'none',
     zIndex: -1,

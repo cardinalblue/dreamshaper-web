@@ -5,6 +5,12 @@ export const STYLE_LIST_HIGHLIGHT = [
     id: 'watercolor',
     name: 'Watercolor',
     src: '/images/effects/watercolor.png',
+    promotion: {
+      title: 'Make your family portrait even more special with AI watercolor style',
+      description:
+        'Transform your family portraits into timeless watercolor paintings with the magic of AI-style, bringing warmth and artistry to your cherished memories.',
+      src: '/images/effects/watercolor-promo.png',
+    },
     config: {
       prompt:
         'highly detailed watercolor painting, clean brush stroke in beautiful colors, illustration, digital art, concept art, paint on canvas, masterpiece, extreme high quality, sharp focus, professional, 4k, max detail, highres, high detail, smooth, aesthetic, extremely detailed, 8k, uhd',

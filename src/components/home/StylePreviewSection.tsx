@@ -17,20 +17,19 @@ export const StylePreviewSection = ({ styleInfo, onUpload, onClick }: StylePrevi
     <div className={container}>
       <div
         className={cx(thumbnail, 'thumbnail')}
-        style={{ backgroundImage: `url('${styleInfo.src}')` }}
+        style={{ backgroundImage: `url('${styleInfo?.promotion?.src}')` }}
       ></div>
       <div className={titleWrapper}>
-        <div className={title}>{styleInfo.name}</div>
-        <div className={desc}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ac est libero.
-        </div>
+        <div className={title}>{styleInfo?.promotion?.title}</div>
+        <div className={desc}>{styleInfo?.promotion?.description}</div>
         <FileInput
+          className={cx(buttonRecipe({ theme: 'dark' }), tryButton)}
           key={styleInfo.id}
           inputId={`file-input-${styleInfo.id}`}
           onUpload={() => onUpload(styleInfo)}
           onClick={() => onClick(styleInfo.id)}
         >
-          <div className={cx(buttonRecipe({ theme: 'dark' }), tryButton)}>TRY THIS STYLE</div>
+          TRY THIS STYLE
         </FileInput>
       </div>
     </div>
@@ -74,14 +73,19 @@ const titleWrapper = css({
 const title = css({
   fontSize: '32px',
   fontWeight: '700',
-  lineHeight: 'normal',
+  lineHeight: '1.2',
   color: '#484851',
+  md: {
+    maxW: '427px',
+  },
 })
 
 const desc = css({
+  fontSize: '18px',
+  lineHeight: '24px',
   color: '#60606C',
   md: {
-    maxW: '340px',
+    maxW: '467px',
   },
 })
 
