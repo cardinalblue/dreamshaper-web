@@ -7,22 +7,24 @@ import { IOS_APP_LINK } from '@/utils/constants'
 export const AppPromotionSm = () => {
   return (
     <div className={container}>
-      <div className={appBanner}>
-        <div className={content}>
-          <div className={title}>Try our new app</div>
-          <div className={appName}>SnapJoy</div>
-          <div className={desc}>Just choose the style, upload your photo, and there you go.</div>
-          <a href={IOS_APP_LINK} target="_blank" className={appButton}>
-            <Image
-              src="/images/hero_ios_button.png"
-              width={188}
-              height={50}
-              alt="snapjoy_app"
-              unoptimized
-            />
-          </a>
+      <a href={IOS_APP_LINK} target="_blank" rel="noopener">
+        <div className={appBanner}>
+          <div className={content}>
+            <div className={title}>Get the full app experience!</div>
+            <div className={appName}>SnapJoy</div>
+            <div className={desc}>Download SnapJoy for free for editing on the go!</div>
+            <div className={appButton}>
+              <Image
+                src="/images/hero_ios_button.png"
+                width={188}
+                height={50}
+                alt="snapjoy_app"
+                unoptimized
+              />
+            </div>
+          </div>
         </div>
-      </div>
+      </a>
     </div>
   )
 }
@@ -71,6 +73,5 @@ const desc = css({
 })
 
 const appButton = css({
-  display: 'inline-block',
   mt: '38px',
 })

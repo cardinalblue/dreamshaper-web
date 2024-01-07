@@ -40,9 +40,9 @@ export const Footer = () => {
 
           <div className={linkWrapper}>
             <div className={linkTitle}>Get Out App</div>
-            <a href={IOS_APP_LINK} target="_blank">
+            <a href={IOS_APP_LINK} target="_blank" rel="noopener">
               <Image
-                src="/images/ios_app_button.png"
+                src="/images/footer_ios_button.png"
                 width={120}
                 height={40}
                 alt="snapjoy_app"

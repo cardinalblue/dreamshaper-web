@@ -50,12 +50,29 @@ export const HomepageStyleSelector = () => {
 }
 
 const container = css({
-  py: '44px',
+  position: 'relative',
+  py: '44px 60px',
   px: '32px',
+
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'stretch',
   gap: '24px',
+  zIndex: 1,
+
+  // wave bg
+  _before: {
+    content: '""',
+    position: 'absolute',
+    bottom: '-45px',
+    left: 0,
+    right: 0,
+    height: '1016px',
+    bg: 'url(/images/wave_bg.png) no-repeat bottom center / contain',
+    pointerEvents: 'none',
+    zIndex: -1,
+  },
+
   md: {
     px: '72px',
   },

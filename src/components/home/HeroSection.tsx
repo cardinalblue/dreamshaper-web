@@ -16,7 +16,7 @@ export const HeroSection = () => {
         <div className={subtitle}>Just choose the style, upload your photo, and there you go.</div>
         <div className={buttonGroup}>
           <div className={cx(buttonRecipe({ theme: 'light' }), tryButton)}>TRY NOW</div>
-          <a href={IOS_APP_LINK} target="_blank">
+          <a href={IOS_APP_LINK} target="_blank" rel="noopener">
             <Image
               src="/images/hero_ios_button.png"
               width={203}
