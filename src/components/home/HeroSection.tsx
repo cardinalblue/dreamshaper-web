@@ -1,12 +1,11 @@
 'use client'
 
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { css, cx } from '@styled-system/css'
 import { useUserImageStore } from '@/store'
 import { buttonRecipe } from '@/components/Button'
 import { FileInput } from '@/components/FileInput'
-import { IOS_APP_LINK } from '@/utils/constants'
+import { IOSButton } from '@/components/IOSButton'
 import { DEFAULT_STYLE } from '@/utils/styleList'
 import { StyleModelType } from '@/utils/types'
 
@@ -36,15 +35,7 @@ export const HeroSection = () => {
           >
             TRY NOW
           </FileInput>
-          <a href={IOS_APP_LINK} target="_blank" rel="noopener">
-            <Image
-              src="/images/hero_ios_button.png"
-              width={203}
-              height={54}
-              alt="snapjoy_app"
-              unoptimized
-            />
-          </a>
+          <IOSButton imgSrc="/images/hero_ios_button.png" imgWidth={203} imgHeight={54} />
         </div>
       </div>
       <div className={visual}></div>

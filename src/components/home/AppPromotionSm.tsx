@@ -1,8 +1,8 @@
 'use client'
 
-import Image from 'next/image'
 import { css } from '@styled-system/css'
 import { IOS_APP_LINK } from '@/utils/constants'
+import { IOSButton } from '@/components/IOSButton'
 
 export const AppPromotionSm = () => {
   return (
@@ -13,15 +13,13 @@ export const AppPromotionSm = () => {
             <div className={title}>Get the full app experience!</div>
             <div className={appName}>SnapJoy</div>
             <div className={desc}>Download SnapJoy for free for editing on the go!</div>
-            <div className={appButton}>
-              <Image
-                src="/images/hero_ios_button.png"
-                width={188}
-                height={50}
-                alt="snapjoy_app"
-                unoptimized
-              />
-            </div>
+            <IOSButton
+              imgSrc="/images/hero_ios_button.png"
+              imgWidth={188}
+              imgHeight={50}
+              className={appButton}
+              withoutLink
+            />
           </div>
         </div>
       </a>
@@ -74,5 +72,6 @@ const desc = css({
 })
 
 const appButton = css({
+  display: 'inline-block',
   mt: '38px',
 })

@@ -1,8 +1,7 @@
 'use client'
 
-import Image from 'next/image'
 import { css, cx } from '@styled-system/css'
-import { IOS_APP_LINK } from '@/utils/constants'
+import { IOSButton } from '@/components/IOSButton'
 
 export const AppPromotionLg = () => {
   return (
@@ -13,15 +12,12 @@ export const AppPromotionLg = () => {
         <div className={title}>Get the full app experience!</div>
         <div className={appName}>SnapJoy</div>
         <div className={desc}>Just snap your moment, select styles and there you go!</div>
-        <a href={IOS_APP_LINK} target="_blank" rel="noopener" className={appButton}>
-          <Image
-            src="/images/hero_ios_button.png"
-            width={188}
-            height={50}
-            alt="snapjoy_app"
-            unoptimized
-          />
-        </a>
+        <IOSButton
+          imgSrc="/images/hero_ios_button.png"
+          imgWidth={188}
+          imgHeight={50}
+          className={appButton}
+        />
       </div>
       <div className={cx(decoImg, decoImgRight)}></div>
     </div>

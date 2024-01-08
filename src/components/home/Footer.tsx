@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { css, cx } from '@styled-system/css'
 import { useUserImageStore } from '@/store'
@@ -9,7 +8,7 @@ import { FooterTextStar } from '@/components/icons/FooterTextStar'
 import { FooterTextUnderline } from '@/components/icons/FooterTextUnderline'
 import { FooterStartedButtonIcon } from '@/components/icons/FooterStartedButtonIcon'
 import { FileInput } from '@/components/FileInput'
-import { IOS_APP_LINK } from '@/utils/constants'
+import { IOSButton } from '@/components/IOSButton'
 import { DEFAULT_STYLE } from '@/utils/styleList'
 import { StyleModelType } from '@/utils/types'
 
@@ -58,15 +57,7 @@ export const Footer = () => {
 
           <div className={linkWrapper}>
             <div className={linkTitle}>Get Out App</div>
-            <a href={IOS_APP_LINK} target="_blank" rel="noopener">
-              <Image
-                src="/images/footer_ios_button.png"
-                width={120}
-                height={40}
-                alt="snapjoy_app"
-                unoptimized
-              />
-            </a>
+            <IOSButton imgSrc="/images/footer_ios_button.png" imgWidth={120} imgHeight={40} />
           </div>
         </div>
         <div className={divider}></div>
