@@ -70,6 +70,7 @@ const title = css({
 const appName = css({
   mt: '-15px',
   fontSize: '80px',
+  fontFamily: 'Delicious Sans',
 })
 
 const desc = css({

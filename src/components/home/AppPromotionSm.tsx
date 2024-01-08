@@ -63,6 +63,7 @@ const title = css({
 const appName = css({
   mt: '-10px',
   fontSize: '60px',
+  fontFamily: 'Delicious Sans',
 })
 
 const desc = css({
