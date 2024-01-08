@@ -43,14 +43,22 @@ const appBanner = css({
   h: '100%',
   bg: 'url(/images/app_bg_sm.png) no-repeat left center / cover',
   rounded: '20px',
+
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 })
 
 const content = css({
-  position: 'absolute',
-  top: '58px',
-  left: '72px',
+  maxW: '80%',
   color: '#4D3E2C',
   lineHeight: '1.2',
+  md: {
+    position: 'absolute',
+    top: '58px',
+    left: '72px',
+    maxW: 'none',
+  },
 })
 
 const title = css({

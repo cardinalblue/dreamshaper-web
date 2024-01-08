@@ -75,12 +75,13 @@ const container = css({
 const inner = css({
   maxW: '1280px',
   m: '0 auto',
-  p: '68px 72px 66px',
+  p: '60px 30px',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   md: {
     alignItems: 'stretch',
+    p: '68px 72px 66px',
   },
 })
 

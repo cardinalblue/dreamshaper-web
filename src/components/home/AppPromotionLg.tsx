@@ -38,8 +38,7 @@ const container = css({
 
 const content = css({
   flexShrink: 0,
-  ml: '52px',
-  mr: '30px',
+  mx: '36px',
   color: '#4D3E2C',
   lineHeight: '1.2',
 
@@ -47,6 +46,11 @@ const content = css({
   flexDirection: 'column',
   alignItems: 'center',
   textAlign: 'center',
+
+  md: {
+    ml: '52px',
+    mr: '30px',
+  },
 })
 
 const appIcon = css({
