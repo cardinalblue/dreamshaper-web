@@ -16,6 +16,7 @@ export const StylePreviewCard = ({ styleInfo, onUpload, onClick }: StylePreviewC
   return (
     <FileInput
       key={styleInfo.id}
+      className={inputContainer}
       inputId={`file-input-${styleInfo.id}`}
       onUpload={() => onUpload(styleInfo)}
       onClick={() => onClick(styleInfo.id)}
@@ -36,12 +37,16 @@ export const StylePreviewCard = ({ styleInfo, onUpload, onClick }: StylePreviewC
   )
 }
 
+const inputContainer = css({
+  flexShrink: 0,
+  flex: 1,
+})
+
 const container = css({
-  w: '100%',
   h: '355px',
   rounded: '25px',
   bg: '#FBFAF8',
-  boxShadow: '0px 10px 50px 0px rgba(7, 23, 35, 0.15)',
+  boxShadow: '0px 10px 20px 0px rgba(7, 23, 35, 0.1)',
 
   display: 'flex',
   flexDirection: 'column',
