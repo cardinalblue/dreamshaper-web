@@ -35,4 +35,5 @@ const container = css({
   maxW: '1280px',
   mx: 'auto',
   pt: '64px', // navbar height
+  overflow: 'hidden',
 })

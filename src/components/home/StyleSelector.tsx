@@ -41,10 +41,12 @@ export const HomepageStyleSelector = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 1200) {
+      if (window.innerWidth >= 1024) {
         setCountInOnePage(3)
-      } else {
+      } else if (window.innerWidth >= 768) {
         setCountInOnePage(4)
+      } else {
+        setCountInOnePage(2)
       }
       onPageChange()
     }
@@ -87,7 +89,7 @@ export const HomepageStyleSelector = () => {
               <div
                 key={index}
                 className={listPage}
-                style={{ width: `${100 / totalPage}%` }}
+                style={{ maxWidth: `${100 / totalPage}%`, minWidth: `${(100 / totalPage) * 0.9}%` }}
                 ref={(el: HTMLDivElement) => (pageRefs.current[index] = el)}
               >
                 {STYLE_LIST_REST.slice(index * coundInOnePage, (index + 1) * coundInOnePage).map(
@@ -167,11 +169,14 @@ const fullList = css({
 
 const listPage = css({
   display: 'grid',
-  gridTemplateColumns: 'repeat(2, minmax(0, 100%))',
+  gridTemplateColumns: 'repeat(1, minmax(0, 100%))',
   gridAutoRows: '1fr',
   flexWrap: 'wrap',
   gap: '32px',
-  xl: {
+  md: {
+    gridTemplateColumns: 'repeat(2, minmax(0, 100%))',
+  },
+  lg: {
     gridTemplateColumns: 'repeat(3, minmax(0, 340px))',
   },
 })
@@ -192,13 +197,13 @@ const arrowArea = css({
 
 const leftArrow = css({
   left: '-10px',
-  bgImage: 'linear-gradient(to right, #faf6ec 20%, #0000)',
+  // bgImage: 'linear-gradient(to right, #faf6ec 20%, #0000)',
   '& svg': {
     transform: 'rotate(180deg)',
   },
   md: {
     left: '-33px',
-    bgImage: 'linear-gradient(to right, #faf6ec 40%, #0000)',
+    // bgImage: 'linear-gradient(to right, #faf6ec 40%, #0000)',
   },
 })
 

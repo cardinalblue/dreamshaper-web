@@ -83,6 +83,7 @@ const titleWrapper = css({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
+  gap: '12px',
   fontWeight: 'bold',
 })
 
