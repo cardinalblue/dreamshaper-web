@@ -1,6 +1,9 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { css, cx } from '@styled-system/css'
 import { useUserImageStore } from '@/store'
 import { buttonRecipe } from '@/components/Button'
@@ -9,19 +12,42 @@ import { IOSButton } from '@/components/IOSButton'
 import { DEFAULT_STYLE } from '@/utils/styleList'
 import { StyleModelType } from '@/utils/types'
 
+gsap.registerPlugin(ScrollTrigger) // init ScrollTrigger
+
 export const HeroSection = () => {
   const router = useRouter()
   const { setSelectedStyle } = useUserImageStore()
+  const titleRef = useRef<HTMLDivElement>(null)
+  const visualRef = useRef<HTMLDivElement>(null)
 
   const onUpload = (styleInfo: StyleModelType) => {
     setSelectedStyle(styleInfo)
     router.push('/result')
   }
 
+  useEffect(() => {
+    // title
+    const titleEl = titleRef.current
+    gsap.fromTo(titleEl, { y: 100, opacity: 0 }, { y: 0, opacity: 1 })
+    // visual
+    const isMobileSize = window.innerWidth < 768
+    if (!isMobileSize) {
+      const visualEl = visualRef.current
+      gsap.to(visualEl, {
+        x: -50,
+        scrollTrigger: {
+          trigger: visualEl,
+          start: 'top top',
+          scrub: true,
+        },
+      })
+    }
+  }, [])
+
   return (
     <div className={container}>
       <div className={titleWrapper}>
-        <div className={title}>
+        <div className={title} ref={titleRef}>
           <div>Turn your image into</div>
           <div className={magicalText}>magical</div>
         </div>
@@ -38,7 +64,7 @@ export const HeroSection = () => {
           <IOSButton imgSrc="/images/hero_ios_button.png" imgWidth={203} imgHeight={54} />
         </div>
       </div>
-      <div className={visual}></div>
+      <div className={visual} ref={visualRef}></div>
     </div>
   )
 }
@@ -130,6 +156,7 @@ const title = css({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
+  opacity: 0, // for gsap init animation
   md: {
     w: '430px',
     alignItems: 'flex-start',

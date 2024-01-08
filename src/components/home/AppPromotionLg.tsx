@@ -1,12 +1,40 @@
 'use client'
 
+import { useRef, useEffect } from 'react'
+import gsap from 'gsap'
 import { css, cx } from '@styled-system/css'
 import { IOSButton } from '@/components/IOSButton'
 
 export const AppPromotionLg = () => {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const deco1Ref = useRef<HTMLDivElement>(null)
+  const deco2Ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const containerEl = containerRef.current
+    const deco1El = deco1Ref.current
+    const deco2El = deco2Ref.current
+    gsap.from(deco1El, {
+      y: 150,
+      scrollTrigger: {
+        trigger: containerEl,
+        scrub: true,
+        end: 'center center',
+      },
+    })
+    gsap.from(deco2El, {
+      y: -150,
+      scrollTrigger: {
+        trigger: containerEl,
+        scrub: true,
+        end: 'center center',
+      },
+    })
+  }, [])
+
   return (
-    <div className={container}>
-      <div className={cx(decoImg, decoImgLeft)}></div>
+    <div className={container} ref={containerRef}>
+      <div className={cx(decoImg, decoImgLeft)} ref={deco1Ref}></div>
       <div className={content}>
         <div className={appIcon}></div>
         <div className={title}>Get the full app experience!</div>
@@ -19,7 +47,7 @@ export const AppPromotionLg = () => {
           className={appButton}
         />
       </div>
-      <div className={cx(decoImg, decoImgRight)}></div>
+      <div className={cx(decoImg, decoImgRight)} ref={deco2Ref}></div>
     </div>
   )
 }

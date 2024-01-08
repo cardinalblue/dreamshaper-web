@@ -140,6 +140,7 @@ const container = css({
     bg: 'url(/images/wave_bg.png) no-repeat bottom center / contain',
     pointerEvents: 'none',
     zIndex: -1,
+    transform: 'translate3d(0,0,0)', // fix safari bug
   },
 
   md: {

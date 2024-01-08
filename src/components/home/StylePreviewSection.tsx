@@ -1,6 +1,7 @@
 'use client'
 
-import React from 'react'
+import { useRef, useEffect } from 'react'
+import gsap from 'gsap'
 import { css, cx } from '@styled-system/css'
 import { buttonRecipe } from '@/components/Button'
 import { FileInput } from '@/components/FileInput'
@@ -13,11 +14,31 @@ interface StylePreviewSectionProps {
 }
 
 export const StylePreviewSection = ({ styleInfo, onUpload, onClick }: StylePreviewSectionProps) => {
+  const imageRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const imgEl = imageRef.current
+    gsap.fromTo(
+      imgEl,
+      {
+        y: 100,
+      },
+      {
+        y: -50,
+        scrollTrigger: {
+          trigger: imgEl,
+          scrub: true,
+        },
+      }
+    )
+  }, [])
+
   return (
     <div className={container}>
       <div
         className={cx(thumbnail, 'thumbnail')}
         style={{ backgroundImage: `url('${styleInfo?.promotion?.src}')` }}
+        ref={imageRef}
       ></div>
       <div className={titleWrapper}>
         <div className={title}>{styleInfo?.promotion?.title}</div>
