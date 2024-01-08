@@ -1,11 +1,24 @@
 'use client'
 
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { css, cx } from '@styled-system/css'
+import { useUserImageStore } from '@/store'
 import { buttonRecipe } from '@/components/Button'
+import { FileInput } from '@/components/FileInput'
 import { IOS_APP_LINK } from '@/utils/constants'
+import { DEFAULT_STYLE } from '@/utils/styleList'
+import { StyleModelType } from '@/utils/types'
 
 export const HeroSection = () => {
+  const router = useRouter()
+  const { setSelectedStyle } = useUserImageStore()
+
+  const onUpload = (styleInfo: StyleModelType) => {
+    setSelectedStyle(styleInfo)
+    router.push('/result')
+  }
+
   return (
     <div className={container}>
       <div className={titleWrapper}>
@@ -15,7 +28,14 @@ export const HeroSection = () => {
         </div>
         <div className={subtitle}>Just choose the style, upload your photo, and there you go.</div>
         <div className={buttonGroup}>
-          <div className={cx(buttonRecipe({ theme: 'light' }), tryButton)}>TRY NOW</div>
+          <FileInput
+            className={cx(buttonRecipe({ theme: 'light' }), tryButton)}
+            key={DEFAULT_STYLE.id}
+            inputId={`file-input-${DEFAULT_STYLE.id}`}
+            onUpload={() => onUpload(DEFAULT_STYLE)}
+          >
+            TRY NOW
+          </FileInput>
           <a href={IOS_APP_LINK} target="_blank" rel="noopener">
             <Image
               src="/images/hero_ios_button.png"

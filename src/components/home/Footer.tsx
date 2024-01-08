@@ -1,14 +1,27 @@
 'use client'
 
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { css, cx } from '@styled-system/css'
+import { useUserImageStore } from '@/store'
 import { buttonRecipe } from '@/components/Button'
 import { FooterTextStar } from '@/components/icons/FooterTextStar'
 import { FooterTextUnderline } from '@/components/icons/FooterTextUnderline'
 import { FooterStartedButtonIcon } from '@/components/icons/FooterStartedButtonIcon'
+import { FileInput } from '@/components/FileInput'
 import { IOS_APP_LINK } from '@/utils/constants'
+import { DEFAULT_STYLE } from '@/utils/styleList'
+import { StyleModelType } from '@/utils/types'
 
 export const Footer = () => {
+  const router = useRouter()
+  const { setSelectedStyle } = useUserImageStore()
+
+  const onUpload = (styleInfo: StyleModelType) => {
+    setSelectedStyle(styleInfo)
+    router.push('/result')
+  }
+
   return (
     <div className={container}>
       <div className={inner}>
@@ -32,10 +45,15 @@ export const Footer = () => {
                 <FooterTextStar />
               </div>
             </div>
-            <div className={cx(buttonRecipe({ theme: 'light' }), startButton)}>
+            <FileInput
+              className={cx(buttonRecipe({ theme: 'light' }), startButton)}
+              key={DEFAULT_STYLE.id}
+              inputId={`file-input-${DEFAULT_STYLE.id}`}
+              onUpload={() => onUpload(DEFAULT_STYLE)}
+            >
               <FooterStartedButtonIcon />
               Get Started
-            </div>
+            </FileInput>
           </div>
 
           <div className={linkWrapper}>

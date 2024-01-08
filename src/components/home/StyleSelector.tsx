@@ -28,7 +28,6 @@ export const HomepageStyleSelector = () => {
     setCurrentPage(page)
     const pageDom = pageRefs.current[page - 1]
     setScrollOffset(pageDom.offsetLeft)
-    console.log('hi', page, pageDom.offsetLeft)
   }
 
   const onUpload = (styleInfo: StyleModelType) => {

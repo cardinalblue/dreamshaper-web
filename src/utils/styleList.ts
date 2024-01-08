@@ -343,3 +343,5 @@ export const STYLE_LIST_REST = [
   //   },
   // },
 ]
+
+export const DEFAULT_STYLE = STYLE_LIST_HIGHLIGHT[0]
