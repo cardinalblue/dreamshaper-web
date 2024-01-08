@@ -1,11 +1,12 @@
 @layer reset, base, tokens, recipes, utilities;
 
 html {
-  background-color: #e8e4d7;
+  background-color: #faf6ec;
   scroll-behavior: smooth;
 }
 body {
   font-family: 'Averta PE', sans-serif;
+  overflow-x: hidden;
 }
 
 /* FONTS */
@@ -32,29 +33,8 @@ body {
 }
 
 @font-face {
-  font-family: 'Recoleta';
+  font-family: 'Delicious Sans';
   font-style: normal;
   font-weight: 400;
-  src: url('/fonts/Recoleta-Regular.otf') format('opentype');
-}
-
-@font-face {
-  font-family: 'Recoleta';
-  font-style: normal;
-  font-weight: 500;
-  src: url('/fonts/Recoleta-Medium.otf') format('opentype');
-}
-
-@font-face {
-  font-family: 'Recoleta';
-  font-style: normal;
-  font-weight: 600;
-  src: url('/fonts/Recoleta-SemiBold.otf') format('opentype');
-}
-
-@font-face {
-  font-family: 'Recoleta';
-  font-style: normal;
-  font-weight: 700;
-  src: url('/fonts/Recoleta-Bold.otf') format('opentype');
+  src: url('/fonts/DeliciousSansFont.ttf') format('opentype');
 }

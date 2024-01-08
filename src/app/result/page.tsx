@@ -112,6 +112,8 @@ const container = css({
   minH: '100dvh',
   m: '0 auto',
   p: '32px 24px',
+
+  bgColor: '#E8E4D7',
   display: 'flex',
   flexDirection: 'column',
   gap: '24px',
