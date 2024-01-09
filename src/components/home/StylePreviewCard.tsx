@@ -78,18 +78,24 @@ const thumbnail = css({
 const titleWrapper = css({
   w: '100%',
   flex: 1,
-  px: '24px 16px',
+  px: '12px',
   pb: '16px',
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  gap: '12px',
+  gap: '8px',
   fontWeight: 'bold',
+  md: {
+    px: '24px 16px',
+  },
 })
 
 const title = css({
-  fontSize: '22px',
+  fontSize: '20px',
   fontWeight: '600',
   lineHeight: '1.2',
   color: '#484851',
+  md: {
+    fontSize: '22px',
+  },
 })

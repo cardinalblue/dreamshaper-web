@@ -72,7 +72,7 @@ export const HomepageStyleSelector = () => {
       <div className={listWrapper}>
         {currentPage !== 1 && (
           <div className={cx(arrowArea, leftArrow)}>
-            <div onClick={() => onPageChange(currentPage - 1)}>
+            <div className={arrowButton} onClick={() => onPageChange(currentPage - 1)}>
               <ShowcaseArrowIcon />
             </div>
           </div>
@@ -89,7 +89,7 @@ export const HomepageStyleSelector = () => {
               <div
                 key={index}
                 className={listPage}
-                style={{ maxWidth: `${100 / totalPage}%`, minWidth: `${(100 / totalPage) * 0.9}%` }}
+                style={{ width: `calc(${100 / totalPage}% - 50px)` }}
                 ref={(el: HTMLDivElement) => (pageRefs.current[index] = el)}
               >
                 {STYLE_LIST_REST.slice(index * coundInOnePage, (index + 1) * coundInOnePage).map(
@@ -108,7 +108,7 @@ export const HomepageStyleSelector = () => {
         </div>
         {currentPage !== totalPage && (
           <div className={cx(arrowArea, rightArrow)}>
-            <div onClick={() => onPageChange(currentPage + 1)}>
+            <div className={arrowButton} onClick={() => onPageChange(currentPage + 1)}>
               <ShowcaseArrowIcon />
             </div>
           </div>
@@ -152,7 +152,11 @@ const promotionWrapper = css({})
 
 const listWrapper = css({
   position: 'relative',
-  ml: '-15px', // offset the padding
+  mx: '-32px', // make it full width
+  md: {
+    mx: 'auto',
+    ml: '-15px', // offset the padding
+  },
 })
 
 const pageWrapper = css({
@@ -184,8 +188,7 @@ const listPage = css({
 
 const arrowArea = css({
   position: 'absolute',
-  top: '50%',
-  transform: 'translateY(-50%)',
+  top: '0',
   height: '100%',
   zIndex: 1,
 
@@ -196,23 +199,37 @@ const arrowArea = css({
   },
 })
 
+const arrowButton = css({
+  w: '54px',
+  h: '54px',
+  rounded: '50%',
+  color: '#F0ECE3',
+  bgColor: '#303036',
+  border: '3px solid',
+
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+})
+
 const leftArrow = css({
-  left: '-10px',
-  // bgImage: 'linear-gradient(to right, #faf6ec 20%, #0000)',
+  left: 0,
+  transform: 'translateX(10%)',
   '& svg': {
     transform: 'rotate(180deg)',
   },
   md: {
-    left: '-33px',
-    // bgImage: 'linear-gradient(to right, #faf6ec 40%, #0000)',
+    transform: 'translateX(-50%)',
   },
 })
 
 const rightArrow = css({
-  right: '-10px',
-  bgImage: 'linear-gradient(to left, #faf6ec 20%, #0000)',
+  right: 0,
+  transform: 'translateX(-10%)',
   md: {
-    right: '-33px',
+    transform: 'translateX(50%)',
+  },
+  lg: {
     bgImage: 'linear-gradient(to left, #faf6ec 40%, #0000)',
   },
 })

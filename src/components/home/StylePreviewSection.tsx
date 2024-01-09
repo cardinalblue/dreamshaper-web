@@ -64,7 +64,7 @@ const container = css({
   flexDirection: 'column',
   gap: '32px',
   md: {
-    h: '442px',
+    minH: '442px',
     flexDirection: 'row',
     alignItems: 'center',
   },
