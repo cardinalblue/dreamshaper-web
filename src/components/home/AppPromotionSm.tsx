@@ -62,7 +62,7 @@ const content = css({
 })
 
 const title = css({
-  fontSize: '28px',
+  fontSize: '24px',
   fontWeight: '600',
 })
 
@@ -76,7 +76,7 @@ const desc = css({
   maxW: '292px',
   mt: '10px',
   fontSize: '20px',
-  color: '#484851',
+  color: '#4D3E2C',
 })
 
 const appButton = css({

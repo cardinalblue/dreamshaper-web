@@ -91,13 +91,13 @@ const appIcon = css({
 })
 
 const title = css({
-  fontSize: '28px',
+  fontSize: '24px',
   fontWeight: '600',
 })
 
 const appName = css({
   mt: '-15px',
-  fontSize: '80px',
+  fontSize: '72px',
   fontFamily: 'Delicious Sans',
 })
 
@@ -105,7 +105,7 @@ const desc = css({
   maxW: '292px',
   my: '30px',
   fontSize: '20px',
-  color: '#484851',
+  color: '#4D3E2C',
 })
 
 const appButton = css({

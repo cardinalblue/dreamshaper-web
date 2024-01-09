@@ -29,7 +29,6 @@ const container = css({
   alignItems: 'center',
   gap: '16px',
   textAlign: 'center',
-  lineHeight: '1.25',
 })
 
 const title = css({
@@ -39,7 +38,8 @@ const title = css({
 })
 
 const desc = css({
-  color: '#787887',
+  color: '#60606C',
+  lineHeight: '24px',
 })
 
 const iconWrapper = css({

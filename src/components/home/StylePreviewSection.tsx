@@ -93,7 +93,7 @@ const titleWrapper = css({
 
 const title = css({
   fontSize: '32px',
-  fontWeight: '700',
+  fontWeight: '600',
   lineHeight: '1.2',
   color: '#484851',
   md: {
