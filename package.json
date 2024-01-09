@@ -11,10 +11,13 @@
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^2.3.5",
+    "@types/react-lottie": "^1.2.10",
+    "gsap": "^3.12.4",
     "heic2any": "^0.0.4",
     "next": "14.0.2",
     "react": "^18",
     "react-dom": "^18",
+    "react-lottie": "^1.2.4",
     "zustand": "^4.4.6"
   },
   "devDependencies": {
