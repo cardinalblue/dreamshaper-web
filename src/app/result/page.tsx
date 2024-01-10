@@ -4,13 +4,11 @@ import { useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { css } from '@styled-system/css'
 import { useUserImageStore, useResultImageStore } from '@/store'
+import { ampEnterTransferResultPage } from '@/utils/eventTracking'
 import { ResultControls } from '@/components/result/Controls'
 import { ResultImage } from '@/components/result/Image'
 import { StyleSelector } from '@/components/result/StyleSelector'
-import { FileInput } from '@/components/FileInput'
-import { TryAgainIcon } from '@/components/icons/TryAgainIcon'
-import { Button } from '@/components/Button'
-import { ampEnterTransferResultPage } from '@/utils/eventTracking'
+import { TryAgainSection } from '@/components/result/TryAgainSection'
 
 export default function Result() {
   const { selectedStyle, uploadedFile, originalImageSrc, resetUserImageStates } =
@@ -84,24 +82,7 @@ export default function Result() {
       <ResultControls />
       <div className={content}>
         <StyleSelector />
-
-        <div className={card}>
-          {isResultFailed ? (
-            <div className={errorContent}>
-              <FileInput>
-                <Button theme="dark" content="icon">
-                  <TryAgainIcon />
-                  <div className="text">Try again</div>
-                </Button>
-              </FileInput>
-              <div className={errorText}>
-                Image processing failed. Please try a different image.
-              </div>
-            </div>
-          ) : (
-            <ResultImage />
-          )}
-        </div>
+        <div className={card}>{isResultFailed ? <TryAgainSection /> : <ResultImage />}</div>
       </div>
     </div>
   )
@@ -148,16 +129,4 @@ const card = css({
     h: 'auto',
     maxH: '720px',
   },
-})
-
-const errorContent = css({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  gap: '24px',
-})
-
-const errorText = css({
-  fontSize: '18px',
-  fontWeight: '600',
 })
