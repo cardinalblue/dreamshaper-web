@@ -1,17 +1,20 @@
 import { cva } from '@styled-system/css'
 import { styled } from '@styled-system/jsx'
 
-const buttonRecipe = cva({
+export const buttonRecipe = cva({
   base: {
+    width: 'fit-content',
+    p: '14px 24px',
     rounded: '14px',
     fontSize: '18px',
     fontWeight: 'bold',
-    lineHeight: 1,
+    lineHeight: '1.2',
 
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     gap: '8px',
+    flexShrink: 0,
 
     transition: 'all 0.2s',
     userSelect: 'none',
@@ -20,10 +23,10 @@ const buttonRecipe = cva({
   variants: {
     theme: {
       light: {
-        color: '#484851',
-        bgColor: '#FBFBF9',
+        color: '#FAFAFA',
+        bgColor: '#CFA258',
         _hover: {
-          bgColor: '#D9D2BF',
+          bgColor: '#C58C2F',
         },
       },
       dark: {

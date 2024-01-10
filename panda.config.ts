@@ -36,6 +36,14 @@ export default defineConfig({
             clipPath: 'polygon(0 0, 200% 0, 0 200%)',
           },
         },
+        buttonShiny: {
+          '0%': {
+            backgroundPosition: '100% 100%',
+          },
+          '100%': {
+            backgroundPosition: '0 0',
+          },
+        },
       },
     },
   },

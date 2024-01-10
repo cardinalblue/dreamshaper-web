@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
-import { STYLE_LIST } from '@/utils/styleList'
+import { STYLE_LIST_HIGHLIGHT, STYLE_LIST_REST } from '@/utils/styleList'
 import { StylePreviewCard } from './StylePreviewCard'
 import { css, cva } from '@styled-system/css'
 import { useResultImageStore, useUserImageStore } from '@/store'
@@ -29,7 +29,7 @@ export const StyleSelector = () => {
       <div className={listWrapper}>
         <div data-list-start ref={listStartRef}></div>
         <div className={listInner}>
-          {STYLE_LIST.map((styleInfo) => (
+          {[...STYLE_LIST_HIGHLIGHT, ...STYLE_LIST_REST].map((styleInfo) => (
             <StylePreviewCard
               key={styleInfo.id}
               styleInfo={styleInfo}
@@ -77,11 +77,11 @@ const container = cva({
       content: '""',
       ...scrollHintStyle,
       left: 0,
-      bgImage: 'linear-gradient(90deg, #e8e4d7, #fff0)',
+      bgImage: 'linear-gradient(90deg, #E8E4D7, #fff0)',
       md: {
         ...scrollHintMdStyle,
         top: 0,
-        bgImage: 'linear-gradient(#e8e4d7, #fff0)',
+        bgImage: 'linear-gradient(#E8E4D7, #fff0)',
       },
     },
     // end shadow
@@ -89,11 +89,11 @@ const container = cva({
       content: '""',
       ...scrollHintStyle,
       right: 0,
-      bgImage: 'linear-gradient(270deg, #e8e4d7, #fff0)',
+      bgImage: 'linear-gradient(270deg, #E8E4D7, #fff0)',
       md: {
         ...scrollHintMdStyle,
         bottom: 0,
-        bgImage: 'linear-gradient(0deg, #e8e4d7, #fff0)',
+        bgImage: 'linear-gradient(0deg, #E8E4D7, #fff0)',
       },
     },
   },
