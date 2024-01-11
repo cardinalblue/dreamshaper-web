@@ -78,12 +78,7 @@ export const PromptPanel = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      const isMobile = window.innerWidth < 768
-      setIsMobileLayout(isMobile)
-      if (isMobile) {
-        setIsAccordionOpen(false)
-        setContentHeight(0)
-      }
+      setIsMobileLayout(window.innerWidth < 768)
     }
     handleResize()
     window.addEventListener('resize', handleResize)

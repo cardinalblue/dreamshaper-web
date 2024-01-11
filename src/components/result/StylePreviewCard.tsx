@@ -20,7 +20,7 @@ export const StylePreviewCard = ({
   const cardRef = React.useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (window.innerWidth >= 768 && active) {
+    if (active) {
       cardRef.current?.scrollIntoView({ block: 'center', inline: 'center' })
     }
   }, [active])
@@ -35,10 +35,6 @@ export const StylePreviewCard = ({
           return
         }
         onClick()
-        // scroll to top on mobile
-        if (window.innerWidth < 768) {
-          window.scrollTo(0, 0)
-        }
       }}
     >
       <div className={thumbnailWrapper}>
