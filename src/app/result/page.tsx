@@ -9,6 +9,7 @@ import { ResultControls } from '@/components/result/Controls'
 import { ResultImage } from '@/components/result/Image'
 import { StyleSelector } from '@/components/result/StyleSelector'
 import { TryAgainSection } from '@/components/result/TryAgainSection'
+import { PromptPanel } from '@/components/result/PromptPanel'
 
 export default function Result() {
   const { selectedStyle, uploadedFile, originalImageSrc, resetUserImageStates } =
@@ -79,22 +80,30 @@ export default function Result() {
 
   return (
     <div className={container}>
-      <ResultControls />
-      <div className={content}>
-        <StyleSelector />
-        <div className={card}>{isResultFailed ? <TryAgainSection /> : <ResultImage />}</div>
+      <div className={inner}>
+        <ResultControls />
+        <div className={content}>
+          <StyleSelector />
+          <div className={resultWrapper}>
+            <div className={card}>{isResultFailed ? <TryAgainSection /> : <ResultImage />}</div>
+            <PromptPanel />
+          </div>
+        </div>
       </div>
     </div>
   )
 }
 
 const container = css({
+  bgColor: '#E8E4D7',
+})
+
+const inner = css({
   maxW: '1280px',
   minH: '100dvh',
   m: '0 auto',
   p: '32px 24px',
 
-  bgColor: '#E8E4D7',
   display: 'flex',
   flexDirection: 'column',
   gap: '24px',
@@ -115,6 +124,16 @@ const content = css({
   },
 })
 
+const resultWrapper = css({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: '24px',
+  md: {
+    flex: 1,
+  },
+})
+
 const card = css({
   w: '100%',
   h: '471px',
@@ -126,7 +145,8 @@ const card = css({
   justifyContent: 'center',
   p: '24px 24px',
   md: {
-    h: 'auto',
+    flex: 1,
+    h: '0', // trick to make flex item grow
     maxH: '720px',
   },
 })

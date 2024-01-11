@@ -4,10 +4,7 @@ import { styled } from '@styled-system/jsx'
 export const buttonRecipe = cva({
   base: {
     width: 'fit-content',
-    p: '14px 24px',
     rounded: '14px',
-    fontSize: '18px',
-    fontWeight: 'bold',
     lineHeight: '1.2',
 
     display: 'flex',
@@ -41,6 +38,18 @@ export const buttonRecipe = cva({
         },
       },
     },
+    size: {
+      sm: {
+        p: '8px 18px',
+        fontSize: '16px',
+        fontWeight: '600',
+      },
+      md: {
+        p: '14px 24px',
+        fontSize: '18px',
+        fontWeight: 'bold',
+      },
+    },
     content: {
       icon: {
         w: '48px',
@@ -64,6 +73,7 @@ export const buttonRecipe = cva({
   },
   defaultVariants: {
     theme: 'light',
+    size: 'md',
   },
 })
 
