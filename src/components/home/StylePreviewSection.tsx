@@ -14,32 +14,57 @@ interface StylePreviewSectionProps {
 }
 
 export const StylePreviewSection = ({ styleInfo, onUpload, onClick }: StylePreviewSectionProps) => {
-  const imageRef = useRef<HTMLDivElement>(null)
+  const imageContainerRef = useRef<HTMLDivElement>(null)
+  const imageRefs = useRef<HTMLDivElement[]>([])
 
   useEffect(() => {
-    const imgEl = imageRef.current
-    gsap.fromTo(
-      imgEl,
-      {
-        y: 100,
-      },
-      {
-        y: -50,
-        scrollTrigger: {
-          trigger: imgEl,
-          scrub: true,
+    const containerEl = imageContainerRef.current
+    const imgEls = imageRefs.current
+
+    const getScrollConfig = (
+      isFromTop: boolean
+    ): [
+      { y: number },
+      { y: number; scrollTrigger?: { trigger: HTMLDivElement; scrub: boolean } }
+    ] => {
+      const delta = isFromTop ? 1 : -1
+      const moveDistance = 180
+      return [
+        {
+          y: moveDistance * delta * -1,
         },
-      }
-    )
+        {
+          y: moveDistance * delta,
+          scrollTrigger: {
+            trigger: containerEl!,
+            scrub: true,
+          },
+        },
+      ]
+    }
+
+    gsap.fromTo(imgEls[0], ...getScrollConfig(false))
+    gsap.fromTo(imgEls[1], ...getScrollConfig(true))
+    gsap.fromTo(imgEls[2], ...getScrollConfig(false))
   }, [])
 
   return (
     <div className={container}>
-      <div
-        className={cx(thumbnail, 'thumbnail')}
-        style={{ backgroundImage: `url('${styleInfo?.promotion?.src}')` }}
-        ref={imageRef}
-      ></div>
+      <div className={promoImgGroup} ref={imageContainerRef}>
+        {Array.from(Array(3)).map((_, i) => (
+          <div className={promoImgWrapper} key={i}>
+            <div
+              ref={(el: HTMLDivElement) => (imageRefs.current[i] = el)}
+              className={promoImg}
+              style={{
+                backgroundImage: `url(/images/effects/${styleInfo?.promotion?.srcPrefix}-${
+                  i + 1
+                }.png)`,
+              }}
+            ></div>
+          </div>
+        ))}
+      </div>
       <div className={titleWrapper}>
         <div className={title}>{styleInfo?.promotion?.title}</div>
         <div className={desc}>{styleInfo?.promotion?.description}</div>
@@ -50,7 +75,7 @@ export const StylePreviewSection = ({ styleInfo, onUpload, onClick }: StylePrevi
           onUpload={() => onUpload(styleInfo)}
           onClick={() => onClick(styleInfo.id)}
         >
-          TRY THIS STYLE
+          TRY NOW
         </FileInput>
       </div>
     </div>
@@ -70,15 +95,33 @@ const container = css({
   },
 })
 
-const thumbnail = css({
+const promoImgGroup = css({
   h: '410px',
-  bg: 'no-repeat center / cover',
   rounded: '20px',
+  overflow: 'hidden',
+
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '40px',
   md: {
     w: '617px',
     maxW: '60%',
     order: 1,
   },
+})
+
+const promoImgWrapper = css({
+  w: '265px',
+  h: '800px',
+  flexShrink: 0,
+  transform: 'rotate(15deg)',
+})
+
+const promoImg = css({
+  w: '100%',
+  h: '100%',
+  bg: 'no-repeat center / contain',
 })
 
 const titleWrapper = css({
@@ -102,8 +145,8 @@ const title = css({
 })
 
 const desc = css({
-  fontSize: '18px',
-  lineHeight: '24px',
+  fontSize: '17px',
+  lineHeight: '28px',
   color: '#60606C',
   md: {
     maxW: '467px',
@@ -111,8 +154,7 @@ const desc = css({
 })
 
 const tryButton = css({
-  w: '184px',
-  h: '54px',
+  p: '16px 32px',
   mt: '16px',
   flexShrink: 0,
 })

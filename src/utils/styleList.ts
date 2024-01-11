@@ -6,10 +6,10 @@ export const STYLE_LIST_HIGHLIGHT = [
     name: 'Watercolor',
     src: '/images/effects/watercolor.png',
     promotion: {
-      title: 'Make your family portrait even more special with AI watercolor style',
+      title: 'Make your family portrait even more special',
       description:
-        'Transform your family portraits into timeless watercolor paintings with the magic of AI-style, bringing warmth and artistry to your cherished memories.',
-      src: '/images/effects/watercolor-promo.png',
+        'Turn family photos into heirloom-quality watercolor art, infusing warmth and timeless beauty into every memory.',
+      srcPrefix: 'watercolor-promo',
     },
     config: {
       prompt:

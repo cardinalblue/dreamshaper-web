@@ -57,7 +57,7 @@ export const Footer = () => {
 
           <div className={linkWrapper}>
             <div className={linkTitle}>Get Out App</div>
-            <IOSButton imgSrc="/images/footer_ios_button.png" imgWidth={120} imgHeight={40} />
+            <IOSButton imgSrc="/images/footer_ios_button.png" imgWidth={112} imgHeight={33} />
           </div>
         </div>
         <div className={divider}></div>
