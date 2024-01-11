@@ -1,15 +1,20 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { css } from '@styled-system/css'
+import { css, cx } from '@styled-system/css'
 import * as Slider from '@radix-ui/react-slider'
 import { useUserImageStore, useResultImageStore } from '@/store'
 import { Button } from '@/components/Button'
+import { AccordionArrowIcon } from '@/components/icons/AccordionArrowIcon'
 import { STYLE_TRANSFER_DEFAULT_CONFIG } from '@/utils/constants'
 
 export const PromptPanel = () => {
   const [inputText, setInputText] = useState('')
   const [strength, setStrength] = useState(STYLE_TRANSFER_DEFAULT_CONFIG.strength)
+  const [isAccordionOpen, setIsAccordionOpen] = useState(false)
+  const [contentHeight, setContentHeight] = useState(0)
+  const [isMobileLayout, setIsMobileLayout] = useState(false)
+
   const { selectedStyle, setSelectedStyle } = useUserImageStore()
   const {
     computed: { isImageLoading },
@@ -38,6 +43,28 @@ export const PromptPanel = () => {
     setSelectedStyle(customConfig)
   }
 
+  const updateContentHeight = () => {
+    const contentEl = document.getElementById('prompt-panel-content')
+    if (contentEl) {
+      setContentHeight(contentEl.clientHeight)
+    }
+  }
+
+  const onToggleAccordion = () => {
+    if (!isMobileLayout) {
+      return
+    }
+    setIsAccordionOpen((prev) => {
+      const next = !prev
+      if (next) {
+        updateContentHeight()
+      } else {
+        setContentHeight(0)
+      }
+      return next
+    })
+  }
+
   useEffect(() => {
     if (selectedStyle) {
       if (selectedStyle?.config?.prompt) {
@@ -49,47 +76,72 @@ export const PromptPanel = () => {
     }
   }, [selectedStyle])
 
+  useEffect(() => {
+    const handleResize = () => {
+      const isMobile = window.innerWidth < 768
+      setIsMobileLayout(isMobile)
+      if (isMobile) {
+        setIsAccordionOpen(false)
+        setContentHeight(0)
+      }
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
   return (
     <div className={container}>
-      <div className={textareaSection}>
-        <div className={title}>Style Prompt</div>
-        <textarea
-          className={textareaStyle}
-          cols={30}
-          rows={3}
-          value={inputText}
-          onChange={(e) => setInputText(e.target.value)}
-        ></textarea>
+      <div
+        className={cx(title, accordionTrigger)}
+        data-accordion-status={isAccordionOpen ? 'open' : 'close'}
+        onClick={onToggleAccordion}
+      >
+        Style Prompt
+        {isMobileLayout && <AccordionArrowIcon />}
       </div>
-      <div className={controls}>
-        <div className={sliderSection}>
-          <div className={title}>Style Strength</div>
-          <div className={sliderWrapper}>
-            <Slider.Root
-              className={SliderRoot}
-              defaultValue={[strength]}
-              max={1}
-              min={0.3}
-              step={0.1}
-              value={[strength]}
-              onValueChange={(val) => setStrength(val[0])}
+      <div className={contentOuter} style={{ height: isMobileLayout ? contentHeight : 'auto' }}>
+        <div className={content} id="prompt-panel-content">
+          <textarea
+            className={textareaStyle}
+            cols={30}
+            rows={3}
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+          ></textarea>
+          <div className={controls}>
+            <div className={sliderSection}>
+              <div className={title}>Style Strength</div>
+              <div className={sliderWrapper}>
+                <Slider.Root
+                  className={SliderRoot}
+                  defaultValue={[strength]}
+                  max={1}
+                  min={0.3}
+                  step={0.1}
+                  value={[strength]}
+                  onValueChange={(val) => setStrength(val[0])}
+                >
+                  <Slider.Track className={SliderTrack}>
+                    <Slider.Range className={SliderRange} />
+                  </Slider.Track>
+                  <Slider.Thumb className={SliderThumb} aria-label="Volume" />
+                </Slider.Root>
+                <span>{strength * 100}%</span>
+              </div>
+            </div>
+            <Button
+              theme="dark"
+              size="sm"
+              onClick={onGenerate}
+              data-disabled={!hasConfigChanged || isImageLoading ? true : null}
             >
-              <Slider.Track className={SliderTrack}>
-                <Slider.Range className={SliderRange} />
-              </Slider.Track>
-              <Slider.Thumb className={SliderThumb} aria-label="Volume" />
-            </Slider.Root>
-            <span>{strength * 100}%</span>
+              Generate
+            </Button>
           </div>
         </div>
-        <Button
-          theme="dark"
-          size="sm"
-          onClick={onGenerate}
-          data-disabled={!hasConfigChanged || isImageLoading ? true : null}
-        >
-          Generate
-        </Button>
       </div>
     </div>
   )
@@ -97,35 +149,55 @@ export const PromptPanel = () => {
 
 const container = css({
   w: '100%',
-  h: '260px',
   p: '12px 20px',
   bgColor: '#FBFBF9',
   rounded: '20px',
 
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '12px',
-
   md: {
-    h: '220px',
     p: '16px 20px',
   },
 })
 
-const textareaSection = css({
+const contentOuter = css({
+  overflow: 'hidden',
+  transition: 'all 0.3s',
+})
+
+const content = css({
   display: 'flex',
   flexDirection: 'column',
-  gap: '6px',
-  overflow: 'hidden',
 })
 
 const title = css({
   fontWeight: 600,
+  mb: '6px',
+})
+
+const accordionTrigger = css({
+  mb: '0',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  transition: 'all 0.3s',
+  cursor: 'pointer',
+  '& svg': {
+    transition: 'all 0.3s',
+  },
+  "&[data-accordion-status='open']": {
+    mb: '6px',
+    '& svg': {
+      transform: 'rotate(180deg)',
+    },
+  },
+  md: {
+    mb: '6px',
+    cursor: 'default',
+  },
 })
 
 const textareaStyle = css({
-  w: '100%',
-  h: '100%',
+  display: 'block',
+  minH: '100px',
   p: '6px 8px',
   bgColor: '#EBEBEB',
   rounded: '8px',
@@ -142,10 +214,16 @@ const textareaStyle = css({
     bgColor: '#bbb',
     rounded: '10px',
   },
+
+  md: {
+    minH: 'auto',
+  },
 })
 
 const controls = css({
   w: '100%',
+  mt: '12px',
+  pb: '5px',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -162,7 +240,6 @@ const sliderSection = css({
   w: '100%',
   display: 'flex',
   flexDirection: 'column',
-  gap: '6px',
 })
 
 const sliderWrapper = css({
@@ -205,7 +282,7 @@ const SliderThumb = css({
   w: '20px',
   h: '20px',
   bgColor: '#fff',
-  boxShadow: '0 2px 10px #777',
+  boxShadow: '0 0 5px #777',
   rounded: '10px',
   cursor: 'grab',
   _hover: {
