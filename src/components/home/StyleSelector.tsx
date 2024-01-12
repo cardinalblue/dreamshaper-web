@@ -210,6 +210,8 @@ const arrowButton = css({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+
+  cursor: 'pointer',
 })
 
 const leftArrow = css({

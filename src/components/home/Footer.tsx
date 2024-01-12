@@ -33,12 +33,12 @@ export const Footer = () => {
               <div>
                 and{' '}
                 <span className={highlightText}>
-                  turn magic
+                  magic
                   <div className={underlineIconWrapper}>
                     <FooterTextUnderline />
                   </div>
                 </span>{' '}
-                on
+                starts now
               </div>
               <div className={starIconWrapper}>
                 <FooterTextStar />
@@ -130,8 +130,8 @@ const highlightText = css({
 
 const underlineIconWrapper = css({
   position: 'absolute',
-  bottom: '-5px',
-  left: '0',
+  bottom: '-6px',
+  left: '-30px',
   zIndex: -1,
 })
 

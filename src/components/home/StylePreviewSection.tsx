@@ -22,19 +22,18 @@ export const StylePreviewSection = ({ styleInfo, onUpload, onClick }: StylePrevi
     const imgEls = imageRefs.current
 
     const getScrollConfig = (
-      isFromTop: boolean
+      fromY: number,
+      toY: number
     ): [
       { y: number },
       { y: number; scrollTrigger?: { trigger: HTMLDivElement; scrub: boolean } }
     ] => {
-      const delta = isFromTop ? 1 : -1
-      const moveDistance = 180
       return [
         {
-          y: moveDistance * delta * -1,
+          y: fromY,
         },
         {
-          y: moveDistance * delta,
+          y: toY,
           scrollTrigger: {
             trigger: containerEl!,
             scrub: true,
@@ -43,9 +42,9 @@ export const StylePreviewSection = ({ styleInfo, onUpload, onClick }: StylePrevi
       ]
     }
 
-    gsap.fromTo(imgEls[0], ...getScrollConfig(false))
-    gsap.fromTo(imgEls[1], ...getScrollConfig(true))
-    gsap.fromTo(imgEls[2], ...getScrollConfig(false))
+    gsap.fromTo(imgEls[0], ...getScrollConfig(200, 30))
+    gsap.fromTo(imgEls[1], ...getScrollConfig(-200, -30))
+    gsap.fromTo(imgEls[2], ...getScrollConfig(20, -160))
   }, [])
 
   return (
