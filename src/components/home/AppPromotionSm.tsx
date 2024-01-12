@@ -10,9 +10,9 @@ export const AppPromotionSm = () => {
       <a href={IOS_APP_LINK} target="_blank" rel="noopener">
         <div className={appBanner}>
           <div className={content}>
-            <div className={title}>Get the full app experience!</div>
+            <div className={title}>Try our New App</div>
             <div className={appName}>SnapJoy</div>
-            <div className={desc}>Download SnapJoy for free for editing on the go!</div>
+            <div className={desc}>Snap, edit, and joy - SnapJoy for free. Get it today!</div>
             <IOSButton
               imgSrc="/images/hero_ios_button.png"
               imgWidth={188}
@@ -63,20 +63,20 @@ const content = css({
 
 const title = css({
   fontSize: '24px',
-  fontWeight: '600',
+  fontWeight: '700',
 })
 
 const appName = css({
   mt: '-10px',
-  fontSize: '60px',
+  fontSize: '54px',
   fontFamily: 'Delicious Sans',
 })
 
 const desc = css({
-  maxW: '292px',
-  mt: '10px',
-  fontSize: '20px',
-  color: '#4D3E2C',
+  maxW: '300px',
+  mt: '17px',
+  fontSize: '17px',
+  lineHeight: '28px',
 })
 
 const appButton = css({

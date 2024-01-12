@@ -33,12 +33,12 @@ export const Footer = () => {
               <div>
                 and{' '}
                 <span className={highlightText}>
-                  turn magic
+                  magic
                   <div className={underlineIconWrapper}>
                     <FooterTextUnderline />
                   </div>
                 </span>{' '}
-                on
+                starts now
               </div>
               <div className={starIconWrapper}>
                 <FooterTextStar />
@@ -57,7 +57,7 @@ export const Footer = () => {
 
           <div className={linkWrapper}>
             <div className={linkTitle}>Get Out App</div>
-            <IOSButton imgSrc="/images/footer_ios_button.png" imgWidth={120} imgHeight={40} />
+            <IOSButton imgSrc="/images/footer_ios_button.png" imgWidth={112} imgHeight={33} />
           </div>
         </div>
         <div className={divider}></div>
@@ -130,8 +130,8 @@ const highlightText = css({
 
 const underlineIconWrapper = css({
   position: 'absolute',
-  bottom: '-5px',
-  left: '0',
+  bottom: '-6px',
+  left: '-30px',
   zIndex: -1,
 })
 

@@ -38,8 +38,9 @@ const title = css({
 })
 
 const desc = css({
+  fontSize: '17px',
+  lineHeight: '28px',
   color: '#60606C',
-  lineHeight: '24px',
 })
 
 const iconWrapper = css({

@@ -15,7 +15,7 @@ export const AppPromotionLg = () => {
     const deco1El = deco1Ref.current
     const deco2El = deco2Ref.current
     gsap.from(deco1El, {
-      y: 150,
+      y: 200,
       scrollTrigger: {
         trigger: containerEl,
         scrub: true,
@@ -23,7 +23,7 @@ export const AppPromotionLg = () => {
       },
     })
     gsap.from(deco2El, {
-      y: -150,
+      y: -200,
       scrollTrigger: {
         trigger: containerEl,
         scrub: true,
@@ -37,9 +37,13 @@ export const AppPromotionLg = () => {
       <div className={cx(decoImg, decoImgLeft)} ref={deco1Ref}></div>
       <div className={content}>
         <div className={appIcon}></div>
-        <div className={title}>Get the full app experience!</div>
+        <div className={title}>Try our New App</div>
         <div className={appName}>SnapJoy</div>
-        <div className={desc}>Just snap your moment, select styles and there you go!</div>
+        <div className={desc}>
+          Just take a snapshot, and transform
+          <br />
+          your day into a magical story or moment
+        </div>
         <IOSButton
           imgSrc="/images/hero_ios_button.png"
           imgWidth={188}
@@ -54,7 +58,7 @@ export const AppPromotionLg = () => {
 
 const container = css({
   position: 'relative',
-  h: '620px',
+  h: '500px',
   bg: 'url(/images/app_bg_lg.png) no-repeat left center / cover',
 
   display: 'flex',
@@ -84,7 +88,7 @@ const content = css({
 const appIcon = css({
   w: '100px',
   h: '100px',
-  mb: '40px',
+  mb: '32px',
   bg: 'url(/images/snapjoy_app_icon.png) no-repeat center / contain',
   rounded: '20px',
   boxShadow: '5px 10px 10px 0px rgba(52, 52, 52, 0.25)',
@@ -92,25 +96,25 @@ const appIcon = css({
 
 const title = css({
   fontSize: '24px',
-  fontWeight: '600',
+  fontWeight: '700',
 })
 
 const appName = css({
-  mt: '-15px',
-  fontSize: '72px',
+  mt: '-12px',
+  fontSize: '64px',
   fontFamily: 'Delicious Sans',
 })
 
 const desc = css({
-  maxW: '292px',
-  my: '30px',
-  fontSize: '20px',
-  color: '#4D3E2C',
+  maxW: '333px',
+  mt: '32px',
+  fontSize: '17px',
+  lineHeight: '28px',
 })
 
 const appButton = css({
   display: 'inline-block',
-  mt: '40px',
+  mt: '44px',
 })
 
 const decoImg = css({
