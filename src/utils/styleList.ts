@@ -13,7 +13,7 @@ export const STYLE_LIST_HIGHLIGHT = [
     },
     config: {
       prompt:
-        'highly detailed watercolor painting, clean brush stroke in beautiful colors, illustration, digital art, concept art, paint on canvas, masterpiece, extreme high quality, sharp focus, professional, 4k, max detail, highres, high detail, smooth, aesthetic, extremely detailed, 8k, uhd',
+        'highly detailed watercolor painting, clean brush stroke in beautiful colors, illustration',
       negative_prompt:
         'blurry, abstract, disfigured, deformed, cartoon, animated, toy, figure, framed, 3d, badly drawn hands, nude, cartoon, bad art, poorly drawn, extra limb, close up, b&w, weird colors, watermark, blur haze',
       num_inference_steps: 8,
@@ -32,11 +32,12 @@ export const STYLE_LIST_REST = [
     name: 'Posterize',
     src: '/images/effects/posterize.png',
     config: {
-      prompt: 'Vibrant, flat color, high quality poster art',
+      prompt:
+        'concept art, digital artwork, illustrative, painterly, matte painting, highly detailed',
       negative_prompt:
         'blurry, abstract, disfigured, deformed, cartoon, animated, toy, figure, framed, 3d, badly drawn hands, nude, cartoon, bad art, poorly drawn, extra limb, close up, weird colors, watermark, blur haze, red face, red cheek, white face',
       num_inference_steps: 8,
-      strength: 0.5,
+      strength: 0.8,
       guidance_scale: 10,
       max_dim_of_input: STYLE_TRANSFER_MAX_INPUT_SIZE,
       controlnet_conditioning_scale: 1,
@@ -101,7 +102,7 @@ export const STYLE_LIST_REST = [
       negative_prompt:
         'blurry, abstract, disfigured, deformed, cartoon, animated, toy, figure, framed, 3d, badly drawn hands, nude, cartoon, bad art, poorly drawn, extra limb, close up, weird colors, watermark, blur haze, white face, red lip, red face, red cheek',
       num_inference_steps: 8,
-      strength: 1,
+      strength: 0.9,
       guidance_scale: 10,
       max_dim_of_input: STYLE_TRANSFER_MAX_INPUT_SIZE,
       controlnet_conditioning_scale: 1,
@@ -142,71 +143,23 @@ export const STYLE_LIST_REST = [
       face_mask_threshold: 0.98,
     },
   },
-  // {
-  //   id: 'holiday-outfit',
-  //   name: 'Holiday Outfit',
-  //   src: '/images/effects/holiday-outfit.png',
-  //   config: {
-  //     prompt: 'wearing red Christmas Santa hat, Elevated and elegant, stylish green jumper photo',
-  //     negative_prompt:
-  //       'blurry, abstract, disfigured, deformed, cartoon, animated, toy, figure, framed, 3d, badly drawn hands, nude, cartoon, bad art, poorly drawn, extra limb, close up, weird colors, watermark, blur haze, red face, red cheek, white face',
-  //     num_inference_steps: 8,
-  //     strength: 1,
-  //     guidance_scale: 9,
-  //     max_dim_of_input: STYLE_TRANSFER_MAX_INPUT_SIZE,
-  //     controlnet_conditioning_scale: 1,
-  //     face_mask_threshold: 0.98,
-  //   },
-  // },
   {
     id: 'silent-night',
     name: 'Silent Night',
     src: '/images/effects/silent-night.png',
     config: {
       prompt:
-        'Watercolor, Christmas in starry night, moonlight scene, faint, thin Christmas decorations, starry skies, night sky',
+        'watercolor, Christmas in starry night, moonlit magic, star shinny, Christmas enchantment, fairy magical, beautiful lights, stars in the late night sky',
       negative_prompt:
         'blurry, abstract, disfigured, deformed, cartoon, animated, toy, figure, framed, 3d, badly drawn hands, nude, cartoon, bad art, poorly drawn, extra limb, close up, weird colors, watermark, blur haze, red face, red cheek, white face',
       num_inference_steps: 8,
       strength: 1,
-      guidance_scale: 10,
+      guidance_scale: 6,
       max_dim_of_input: STYLE_TRANSFER_MAX_INPUT_SIZE,
-      controlnet_conditioning_scale: 1,
+      controlnet_conditioning_scale: 0.8,
       face_mask_threshold: 0.98,
     },
   },
-  // {
-  //   id: 'white-christmas',
-  //   name: 'White Christmas',
-  //   src: '/images/effects/white-christmas.png',
-  //   config: {
-  //     prompt: 'Winter snow, winter wonderland, snowflakes, white snow vibes, winter hues',
-  //     negative_prompt:
-  //       'blurry, abstract, disfigured, deformed, cartoon, animated, toy, figure, framed, 3d, badly drawn hands, nude, cartoon, bad art, poorly drawn, extra limb, close up, weird colors, watermark, blur haze, red face, red cheek, white face',
-  //     num_inference_steps: 8,
-  //     strength: 1,
-  //     guidance_scale: 10,
-  //     max_dim_of_input: STYLE_TRANSFER_MAX_INPUT_SIZE,
-  //     controlnet_conditioning_scale: 1,
-  //     face_mask_threshold: 0.98,
-  //   },
-  // },
-  // {
-  //   id: 'christmas-vibes',
-  //   name: 'Xmas Vibes',
-  //   src: '/images/effects/christmas-vibes.png',
-  //   config: {
-  //     prompt:
-  //       'Acrylic painting style, Christmas vibes, Christmas scene, Christmas theme, Christmas lighting, Christmas decoration',
-  //     negative_prompt:
-  //       'blurry, abstract, disfigured, deformed, cartoon, animated, toy, figure, framed, 3d, badly drawn hands, nude, cartoon, bad art, poorly drawn, extra limb, close up, weird colors, watermark, blur haze, red face, red cheek, white face',
-  //     num_inference_steps: 8,
-  //     strength: 0.9,
-  //     guidance_scale: 10,
-  //     max_dim_of_input: STYLE_TRANSFER_MAX_INPUT_SIZE,
-  //     controlnet_conditioning_scale: 1,
-  //     face_mask_threshold: 0.98,
-  //   },
   {
     id: 'celebration',
     name: 'Celebration',
@@ -224,124 +177,6 @@ export const STYLE_LIST_REST = [
       face_mask_threshold: 0.98,
     },
   },
-  // },
-  // {
-  //   id: 'cartoon-highlight',
-  //   name: 'Cartoon Highlight',
-  //   src: '/images/effects/watercolor.png',
-  //   config: {
-  //     prompt:
-  //       'vector art, flat color, high quality illustration, dynamic action, energetic character, cityscape background, cartoon FX elements, fiery explosion, colorful splash, electric flash, action lines, movement blur, clear outlines',
-  //     negative_prompt:
-  //       'blurry, abstract, disfigured, deformed, animated, toy, figure, framed, 3D, badly drawn hands, nude, bad art, poorly drawn, extra limb, close up, weird colors, watermark, blur haze, red face, red cheek, white face',
-  //     num_inference_steps: 10,
-  //     strength: 0.6,
-  //     guidance_scale: 10,
-  //     max_dim_of_input: STYLE_TRANSFER_MAX_INPUT_SIZE,
-  //     controlnet_conditioning_scale: 1,
-  //     face_mask_threshold: 0.98,
-  //   },
-  // },
-  // {
-  //   id: 'ancient',
-  //   name: 'Ancient',
-  //   src: '/images/effects/watercolor.png',
-  //   config: {
-  //     prompt:
-  //       'Tarot style, mystical moonlight scenes, gorgeous mystical scene, exquisite decorative borders, elemental landscapes, gemstone palette, ancient gold style',
-  //     negative_prompt:
-  //       'blurry, abstract, disfigured, deformed, cartoon, animated, toy, figure,framed, 3d, badly drawn hands, nude, cartoon, bad art, poorly drawn, extra limb,close up, weird colors, watermark, blur haze, red face, red cheek, white face',
-  //     num_inference_steps: 8,
-  //     strength: 1,
-  //     guidance_scale: 10,
-  //     max_dim_of_input: STYLE_TRANSFER_MAX_INPUT_SIZE,
-  //     controlnet_conditioning_scale: 1,
-  //     face_mask_threshold: 0.98,
-  //   },
-  // },
-  // {
-  //   id: 'ukiyo-e',
-  //   name: 'Ukiyo-e',
-  //   src: '/images/effects/watercolor.png',
-  //   config: {
-  //     prompt: 'Ukiyo-e Japanese art, low contrast, woodblock prints, thin border',
-  //     negative_prompt:
-  //       'blurry, abstract, disfigured, deformed, cartoon, animated, toy, figure,framed, 3d, badly drawn hands, nude, cartoon, bad art, poorly drawn, extra limb,close up, weird colors, watermark, blur haze, red face, red cheek, white face',
-  //     num_inference_steps: 8,
-  //     strength: 1,
-  //     guidance_scale: 10,
-  //     max_dim_of_input: STYLE_TRANSFER_MAX_INPUT_SIZE,
-  //     controlnet_conditioning_scale: 1,
-  //     face_mask_threshold: 0.98,
-  //   },
-  // },
-  // {
-  //   id: 'andy-warhol',
-  //   name: 'Andy Warhol',
-  //   src: '/images/effects/watercolor.png',
-  //   config: {
-  //     prompt:
-  //       'Andy Warhol style, pop art, strong bright colors, abstract expressionism, color blocks',
-  //     negative_prompt:
-  //       'blurry, abstract, disfigured, deformed, cartoon, animated, toy, figure,framed, 3d, badly drawn hands, nude, cartoon, bad art, poorly drawn, extra limb,close up, weird colors, watermark, blur haze, red face, red cheek, white face',
-  //     num_inference_steps: 8,
-  //     strength: 1,
-  //     guidance_scale: 10,
-  //     max_dim_of_input: STYLE_TRANSFER_MAX_INPUT_SIZE,
-  //     controlnet_conditioning_scale: 1,
-  //     face_mask_threshold: 0.98,
-  //   },
-  // },
-  // {
-  //   id: 'nostalgic',
-  //   name: 'Nostalgic',
-  //   src: '/images/effects/watercolor.png',
-  //   config: {
-  //     prompt:
-  //       'nostalgic art, retro aesthetics, bright colors, oil painting, granulated, vintage, faded elegance',
-  //     negative_prompt:
-  //       'blurry, abstract, disfigured, deformed, cartoon, animated, toy, figure,framed, 3d, badly drawn hands, nude, cartoon, bad art, poorly drawn, extra limb,close up, weird colors, watermark, blur haze, red face, red cheek, white face',
-  //     num_inference_steps: 8,
-  //     strength: 1,
-  //     guidance_scale: 10,
-  //     max_dim_of_input: STYLE_TRANSFER_MAX_INPUT_SIZE,
-  //     controlnet_conditioning_scale: 1,
-  //     face_mask_threshold: 0.98,
-  //   },
-  // },
-  // {
-  //   id: 'color-festival',
-  //   name: 'Color Festival',
-  //   src: '/images/effects/watercolor.png',
-  //   config: {
-  //     prompt:
-  //       'psychedelic color, vibrant color, super colorful tone, beautiful pastel coloring, colorful ink, coloring ink leaks from edge, pastel dreaming coloring',
-  //     negative_prompt:
-  //       'blurry, abstract, disfigured, deformed, cartoon, animated, toy, figure,framed, 3d, badly drawn hands, nude, cartoon, bad art, poorly drawn, extra limb,close up, weird colors, watermark, blur haze, red face, red cheek, white face',
-  //     num_inference_steps: 8,
-  //     strength: 1,
-  //     guidance_scale: 10,
-  //     max_dim_of_input: STYLE_TRANSFER_MAX_INPUT_SIZE,
-  //     controlnet_conditioning_scale: 1,
-  //     face_mask_threshold: 0.98,
-  //   },
-  // },
-  // {
-  //   id: 'vector',
-  //   name: 'Vector',
-  //   src: '/images/effects/watercolor.png',
-  //   config: {
-  //     prompt: 'vector art, flat color, high quality illustration',
-  //     negative_prompt:
-  //       'blurry, abstract, disfigured, deformed, cartoon, animated, toy, figure, framed, 3d, badly drawn hands, nude, cartoon, bad art, poorly drawn, extra limb, close up, weird colors, watermark, blur haze, red face, red cheek, white face',
-  //     num_inference_steps: 8,
-  //     strength: 0.9,
-  //     guidance_scale: 10,
-  //     max_dim_of_input: STYLE_TRANSFER_MAX_INPUT_SIZE,
-  //     controlnet_conditioning_scale: 1,
-  //     face_mask_threshold: 0.98,
-  //   },
-  // },
 ]
 
 export const DEFAULT_STYLE = STYLE_LIST_HIGHLIGHT[0]
