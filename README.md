@@ -35,7 +35,7 @@ NEXT_PUBLIC_HOPTER_API_KEY=WEB_API_KEY
 ## Style List
 
 - File: `src/utils/styleList.ts`
-- [Notion page](https://www.notion.so/piccollage/Style-List-df7113fef0ae4580a5b663672f8b9e18?pvs=4)
+- [Style Transfer List](https://paper.dropbox.com/doc/Style-Transfer-List--CHb07x~5Py0xHjLP4~k3B5o1Ag-LuloMSbpbIjy5jbhIP4rH)
 
 ## Dependencies
 
