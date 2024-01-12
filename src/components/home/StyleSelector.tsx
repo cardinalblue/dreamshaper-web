@@ -120,20 +120,20 @@ export const HomepageStyleSelector = () => {
 
 const container = css({
   position: 'relative',
-  py: '44px 60px',
+  py: '44px 100px',
   px: '32px',
 
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'stretch',
-  gap: '24px',
+  gap: '44px',
   zIndex: 1,
 
   // wave bg
   _before: {
     content: '""',
     position: 'absolute',
-    bottom: '-45px',
+    bottom: '-42px',
     left: 0,
     right: 0,
     height: '626px',
@@ -210,6 +210,8 @@ const arrowButton = css({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+
+  cursor: 'pointer',
 })
 
 const leftArrow = css({

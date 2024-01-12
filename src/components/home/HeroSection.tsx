@@ -48,10 +48,12 @@ export const HeroSection = () => {
     <div className={container}>
       <div className={titleWrapper}>
         <div className={title} ref={titleRef}>
-          <div>Turn your image into</div>
-          <div className={magicalText}>magical</div>
+          <div>Turn Your Photos Into</div>
+          <div className={magicalText}>magic</div>
         </div>
-        <div className={subtitle}>Just choose the style, upload your photo, and there you go.</div>
+        <div className={subtitle}>
+          Simply pick the style, upload your photo, and get a creative masterpiece.
+        </div>
         <div className={buttonGroup}>
           <FileInput
             className={cx(buttonRecipe({ theme: 'light' }), tryButton)}
@@ -88,44 +90,31 @@ const visual = css({
   top: '25px',
   left: '50%',
   transform: 'translateX(-50%)',
-  w: '679px',
-  h: '333px',
+  w: '823px',
+  h: '451px',
   bg: 'url(/images/hero_visual_mobile_1.png) no-repeat center / contain',
   flexShrink: 0,
   zIndex: -1,
-  // mask
-  _before: {
-    content: '""',
-    position: 'absolute',
-    left: 0,
-    bottom: 0,
-    w: '100%',
-    h: '60%',
-    bgImage: 'linear-gradient(to top, #faf6ec 20%, transparent)',
-    pointerEvents: 'none',
-  },
   // deco image
   _after: {
     content: '""',
     position: 'absolute',
-    bottom: '-30px',
-    right: 0,
-    w: '161px',
-    h: '161px',
+    top: '55%',
+    left: '75%',
+    w: '132px',
+    h: '132px',
     bg: 'url(/images/hero_visual_mobile_2.png) no-repeat center / contain',
     pointerEvents: 'none',
+    zIndex: 1,
   },
   md: {
-    w: '1009px',
+    w: '946px',
     h: '500px',
     top: 'auto',
     left: '500px',
     marginLeft: '-50px',
     transform: 'none',
     bg: 'url(/images/hero_visual.png) no-repeat center / contain',
-    _before: {
-      display: 'none',
-    },
     _after: {
       display: 'none',
     },
@@ -149,10 +138,10 @@ const titleWrapper = css({
 const title = css({
   fontSize: '28px',
   fontWeight: '600',
-  textTransform: 'capitalize',
-  lineHeight: '104%',
+  lineHeight: '1.2',
   letterSpacing: '1.2px',
   whiteSpace: 'nowrap',
+
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -160,22 +149,21 @@ const title = css({
   md: {
     w: '430px',
     alignItems: 'flex-start',
-    fontSize: '40px',
   },
 })
 
 const magicalText = css({
-  width: '329px',
-  height: '88px',
-  ml: '-29px',
+  width: '319px',
+  height: '177px',
+  ml: '-15px',
+  my: '-30px',
   fontSize: '0px',
   bg: 'url(/images/header_magical.png) no-repeat center / contain',
 })
 
 const subtitle = css({
-  maxW: '292px',
-  mt: '12px',
-  fontSize: '20px',
+  maxW: '360px',
+  fontSize: '17px',
   lineHeight: '28px',
   color: '#484851',
   md: {

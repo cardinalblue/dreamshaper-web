@@ -5,32 +5,41 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 First, run the development server:
 
 ```bash
-npm run dev
-# or
+# install
+yarn
+# run
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- [Project Backlog on Notion](https://www.notion.so/piccollage/c6e7e9be1fed40439003957f0355b46b?v=288146b83c244bd4a95cd9953921712f&pvs=4)
+- [Figma file](<https://www.figma.com/file/3xIeVE3fQs2WWUWGXr1QVP/23BC3-AI-Transfer-(on-WEB)-(this-one)?type=design&node-id=12338%3A259727&mode=design&t=iXTi6uwoM4QOTBKb-1>)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ENV File
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+# .env
+NEXT_PUBLIC_TESTING_AMPLITUDE_KEY=YOUR_TEST_KEY
+NEXT_PUBLIC_TESTING_GA_TRACKING_ID=YOUR_TEST_KEY
 
-## Learn More
+NEXT_PUBLIC_HOPTER_API_KEY=WEB_API_KEY
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Style Transfer API
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- API endpoint: https://serving.hopter.picc.co/api/v1/services/style-transfer-explorer/predictions
+- `WEB_API_KEY`:
+  ```
+  eyJhbGciOiJBMjU2R0NNS1ciLCJlbmMiOiJBMjU2R0NNIiwiaXYiOiJYbk5TUzM1SVMwOE84Z04tIiwidGFnIjoidmllYjFvR0lCRFZuU1UyRGxZaXpZQSJ9.6JWQYstyjmYioNnXgPd4oB6LTi-BmQD0qB2U1yUQ72U.QldQBrW2aI_JfV_d.4I9ynw9D7rqCDeE3qNDgb6xySh5kXbNIDCCkQZFobLm0LlmM-LdhYcPwKO1V5bw8besHSLigbGVsfZNdHZOvzTI-_tX8t6u5j_a8wDbM-9qx6q1NbY0MiEMK7weblnBB1_2EDW4jnscl-A3DxYlW5E3itG2rfRcePLtrLqSz2DrlqYxsJXQHF4du3BJ360_UZn6lZqXEyNwIVb5JvHX_DcfnUl1YL0PfT4coEndJdtNb.Sv2kAiRX7TRuchZjlT-2pg
+  ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Style List
 
-## Deploy on Vercel
+- File: `src/utils/styleList.ts`
+- [Notion page](https://www.notion.so/piccollage/Style-List-df7113fef0ae4580a5b663672f8b9e18?pvs=4)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Dependencies
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- UI component library: [Radix UI](https://www.radix-ui.com/)
+- CSS-in-JS: [pandacss](https://panda-css.com/)
+- State management: [Zustand](https://zustand-demo.pmnd.rs/)
+- Animation related: [Lottie](https://github.com/chenqingspring/react-lottie), [GSAP](https://gsap.com/)

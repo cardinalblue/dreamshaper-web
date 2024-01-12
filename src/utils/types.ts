@@ -5,7 +5,7 @@ export type StyleModelType = {
   promotion?: {
     title: string
     description: string
-    src: string
+    srcPrefix: string
   }
   config: Record<string, any>
 }
