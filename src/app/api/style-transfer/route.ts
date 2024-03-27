@@ -3,7 +3,7 @@ import { NextRequest } from 'next/server'
 export async function POST(request: NextRequest) {
   const body = await request.json()
   const result = await fetch(
-    'https://serving.hopter.picc.co/api/v1/services/style-transfer-explorer/predictions',
+    `${process.env.NEXT_PUBLIC_HOPTER_URL}/api/v1/services/style-transfer-explorer/predictions`,
     {
       method: 'POST',
       headers: {
