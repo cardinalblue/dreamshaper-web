@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
   const body = await request.json()
@@ -14,10 +14,10 @@ export async function POST(request: NextRequest) {
     }
   )
   if (result.status === 200) {
-    // If success, send back the url for the new multiplayer project
     const data = await result.json()
-    return Response.json(data)
+    return NextResponse.json(data)
   } else {
-    throw Error(result.statusText)
+    const errorMessage = await result.text()
+    return NextResponse.json(errorMessage, { status: result.status })
   }
 }

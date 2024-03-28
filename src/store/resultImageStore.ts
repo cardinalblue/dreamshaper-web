@@ -103,13 +103,17 @@ export const useResultImageStore = create<State & Actions & Computed>((set, get)
         body: JSON.stringify({ input: { initial_image_b64, config } }),
         signal,
       })
-
-      const data = await res.json()
-      const newImage = data.output.stylized_image_b64
-      get().setResultImageSrc(style.id, newImage)
-      ampShowTransferResult(style.id)
+      if (res.status === 200) {
+        const data = await res.json()
+        const newImage = data.output.stylized_image_b64
+        get().setResultImageSrc(style.id, newImage)
+        ampShowTransferResult(style.id)
+      } else {
+        const errorMessage = await res.text()
+        throw new Error(errorMessage)
+      }
     } catch (error) {
-      console.debug('transfer error', error)
+      console.debug('transfer error', error instanceof Error ? JSON.parse(error.message) : error)
       get().setResultFailedStatus(true)
     } finally {
       get().setImageTransferringStatus(false)
